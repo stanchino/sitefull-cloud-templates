@@ -2,16 +2,18 @@
 ENV['RAILS_ENV'] ||= 'test'
 require File.expand_path('../../config/environment', __FILE__)
 # Prevent database truncation if the environment is production
-abort("The Rails environment is running in production mode!") if Rails.env.production?
+abort('The Rails environment is running in production mode!') if Rails.env.production?
 require 'spec_helper'
 require 'rspec/rails'
+require 'cancan/matchers'
+require 'shoulda/matchers'
 # Add additional requires below this line. Rails is not loaded until this point!
 require 'capybara/rspec'
-#require 'capybara/email/rspec'
+# require 'capybara/email/rspec'
 require 'capybara-screenshot/rspec'
 require 'simplecov'
 require 'devise'
-require "codeclimate-test-reporter"
+require 'codeclimate-test-reporter'
 Capybara.javascript_driver = :webkit
 SimpleCov.start
 CodeClimate::TestReporter.start if ENV['CODECLIMATE_REPO_TOKEN']
@@ -64,5 +66,7 @@ RSpec.configure do |config|
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
   config.include Devise::TestHelpers, type: :controller
-  config.extend ControllerHelpers, :type => :controller
+  config.extend ControllerHelpers, type: :controller
+  config.include(Shoulda::Matchers::ActiveModel, type: :model)
+  config.include(Shoulda::Matchers::ActiveRecord, type: :model)
 end

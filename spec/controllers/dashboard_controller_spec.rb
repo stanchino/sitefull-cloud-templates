@@ -18,4 +18,3 @@ describe DashboardController, type: :controller do
     end
   end
 end
-

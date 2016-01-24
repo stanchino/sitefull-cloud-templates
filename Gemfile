@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', github: "rails/rails", branch: "4-2-stable"
+gem 'rails', github: 'rails/rails', branch: '4-2-stable'
 
 # Use MySQL as the database for Active Record
 gem 'mysql2', '>= 0.3.13', '< 0.5'
@@ -85,8 +85,8 @@ group :test do
   gem 'capybara-webkit'
   # Generate CodeClimate reports for the project
   gem 'codeclimate-test-reporter', require: false
-  # Use shoulda matchers in specs
-  gem 'shoulda-matchers'
   # Generate code coverage reports
   gem 'simplecov', require: false
+  # Use shoulda matchers in specs
+  gem 'shoulda-matchers', require: false
 end

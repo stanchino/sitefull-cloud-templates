@@ -1,0 +1,16 @@
+Rails:
+  Enabled: true
+
+Documentation:
+  Enabled: false
+
+Style/Encoding:
+  Enabled: false
+
+Metrics/LineLength:
+  Enabled: false
+
+AllCops:
+  Exclude:
+    - 'db/**/*'
+    - 'config/**/*'

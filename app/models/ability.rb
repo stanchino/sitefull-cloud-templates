@@ -1,7 +1,7 @@
 class Ability
   include CanCan::Ability
 
-  def initialize(user=nil)
+  def initialize(user = nil)
     user ||= User.new
     can :manage, user
     # Define abilities for the passed in user here. For example:
