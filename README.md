@@ -1,4 +1,4 @@
-# Automate cloud server deployments using Cloud-Init scripts
+# Manage your own cloud deployments online
 
 [![Build
 Status](https://travis-ci.org/stanchino/sitefull-cloud-templates.svg?branch=master)](https://travis-ci.org/stanchino/sitefull-cloud-templates)

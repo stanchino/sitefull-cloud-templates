@@ -17,6 +17,9 @@ engines:
     enabled: true
 ratings:
   paths:
+    - '**.ru'
     - '**.rb'
     - '**.coffee'
     - '**.scss'
+exclude_paths:
+  - 'config/initializers/**/*'
