@@ -14,3 +14,4 @@
 .env
 /coverage
 public/assets
+config/database.yml
