@@ -10,11 +10,7 @@ describe DashboardController, type: :controller do
     end
     describe 'for authenticated user' do
       login_user
-      it 'allows access' do
-        get :user
-        expect(response).to be_success
-        expect(response).to render_template 'dashboard/user', layout: 'dashboard'
-      end
+      verify_success :user, 'dashboard/user', 'dashboard'
     end
   end
 end
