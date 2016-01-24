@@ -7,7 +7,7 @@ describe User, type: :model do
     it { is_expected.to validate_presence_of(:password) }
     it { is_expected.to validate_presence_of(:email) }
     describe 'email should be unique' do
-      subject{ FactoryGirl.create(:user) }
+      subject { FactoryGirl.create(:user) }
       before { allow(subject).to receive(:confirm).and_return(true) }
       it { is_expected.to validate_uniqueness_of(:email).case_insensitive }
     end
