@@ -13,7 +13,7 @@ html[lang="en"]
     = yield(:javascript_links_content) if content_for?(:javascript_links_content)
     = csrf_meta_tags
   body
-    #wrap
+    .wrapper
       .section
         .content
           = yield

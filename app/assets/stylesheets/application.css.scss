@@ -8,13 +8,15 @@
 @import 'font-awesome';
 @import 'font-awesome-wrap';
 
-#wrap {
-  @extend .container-fluid;
+.wrapper {
+  @include container-fixed;
+
   .section {
-    @extend .row;
+    @include make-row;
+
     .content {
-      @extend .col-sm-4;
-      @extend .col-sm-offset-4;
+      @include make-sm-column(4);
+      @include make-sm-column-offset(4);
     }
   }
 }

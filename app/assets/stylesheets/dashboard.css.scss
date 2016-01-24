@@ -1,17 +1,20 @@
 @import 'common';
 @import 'navbar';
 
-#wrap {
-  @extend .container-fluid;
+.wrapper {
+  @include container-fixed;
+
   .section {
-    @extend .row;
+    @include make-row;
+
     .content {
-      @extend .col-sm-8;
-      @extend .col-sm-push-4;
+      @include make-sm-column(8);
+      @include make-sm-column-push(4);
     }
+
     .menu {
-      @extend .col-sm-4;
-      @extend .col-sm-pull-8;
+      @include make-sm-column(4);
+      @include make-sm-column-pull(8);
     }
   }
 }

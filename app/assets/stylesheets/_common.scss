@@ -56,27 +56,20 @@
 
 // Notifications
 .notification %notification {
-  @extend .alert;
-  @extend .alert-dismissable;
-  margin-bottom:0;
-}
-
-#info-message %success {
-  @extend .alert-success;
-}
-
-#error-message %error {
-  @extend .alert-danger;
-}
-
-.notification {
-  position: fixed;
   bottom: 0;
   left: 0;
+  margin-bottom: 0;
+  position: fixed;
   right: 0;
   z-index: 7000;
 }
 
-.content { @extend %notification; }
-.content { @extend %success; }
-.content { @extend %error; }
+.info {
+  @extend %notification;
+  @include alert-variant($alert-success-bg, $alert-success-border, $alert-success-text);
+}
+
+.error {
+  @extend %notification;
+  @include alert-variant($alert-danger-bg, $alert-danger-border, $alert-danger-text);
+}

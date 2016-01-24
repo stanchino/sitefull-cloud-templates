@@ -1,10 +1,10 @@
 .section
   .content
-    h1 = t('home_page_title')
+    h1.title = t('home_page_title')
 .section
   .button
-    = link_to new_user_session_url, class: 'sign-in' do
+    = link_to new_user_session_url, class: 'btn fa-sign-in' do
       span = t('navigation.sign_in')
   .button
-    = link_to new_user_registration_url, class: 'sign-up' do
+    = link_to new_user_registration_url, class: 'btn fa-user-plus' do
       span = t('navigation.sign_up')
