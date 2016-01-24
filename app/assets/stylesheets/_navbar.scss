@@ -1,12 +1,12 @@
 // Bootstrap components
-@import "bootstrap/forms";
+@import 'bootstrap/forms';
 
-@import "bootstrap/navs";
-@import "bootstrap/navbar";
+@import 'bootstrap/navs';
+@import 'bootstrap/navbar';
 
 // FontAwesome
-@import "font-awesome";
-@import "font-awesome-wrap";
+@import 'font-awesome';
+@import 'font-awesome-wrap';
 
 nav {
   @extend .navbar;

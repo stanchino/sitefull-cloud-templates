@@ -1,11 +1,11 @@
 @import 'common';
 
 // Bootstrap components
-@import "bootstrap/buttons";
+@import 'bootstrap/buttons';
 
 // FontAwesome
-@import "font-awesome";
-@import "font-awesome-wrap";
+@import 'font-awesome';
+@import 'font-awesome-wrap';
 
 #wrap {
   @extend .container-fluid;

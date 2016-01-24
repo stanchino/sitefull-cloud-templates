@@ -1,32 +1,12 @@
-// This gives you option to use classes on a anchor <a>
-// Usage on anchor element <a class="icon fa-download">Download file</a>, no need for <i> element
-// Usage in case of custom class with icon defined below
-// <a class="icon export">Download file</a>
-// Intention is to remove useless <i> elements in HTML and remove usage of raw() method for link_tag
-
 .icon {
   &::before {
     display: inline-block;
     margin-right: .5em;
-    font: normal normal normal 14px/1 FontAwesome;
+    font: normal normal normal 14px/1 'FontAwesome';
     font-size: inherit;
     text-rendering: auto;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     transform: initial;
-  }
-
-  // Custom wrap classes to be used instead of FontAwesome ones
-  // This gives option to have custom named class that will display fa icons
-  // content is icon code that you can see on FontAwesome site
-  // Bare in mind that in case the FontAwesome font is updated with new icons and codes
-  // you can end up with wrong icons
-
-  &.export:before {
-    content: "\f019";
-  }
-
-  &.import:before {
-    content: "\f093";
   }
 }
