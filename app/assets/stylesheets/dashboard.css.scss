@@ -1,0 +1,18 @@
+@import 'common';
+@import 'navbar';
+
+#wrap {
+  @extend .container-fluid;
+  .section {
+    @extend .row;
+    .content {
+      @extend .col-sm-8;
+      @extend .col-sm-push-4;
+    }
+    .menu {
+      @extend .col-sm-4;
+      @extend .col-sm-pull-8;
+    }
+  }
+}
+

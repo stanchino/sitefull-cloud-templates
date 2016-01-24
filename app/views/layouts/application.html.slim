@@ -1,0 +1,20 @@
+doctype html
+html[lang="en"]
+  head
+    meta[charset="utf-8"]
+    meta[http-equiv="X-UA-Compatible" content="IE=edge"]
+    meta[name="viewport" content="width=device-width, initial-scale=1"]
+    meta[name="description" content=""]
+    meta[name="author" content=""]
+    title
+      | SiteFull
+    = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true
+    = javascript_include_tag 'application', 'data-turbolinks-track' => true
+    = yield(:javascript_links_content) if content_for?(:javascript_links_content)
+    = csrf_meta_tags
+  body
+    #wrap
+      .section
+        .content
+          = yield
+    = render 'layouts/notifications'

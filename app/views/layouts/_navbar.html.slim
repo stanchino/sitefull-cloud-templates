@@ -1,0 +1,16 @@
+nav
+  .content
+    .header
+      button.collapsed data-target='#navbar' data-toggle='collapse' type='button' aria-expanded="false"
+        span.sr-only Toggle Navigation
+        span.icon-bar
+        span.icon-bar
+        span.icon-bar
+      = link_to t('main_page_name'), root_url
+    #navbar
+      ul
+        li class="#{(params[:controller] == 'help') ? 'active' : ''}" = link_to t('navigation.help'), '#'
+        li class="#{(params[:controller] == 'contacts') ? 'active' : ''}" = link_to t('navigation.contacts'), '#'
+      ul.right
+        li = link_to current_user.email.html_safe, edit_user_registration_url, class: 'user'
+        li = link_to t('navigation.sign_out').html_safe, destroy_user_session_path, class: 'sign-out', method: 'delete'

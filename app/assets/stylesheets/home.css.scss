@@ -1,0 +1,52 @@
+@import 'common';
+
+// Bootstrap components
+@import "bootstrap/buttons";
+
+// FontAwesome
+@import "font-awesome";
+@import "font-awesome-wrap";
+
+#wrap {
+  @extend .container-fluid;
+  .section {
+    @extend .row;
+    .content {
+      @extend .col-sm-12;
+      h1 {
+        @extend .text-center;
+        margin-bottom: 3em;
+      }
+    }
+    .content {
+      @extend .col-sm-12;
+    }
+    .button {
+      @extend .col-sm-2;
+      &:first-child {
+        @extend .col-sm-offset-4;
+      }
+      a {
+        @extend .btn;
+        @extend .btn-default;
+        @extend .btn-lg;
+        @extend .icon;
+        @extend .fa-5x;
+        @include center-block;
+        &:before {
+          margin: auto;
+        }
+        &.sign-in {
+          @extend .fa-sign-in;
+        }
+        &.sign-up {
+          @extend .fa-user-plus;
+        }
+        span {
+          display:block;
+          font-size: $font-size-h2;
+        }
+      }
+    }
+  }
+}
