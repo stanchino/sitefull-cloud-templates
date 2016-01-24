@@ -1,5 +1,12 @@
 # Automate cloud server deployments using Cloud-Init scripts
 
+[![Build
+Status](https://travis-ci.org/stanchino/sitefull-cloud-templates.svg?branch=master)](https://travis-ci.org/stanchino/sitefull-cloud-templates)
+[![Code
+Climate](https://codeclimate.com/github/stanchino/sitefull-cloud-templates/badges/gpa.svg)](https://codeclimate.com/github/stanchino/sitefull-cloud-templates)
+[![Test
+Coverage](https://codeclimate.com/github/stanchino/sitefull-cloud-templates/badges/coverage.svg)](https://codeclimate.com/github/stanchino/sitefull-cloud-templates/coverage)
+
 A [Rails](http://rubyonrails.com) application for automating your cloud
 deployments using
 [Cloud-Init](https://cloudinit.readthedocs.org/en/latest/)
