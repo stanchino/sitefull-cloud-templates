@@ -42,6 +42,7 @@ the latest Qt installed and the `qmake` utility configured. You can
 follow these [instructions](https://github.com/thoughtbot/capybara-webkit/wiki/Installing-Qt-and-compiling-capybara-webkit) if the installation fails.
  * Initialize the database
 ```
+# cp config/database.sample.yml config/database.yml
 # rake db:create db:migrate db:seed && RAILS_ENV=test rake db:create db:migrate
 ```
  * Start the server
