@@ -23,27 +23,28 @@ Recommended Dev Box
 Project Set Up
 -------------
 
-#### Install [RVM](https://rvm.io/) following the [instructions](https://rvm.io/rvm/install).
+ * Install [RVM](https://rvm.io/) following the [instructions](https://rvm.io/rvm/install).
 ```
 # \curl -sSL https://get.rvm.io | bash -s stable --ruby
 ```
-
-#### Download the project code from [GitHub](http://github.com)
+ * Download the project code from [GitHub](https://github.com/stanchino/sitefull-cloud-templates)
 ```
-# git clone ...
+# git clone git@github.com:stanchino/sitefull-cloud-templates.git
 ```
-
-#### Install [third party](#third-party) dependencies
+ * Install [third party](#third-party) dependencies
 ```
-# cd ....
-# bundle
+# cd sitefull-cloud-templates
+# bundle install
 ```
 **NOTE** Installing the
 [capybara-webkit](https://github.com/thoughtbot/capybara-webkit) gem requires that you have
 the latest Qt installed and the `qmake` utility configured. You can
 follow these [instructions](https://github.com/thoughtbot/capybara-webkit/wiki/Installing-Qt-and-compiling-capybara-webkit) if the installation fails.
-
-#### Run the server
+ * Initialize the database
+```
+# rake db:create db:migrate db:seed && RAILS_ENV=test rake db:create db:migrate
+```
+ * Start the server
 ```
 # foreman start
 ```
