@@ -3,5 +3,20 @@ engines:
     enabled: true
   bundler-audit:
     enabled: true
+  scss-lint:
+    enabled: true
   coffeelint:
     enabled: true
+  duplication:
+    enabled: true
+      config:
+        languages:
+          - 'ruby'
+          - 'javascript'
+  rubocop:
+    enabled: true
+ratings:
+  paths:
+    - '**.rb'
+    - '**.coffee'
+    - '**.scss'
