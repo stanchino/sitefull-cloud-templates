@@ -5,14 +5,14 @@ ruby '2.3.0'
 gem 'rails', github: 'rails/rails', branch: '4-2-stable'
 
 # Use MySQL as the database for Active Record
-gem 'mysql2', '>= 0.3.13', '< 0.5'
+gem 'mysql2'
 
 # Use SCSS for stylesheets
-gem 'sass-rails', '~> 5.0'
+gem 'sass-rails'
 # Use Uglifier as compressor for JavaScript assets
-gem 'uglifier', '>= 1.3.0'
+gem 'uglifier'
 # Use CoffeeScript for .coffee assets and views
-gem 'coffee-rails', '~> 4.1.0'
+gem 'coffee-rails'
 # Use the Slim template engine
 gem 'slim'
 # Generate Slim templates when creating views
@@ -34,12 +34,12 @@ gem 'simple_form'
 gem 'turbolinks'
 
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
-gem 'jbuilder', '~> 2.0'
+gem 'jbuilder'
 # bundle exec rake doc:rails generates the API under doc/api.
-gem 'sdoc', '~> 0.4.0', group: :doc
+gem 'sdoc'
 
 # Use ActiveModel has_secure_password
-gem 'bcrypt', '~> 3.1.7'
+gem 'bcrypt'
 
 # Use Unicorn as the app server
 gem 'unicorn'
