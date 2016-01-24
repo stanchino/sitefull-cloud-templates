@@ -3,7 +3,7 @@ rvm: 2.3.0
 services:
   - mysql
 before_script:
-  - 'mysql -u root -h 127.0.0.1 -p"" -e "create database sitefull_templates_test;"'
+  - 'mysql -u root -h 127.0.0.1 --password="" -e "create database sitefull_templates_test;"'
   - 'bundle exec rake db:test:prepare'
 addons:
   code_climate:
