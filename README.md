@@ -1,13 +1,13 @@
 # Manage your own cloud deployments online
 
 [![Build
-Status](https://travis-ci.org/stanchino/sitefull-cloud-templates.svg?branch=master)](https://travis-ci.org/stanchino/sitefull-cloud-templates)
+Status](https://travis-ci.org/stanchino/sitefull-cloud-deploy.svg?branch=master)](https://travis-ci.org/stanchino/sitefull-cloud-deploy)
 [![Code
-Climate](https://codeclimate.com/github/stanchino/sitefull-cloud-templates/badges/gpa.svg)](https://codeclimate.com/github/stanchino/sitefull-cloud-templates)
+Climate](https://codeclimate.com/github/stanchino/sitefull-cloud-deploy/badges/gpa.svg)](https://codeclimate.com/github/stanchino/sitefull-cloud-deploy)
 [![Test
-Coverage](https://codeclimate.com/github/stanchino/sitefull-cloud-templates/badges/coverage.svg)](https://codeclimate.com/github/stanchino/sitefull-cloud-templates/coverage)
+Coverage](https://codeclimate.com/github/stanchino/sitefull-cloud-deploy/badges/coverage.svg)](https://codeclimate.com/github/stanchino/sitefull-cloud-deploy/coverage)
 [![Issue
-Count](https://codeclimate.com/github/stanchino/sitefull-cloud-templates/badges/issue_count.svg)](https://codeclimate.com/github/stanchino/sitefull-cloud-templates)
+Count](https://codeclimate.com/github/stanchino/sitefull-cloud-deploy/badges/issue_count.svg)](https://codeclimate.com/github/stanchino/sitefull-cloud-deploy)
 
 A [Rails](http://rubyonrails.com) application for automating your cloud
 deployments using
