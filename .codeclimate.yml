@@ -9,10 +9,10 @@ engines:
     enabled: true
   duplication:
     enabled: true
-      config:
-        languages:
-          - 'ruby'
-          - 'javascript'
+    config:
+      languages:
+        - 'ruby'
+        - 'javascript'
   rubocop:
     enabled: true
 ratings:
