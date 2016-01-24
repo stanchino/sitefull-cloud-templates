@@ -1,5 +1,7 @@
 source 'https://rubygems.org'
 
+ruby '2.3.0'
+
 gem 'rails', github: 'rails/rails', branch: '4-2-stable'
 
 # Use MySQL as the database for Active Record
