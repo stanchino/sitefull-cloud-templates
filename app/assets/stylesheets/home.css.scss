@@ -14,7 +14,6 @@ $header-image-opacity: .95;
 
 .wrapper {
   @include container-fixed(0);
-  background-color: $background-color;
   height: 100%;
   position: absolute;
   width: 100%;
@@ -107,7 +106,7 @@ $header-image-opacity: .95;
 .template {
   @include make-sm-column(3);
   @include make-xs-column(12);
-  margin-top: 2em;
+  margin-top: 1em;
 
   .panel {
     @include panel-variant($panel-default-border, $panel-default-text, $panel-default-heading-bg, $panel-default-border);
