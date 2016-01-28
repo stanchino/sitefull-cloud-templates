@@ -20,7 +20,6 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: "Hello world"
   navigation:
     sign_in: "Sign In"
     sign_up: "Sign Up"
@@ -28,6 +27,6 @@ en:
     home: "Home Page"
     help: "Help"
     contacts: "Contact Us"
-  home_page_title: "Manage Your Cloud Deployments"
+  home_page_title: "sitefull"
   main_page_name: "SiteFull"
   user_page_name: "Dashboard"

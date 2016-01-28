@@ -21,7 +21,7 @@ $header-image-opacity: .95;
 }
 
 .header {
-  background: image-url('bg_new.jpg') no-repeat fixed 50% 0 / cover;
+  background: image-url('background.jpg') no-repeat fixed 50% 0 / cover;
 
   .logo-container {
     @include make-xs-column(3);
