@@ -25,4 +25,5 @@ ratings:
     - '**.scss'
     - '**.js'
 exclude_paths:
+  - 'vendor/**/*'
   - 'config/initializers/**/*'
