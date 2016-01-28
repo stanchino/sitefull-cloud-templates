@@ -1,10 +1,54 @@
-.section
+header.header data-stellar-background-ratio="1.3" data-stellar-vertical-offset="100"
+  .logo-container
+    span.logo &#10687;
+    span.title = t('home_page_title')
+  .main-nav-container
+    = link_to '#', class: 'main-nav' do
+      span Toggle Menu
   .content
-    h1.title = t('home_page_title')
-.section
-  .button
-    = link_to new_user_session_url, class: 'btn fa-sign-in' do
-      span = t('navigation.sign_in')
-  .button
-    = link_to new_user_registration_url, class: 'btn fa-user-plus' do
-      span = t('navigation.sign_up')
+    h1 Manage your cloud deployments
+    = link_to 'Sign Up For Free', new_user_registration_url, class: 'btn'
+    ' or 
+    = link_to 'login', new_user_session_url
+    '  to access your account
+section.section data-stellar-background-ration="1.2" data-stellar-vertical-offset="1300"
+  .content
+    .template
+      .panel
+        .panel-heading Template
+        .panel-body Template description
+    .template
+      .panel
+        .panel-heading Template
+        .panel-body Template description
+    .template
+      .panel
+        .panel-heading Template
+        .panel-body Template description
+    .template
+      .panel
+        .panel-heading Template
+        .panel-body Template description
+    .template
+      .panel
+        .panel-heading Template
+        .panel-body Template description
+    .template
+      .panel
+        .panel-heading Template
+        .panel-body Template description
+footer.footer
+  .content
+    p Links 1
+  .content
+    p Links 2
+  .content
+    p Links 3
+nav.off-canvas-menu
+  .logo-container
+    span.logo &#10687;
+    span.logo-text = t('home_page_title')
+  ul.main-nav-menu
+    li About us
+    li Contacts
+    li Terms of Service

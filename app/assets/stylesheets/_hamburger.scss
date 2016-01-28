@@ -1,0 +1,129 @@
+// vars
+
+$button-width: 48px;                   // The width of the button area
+$button-height: 48px;                  // The height of the button area
+$bar-thickness: 3px;                   // The thickness of the button bars
+$button-pad: 9px;                      // The left/right padding between button area and bars.
+$button-bar-space: 6px;                // The spacing between button bars
+$button-transition-duration: .3s;     // The transition duration
+$bar-color: #000;
+
+.main-nav {
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  appearance: none;
+  background-color: inherit;
+  border: 0;
+  border-radius: none;
+  box-shadow: none;
+  cursor: pointer;
+  display: block;
+  font-size: 0;
+  height: $button-height;
+  margin: 0;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  right: floor(($grid-gutter-width / 2));
+  text-indent: -9999px;
+  top: 0;
+  transition-duration: $button-transition-duration;
+  transition-property: box-shadow;
+  width: $button-width;
+
+  span {
+    background: $bar-color;
+    display: block;
+    height: $bar-thickness;
+    left: $button-pad;
+    position: absolute;
+    right: $button-pad;
+    top: ($button-height / 2) - ($bar-thickness / 2);
+    transition: background $button-transition-duration $button-transition-duration;
+  }
+
+  span::before,
+  span::after {
+    background-color: $bar-color;
+    content: '';
+    display: block;
+    height: $bar-thickness;
+    left: 0;
+    position: absolute;
+    transition-delay: $button-transition-duration, $button-transition-duration;
+    transition-duration: $button-transition-duration, $button-transition-duration;
+    width: 100%;
+  }
+
+  span::before {
+    top: -$bar-thickness - $button-bar-space;
+    transition-property: top, transform;
+  }
+
+  span::after {
+    bottom: -$bar-thickness - $button-bar-space;
+    transition-property: bottom, transform;
+  }
+}
+
+// Transformation
+
+.off-canvas-menu {
+  background-color: $background-color;
+  height: 100%;
+  max-width: 100%;
+  position: absolute;
+  right: 0;
+  top: 0;
+  transition-property: visibility, box-shadow;
+  visibility: hidden;
+  width: 310px;
+}
+
+.main-nav:focus {
+  outline: none;
+}
+
+.header {
+  transition-delay: 0s;
+  transition-duration: $button-transition-duration;
+  transition-property: transform;
+}
+
+
+// active state, i.e. menu open
+
+.main-nav-active {
+  .main-nav {
+    background-color: inherit;
+
+    span {
+      background: none;
+    }
+
+    span:after {
+      bottom: 0;
+      transform: rotate(-45deg);
+    }
+
+    span:before {
+      top: 0;
+      transform: rotate(45deg);
+    }
+  }
+
+  .header {
+    transform: translate(-310px);
+  }
+
+  .off-canvas-menu {
+    box-shadow: -6px 0 4px darken($background-color, 50%);
+    transition-delay: $button-transition-duration;
+    visibility: visible;
+  }
+
+  .main-nav span::before,
+  .main-nav span::after {
+    transition-delay: 0, $button-transition-duration;
+  }
+}

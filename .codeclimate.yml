@@ -3,6 +3,8 @@ engines:
     enabled: true
   bundler-audit:
     enabled: true
+  eslint:
+    enabled: true
   scss-lint:
     enabled: true
   coffeelint:
@@ -21,5 +23,6 @@ ratings:
     - '**.rb'
     - '**.coffee'
     - '**.scss'
+    - '**.js'
 exclude_paths:
   - 'config/initializers/**/*'
