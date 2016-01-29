@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :templates
   devise_for :users, path: ''
 
   authenticated :user do

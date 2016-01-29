@@ -12,6 +12,11 @@ describe User, type: :model do
       it { is_expected.to validate_uniqueness_of(:email).case_insensitive }
     end
   end
+
+  describe 'relations' do
+    it { is_expected.to have_many(:templates) }
+  end
+
   describe 'abilities' do
     subject(:ability) { Ability.new(user) }
     let(:user) { FactoryGirl.create(:user) }
