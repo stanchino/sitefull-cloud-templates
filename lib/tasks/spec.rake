@@ -20,6 +20,6 @@ namespace :spec do
       t.verbose = false
     end
   rescue LoadError
-    Rails.logger.info 'Unable to load tasks'
+    puts 'Unable to load tasks'
   end
 end
