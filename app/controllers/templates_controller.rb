@@ -27,8 +27,7 @@ class TemplatesController < ApplicationController
     @template.user = current_user
     respond_to do |format|
       if @template.save
-        format.html { redirect_to @template, notice: 'Template was successfully created.' }
-        format.json { render :show, status: :created, location: @template }
+        handle_save_success format, :created, 'Template was successfully created.'
       else
         format.html { render :new }
         format.json { render json: @template.errors, status: :unprocessable_entity }
@@ -41,8 +40,7 @@ class TemplatesController < ApplicationController
   def update
     respond_to do |format|
       if @template.update(template_params)
-        format.html { redirect_to @template, notice: 'Template was successfully updated.' }
-        format.json { render :show, status: :ok, location: @template }
+        handle_save_success format, :ok, 'Template was successfully updated.'
       else
         format.html { render :edit }
         format.json { render json: @template.errors, status: :unprocessable_entity }
@@ -62,8 +60,12 @@ class TemplatesController < ApplicationController
 
   private
 
-  # Never trust parameters from the scary internet, only allow the white list through.
   def template_params
     params.require(:template).permit(:name, :os, :script)
+  end
+
+  def handle_save_success(format, status, message)
+    format.html { redirect_to @template, notice: message }
+    format.json { render :show, status: status, location: @template }
   end
 end
