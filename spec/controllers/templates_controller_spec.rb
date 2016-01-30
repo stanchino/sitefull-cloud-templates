@@ -1,4 +1,5 @@
 require 'rails_helper'
+require 'shared_examples/controllers'
 
 RSpec.describe TemplatesController, type: :controller do
   login_user
@@ -17,13 +18,6 @@ RSpec.describe TemplatesController, type: :controller do
     end
   end
 
-  describe 'GET #show' do
-    it 'assigns the requested template as @template' do
-      get :show, { id: template.to_param }, valid_session
-      expect(assigns(:template)).to eq(template)
-    end
-  end
-
   describe 'GET #new' do
     it 'assigns a new template as @template' do
       get :new, {}, valid_session
@@ -31,11 +25,12 @@ RSpec.describe TemplatesController, type: :controller do
     end
   end
 
+  describe 'GET #show' do
+    it_behaves_like 'successfull GET resource action', :show, :template, 'templates/show', 'dashboard', true
+  end
+
   describe 'GET #edit' do
-    it 'assigns the requested template as @template' do
-      get :edit, { id: template.to_param }, valid_session
-      expect(assigns(:template)).to eq(template)
-    end
+    it_behaves_like 'successfull GET resource action', :edit, :template, 'templates/edit', 'dashboard', false
   end
 
   describe 'POST #create' do
@@ -91,12 +86,12 @@ RSpec.describe TemplatesController, type: :controller do
       end
 
       context 'for JSON requests' do
-        it "sets the correct HTTP header" do
+        it 'sets the correct HTTP header' do
           post :create, { template: invalid_attributes, format: :json }, valid_session
           expect(response).to have_http_status(422)
         end
 
-        it "generates an error" do
+        it 'generates an error' do
           post :create, { template: invalid_attributes, format: :json }, valid_session
           expect(response.body).to eq assigns(:template).errors.to_json
         end
@@ -116,10 +111,7 @@ RSpec.describe TemplatesController, type: :controller do
         expect(template.script).to eq new_attributes[:script]
       end
 
-      it 'assigns the requested template as @template' do
-        put :update, { id: template.to_param, template: valid_attributes }, valid_session
-        expect(assigns(:template)).to eq(template)
-      end
+      it_behaves_like 'update action with data', :template, :valid_attributes
 
       context 'for HTML requests' do
         it 'redirects to the template' do
@@ -142,10 +134,7 @@ RSpec.describe TemplatesController, type: :controller do
     end
 
     context 'with invalid params' do
-      it 'assigns the template as @template' do
-        put :update, { id: template.to_param, template: invalid_attributes }, valid_session
-        expect(assigns(:template)).to eq(template)
-      end
+      it_behaves_like 'update action with data', :template, :invalid_attributes
 
       context 'for HTML requests' do
         it "re-renders the 'edit' template" do
@@ -155,12 +144,12 @@ RSpec.describe TemplatesController, type: :controller do
       end
 
       context 'for JSON requests' do
-        it "sets the correct HTTP header" do
+        it 'sets the correct HTTP header' do
           put :update, { id: template.to_param, template: invalid_attributes, format: :json }, valid_session
           expect(response).to have_http_status(422)
         end
 
-        it "generates an error" do
+        it 'generates an error' do
           put :update, { id: template.to_param, template: invalid_attributes, format: :json }, valid_session
           expect(response.body).to eq assigns(:template).errors.to_json
         end
