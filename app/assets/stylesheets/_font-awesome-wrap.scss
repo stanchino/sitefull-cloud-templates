@@ -10,3 +10,7 @@
     transform: initial;
   }
 }
+
+.icon {
+  @include icon;
+}

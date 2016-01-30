@@ -31,6 +31,9 @@ Prerequisites
 -------------
  * [MySQL](http://dev.mysql.com/doc/refman/5.7/en/installing.html) database or equivalent ([MariaDB](https://downloads.mariadb.org/), [Percone](https://www.percona.com/software/mysql-database/percona-server), etc.)
  * [RVM](https://rvm.io) installed as described [here](https://rvm.io/install)
+ * [PhantomJS](http://phantomjs.org/)
+   [installed](http://phantomjs.org/download.html) to run the feature
+tests
 
 Project Set Up
 -------------
@@ -54,12 +57,12 @@ Project Set Up
 ```
  * Initialize the development and test databases
 ```
-# bundle exec rake db:create db:schema:load
-# bundle exec rake db:create db:test:prepare RAILS_ENV=test
+# rake db:create db:schema:load
+# rake db:create db:test:prepare RAILS_ENV=test
 ```
  * **Optional**: Seed the database with sample data
 ```
-# bundle exec rake db:seed
+# rake db:seed
 ```
  * Install the [foreman](http://ddollar.github.io/foreman/) Procfile-base manager
 ```
@@ -74,12 +77,26 @@ Testing
 -------
 The following tools are used for testing the application:
   * [Rspec](http://rspec.info/) as the testing framework
-  * [Capybara](http://jnicklas.github.io/capybara/) for acceptance tests
+  * [Capybara](http://jnicklas.github.io/capybara/) for features tests
 
-To run the tests execute
+To run all the tests execute
 ```
-# bundle exec rspec
+# rake spec
 ```
+
+The tests are split into three groups: unit tests, integration tests and
+feature tests. Each one can be executed using the following commands:
+```
+# rake spec:unit
+# rake spec:integration
+# rake spec:feature
+``` 
+
+The application use [simplecov](https://github.com/colszowka/simplecov)
+to generate code coverage statistics. It is available in the `coverage/`
+directory. The goal is to maintain the code coverage **for each** of the
+*unit*, *integration* and *feature* test suites at **100%** so be
+carefull when adding new features.
 
 ## Third Party Modules
 
@@ -99,11 +116,11 @@ The full list of modules added to the `Gemfile` is:
     integrating the [Bootstrap](http://getbootstrap.com) framework
   * [cancancan](https://github.com/CanCanCommunity/cancancan) A very
     good authorization module
-  * [capybara](https://github.com/jnicklas/capybara) To write acceptance
+  * [capybara](https://github.com/jnicklas/capybara) To write feature
     tests
-  * [capybara-email](https://github.com/dockyard/capybara-email) To open email messages when running acceptance
+  * [capybara-email](https://github.com/dockyard/capybara-email) To open email messages when running feature
     tests
-  * [capybara-screenshot](https://github.com/mattheworiordan/capybara-screenshot) Creates screenshots when acceptance tests are failing
+  * [capybara-screenshot](https://github.com/mattheworiordan/capybara-screenshot) Creates screenshots when feature tests are failing
   * [codeclimate-test-reporter](https://github.com/codeclimate/ruby-test-reporter) Generates [CodeClimate](https://codeclimate.com/) reports for the code quality and test coverage
   * [devise](https://github.com/plataformatec/devise) For authenticating
     users

@@ -1,6 +1,7 @@
 require 'rails_helper'
+require 'cancan/matchers'
 
-RSpec.describe User, type: :model do
+describe User, type: :model do
   describe 'validation' do
     it { is_expected.to validate_presence_of(:first_name) }
     it { is_expected.to validate_presence_of(:last_name) }
@@ -14,8 +15,8 @@ RSpec.describe User, type: :model do
   end
 
   describe 'abilities' do
-    subject(:ability) { Ability.new(user) }
     let(:user) { FactoryGirl.create(:user) }
+    subject(:ability) { Ability.new(user) }
     it { is_expected.to be_able_to(:manage, user) }
     it { is_expected.not_to be_able_to(:manage, User.new) }
   end

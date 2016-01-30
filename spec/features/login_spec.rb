@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'User Authentication', type: :feature do
+RSpec.feature 'Authentication', type: :feature do
   let(:password) { 'test1234' }
 
   describe 'existing users' do
@@ -21,6 +21,12 @@ RSpec.feature 'User Authentication', type: :feature do
     let(:user) { FactoryGirl.build(:user) }
 
     background { clear_emails }
+
+    scenario 'should be able to sign_up' do
+      visit new_user_registration_path
+      click_on 'Sign up'
+      expect(page).to have_text('can\'t be blank')
+    end
 
     scenario 'should be able to sign_up' do
       visit new_user_registration_path

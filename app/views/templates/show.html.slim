@@ -1,12 +1,13 @@
-p#notice = notice
-
+h1 = @template.name
 p
-  strong Name:
-  = @template.name
-p
-  strong Script:
-  = @template.script
+  = ::Template.human_attribute_name(:os)
+  ':&nbsp;
+  = @template.os
+div
+  h3 Script:
+  code = @template.script
+hr
 
-= link_to 'Edit', edit_template_path(@template)
-'|
-= link_to 'Back', templates_path
+= link_to 'Templates', templates_path, class: 'btn btn-default icon fa-list'
+' &nbsp;
+= link_to 'Edit', edit_template_path(@template), class: 'btn btn-default icon fa-pencil'

@@ -42,4 +42,11 @@ Rails.application.configure do
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
   #
+
+  # Unicorn logger configuration as described here http://help.papertrailapp.com/discussions/questions/116-logging-from-heroku-apps-using-unicorn
+  log_level = ENV['LOG_LEVEL'] ? ENV['LOG_LEVEL'] : 'info'
+
+  config.logger = Logger.new(STDOUT)
+  config.logger.level = Logger.const_get(log_level.upcase)
+  config.log_level    = log_level.downcase.to_sym
 end

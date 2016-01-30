@@ -1,27 +1,25 @@
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 ENV['RAILS_ENV'] ||= 'test'
+if ENV['RAILS_ENV'] == 'test'
+  require 'simplecov'
+  SimpleCov.start 'rails'
+end
+
 require File.expand_path('../../config/environment', __FILE__)
 # Prevent database truncation if the environment is production
 abort('The Rails environment is running in production mode!') if Rails.env.production?
+
 require 'spec_helper'
 require 'rspec/rails'
-require 'cancan/matchers'
 require 'shoulda/matchers'
+
 # Add additional requires below this line. Rails is not loaded until this point!
-require 'simplecov'
-SimpleCov.start 'rails'
 require 'capybara/rspec'
 require 'capybara/poltergeist'
 require 'capybara/email/rspec'
 require 'capybara-screenshot/rspec'
-require 'devise'
 require 'codeclimate-test-reporter'
-
-Capybara.javascript_driver = :poltergeist
-Capybara.server_port = 3001
-Capybara.app_host = 'http://localhost:3001'
-
-CodeClimate::TestReporter.start if ENV['CODECLIMATE_REPO_TOKEN']
+require 'devise'
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
@@ -41,6 +39,12 @@ Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
 # Checks for pending migration and applies them before tests are run.
 # If you are not using ActiveRecord, you can remove this line.
 ActiveRecord::Migration.maintain_test_schema!
+
+Capybara.javascript_driver = :poltergeist
+Capybara.server_port = 3001
+Capybara.app_host = 'http://localhost:3001'
+
+CodeClimate::TestReporter.start if ENV['CODECLIMATE_REPO_TOKEN']
 
 RSpec.configure do |config|
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
@@ -64,7 +68,7 @@ RSpec.configure do |config|
   #
   # The different available types are documented in the features, such as in
   # https://relishapp.com/rspec/rspec-rails/docs
-  config.infer_spec_type_from_file_location!
+  # config.infer_spec_type_from_file_location!
 
   # Filter lines from Rails gems in backtraces.
   config.filter_rails_from_backtrace!
@@ -76,4 +80,5 @@ RSpec.configure do |config|
   config.include Rails.application.routes.url_helpers, type: :feature
 
   config.extend ControllerHelpers, type: :controller
+  config.extend RequestHelpers, type: :request
 end

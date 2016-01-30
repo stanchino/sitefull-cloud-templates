@@ -1,16 +1,12 @@
 class CreateTemplates < ActiveRecord::Migration
   def change
     create_table :templates do |t|
-      t.string :name
-      t.string :os
+      t.string :name, index: true
+      t.string :os, index: true
       t.text :script
-      t.references :user
+      t.references :user, index: true, foreign_key: true
 
       t.timestamps null: false
     end
-
-    add_index :templates, :name
-    add_index :templates, :os
-    add_index :templates, :user_id
   end
 end

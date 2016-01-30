@@ -11,7 +11,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160129133529) do
+ActiveRecord::Schema.define(version: 20160130005421) do
+
+  create_table "deployments", force: :cascade do |t|
+    t.integer  "template_id", limit: 4
+    t.integer  "user_id",     limit: 4
+    t.datetime "created_at",            null: false
+    t.datetime "updated_at",            null: false
+  end
+
+  add_index "deployments", ["template_id"], name: "index_deployments_on_template_id", using: :btree
+  add_index "deployments", ["user_id"], name: "index_deployments_on_user_id", using: :btree
 
   create_table "templates", force: :cascade do |t|
     t.string   "name",       limit: 255
@@ -55,4 +65,7 @@ ActiveRecord::Schema.define(version: 20160129133529) do
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   add_index "users", ["unlock_token"], name: "index_users_on_unlock_token", unique: true, using: :btree
 
+  add_foreign_key "deployments", "templates"
+  add_foreign_key "deployments", "users"
+  add_foreign_key "templates", "users"
 end
