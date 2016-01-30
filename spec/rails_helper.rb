@@ -8,14 +8,19 @@ require 'rspec/rails'
 require 'cancan/matchers'
 require 'shoulda/matchers'
 # Add additional requires below this line. Rails is not loaded until this point!
-require 'capybara/rspec'
-# require 'capybara/email/rspec'
-require 'capybara-screenshot/rspec'
 require 'simplecov'
+SimpleCov.start 'rails'
+require 'capybara/rspec'
+require 'capybara/poltergeist'
+require 'capybara/email/rspec'
+require 'capybara-screenshot/rspec'
 require 'devise'
 require 'codeclimate-test-reporter'
-Capybara.javascript_driver = :webkit
-SimpleCov.start
+
+Capybara.javascript_driver = :poltergeist
+Capybara.server_port = 3001
+Capybara.app_host = 'http://localhost:3001'
+
 CodeClimate::TestReporter.start if ENV['CODECLIMATE_REPO_TOKEN']
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
@@ -44,7 +49,7 @@ RSpec.configure do |config|
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
   # examples within a transaction, remove the following line or assign false
   # instead of true.
-  config.use_transactional_fixtures = true
+  config.use_transactional_fixtures = false
 
   # RSpec Rails can automatically mix in different behaviours to your tests
   # based on their file location, for example enabling you to call `get` and
@@ -67,10 +72,8 @@ RSpec.configure do |config|
   # config.filter_gems_from_backtrace("gem name")
   config.include Shoulda::Matchers::ActiveModel, type: :model
   config.include Shoulda::Matchers::ActiveRecord, type: :model
-
   config.include Devise::TestHelpers, type: :controller
-  config.extend ControllerHelpers, type: :controller
+  config.include Rails.application.routes.url_helpers, type: :feature
 
-  config.include Warden::Test::Helpers, type: :request
-  config.include Rails.application.routes.url_helpers, type: :request
+  config.extend ControllerHelpers, type: :controller
 end

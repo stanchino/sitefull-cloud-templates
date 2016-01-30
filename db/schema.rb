@@ -15,6 +15,7 @@ ActiveRecord::Schema.define(version: 20160129133529) do
 
   create_table "templates", force: :cascade do |t|
     t.string   "name",       limit: 255
+    t.string   "os",         limit: 255
     t.text     "script",     limit: 65535
     t.integer  "user_id",    limit: 4
     t.datetime "created_at",               null: false
@@ -22,6 +23,7 @@ ActiveRecord::Schema.define(version: 20160129133529) do
   end
 
   add_index "templates", ["name"], name: "index_templates_on_name", using: :btree
+  add_index "templates", ["os"], name: "index_templates_on_os", using: :btree
   add_index "templates", ["user_id"], name: "index_templates_on_user_id", using: :btree
 
   create_table "users", force: :cascade do |t|

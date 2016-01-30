@@ -1,13 +1,19 @@
 require 'rails_helper'
 
+include Warden::Test::Helpers
+Warden.test_mode!
+
 describe 'Templates', type: :request do
   let(:user) { FactoryGirl.create(:user) }
-  before { login_as(user) }
+  before do
+    login_as(user, scope: :user)
+  end
 
   describe 'GET /templates' do
-    it 'works! (now write some real specs)' do
-      get templates_path
+    it 'lists templates' do
+      get '/templates'
       expect(response).to have_http_status(200)
+      expect(response).to render_template(:index, layout: 'dashboard')
     end
   end
 end

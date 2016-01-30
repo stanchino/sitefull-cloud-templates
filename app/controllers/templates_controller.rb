@@ -1,5 +1,7 @@
 class TemplatesController < ApplicationController
   load_and_authorize_resource
+  before_action :authenticate_user!
+  layout 'dashboard'
 
   # GET /templates
   # GET /templates.json
@@ -22,6 +24,7 @@ class TemplatesController < ApplicationController
   # POST /templates
   # POST /templates.json
   def create
+    @template.user = current_user
     respond_to do |format|
       if @template.save
         format.html { redirect_to @template, notice: 'Template was successfully created.' }
@@ -61,6 +64,6 @@ class TemplatesController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def template_params
-    params.require(:template).permit(:name, :script)
+    params.require(:template).permit(:name, :os, :script)
   end
 end

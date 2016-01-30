@@ -32,8 +32,10 @@ module Src
     # Do not swallow errors in after_commit/after_rollback callbacks.
     config.active_record.raise_in_transactional_callbacks = true
     config.middleware.use Rack::Deflater
-    config.middleware.use Rack::Auth::Basic do |u, p|
-      [u, p] == [ENV['HTTP_USER'], ENV['HTTP_PASS']]
+    if ENV['HTTP_USER'].present? and ENV['HTTP_PASS'].present?
+      config.middleware.use Rack::Auth::Basic do |u, p|
+        [u, p] == [ENV['HTTP_USER'], ENV['HTTP_PASS']]
+      end
     end
   end
 end

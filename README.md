@@ -20,39 +20,50 @@ This section is the first section in the readme because everyone who contributes
 Recommended Dev Box
 -------------------
 
-### When using a Mac
-* Latest Xcode with command line tool installed
+### When using a Mac:
+ * Latest Xcode with command line tool installed
 * [Hombrew](http://mxcl.github.com/homebrew/)
-* [RVM](https://rvm.io/)
 * [Janus](https://github.com/carlhuda/janus)
 * [iTerm](http://www.iterm2.com/#/section/home)
 * [Oh-My-Zsh](https://github.com/robbyrussell/oh-my-zsh)
-* [Postgres](http://www.enterprisedb.com/products-services-training/pgdownload#osx)
+
+Prerequisites
+-------------
+ * [MySQL](http://dev.mysql.com/doc/refman/5.7/en/installing.html) database or equivalent ([MariaDB](https://downloads.mariadb.org/), [Percone](https://www.percona.com/software/mysql-database/percona-server), etc.)
+ * [RVM](https://rvm.io) installed as described [here](https://rvm.io/install)
 
 Project Set Up
 -------------
 
- * Install [RVM](https://rvm.io/) following the [instructions](https://rvm.io/rvm/install).
-```
-# \curl -sSL https://get.rvm.io | bash -s stable --ruby
-```
  * Download the project code from [GitHub](https://github.com/stanchino/sitefull-cloud-templates)
 ```
 # git clone git@github.com:stanchino/sitefull-cloud-templates.git
 ```
- * Install [third party](#third-party) dependencies
+ * Install [Ruby](https://www.ruby-lang.org/)
 ```
 # cd sitefull-cloud-templates
+# rvm install ruby-2.3.0
+```
+ * Install [bundler](http://bundler.io/#getting-started)
+```
+# gem install bundler
+```
+ * Install [third party](#third-party) dependencies
+```
 # bundle install
 ```
-**NOTE** Installing the
-[capybara-webkit](https://github.com/thoughtbot/capybara-webkit) gem requires that you have
-the latest Qt installed and the `qmake` utility configured. You can
-follow these [instructions](https://github.com/thoughtbot/capybara-webkit/wiki/Installing-Qt-and-compiling-capybara-webkit) if the installation fails.
- * Initialize the database
+ * Initialize the development and test databases
 ```
-# cp config/database.sample.yml config/database.yml
-# rake db:create db:migrate db:seed && RAILS_ENV=test rake db:create db:migrate
+# bundle exec rake db:create db:schema:load
+# bundle exec rake db:create db:test:prepare RAILS_ENV=test
+```
+ * **Optional**: Seed the database with sample data
+```
+# bundle exec rake db:seed
+```
+ * Install the [foreman](http://ddollar.github.io/foreman/) Procfile-base manager
+```
+# gem install foreman
 ```
  * Start the server
 ```
@@ -70,7 +81,7 @@ To run the tests execute
 # bundle exec rspec
 ```
 
-## Third Party
+## Third Party Modules
 
 The application uses the following languages to simplify our lives:
   * [Slim Template Engine](http://slim-lang.com/) for templates
@@ -83,15 +94,16 @@ And some thrid party tools which are useful for creating a good looking user exp
   * [jQuery](https://jquery.com/)
 
 The full list of modules added to the `Gemfile` is:
+  * [database_cleaner](https://github.com/DatabaseCleaner/database_cleaner) Cleans up the database when running the specs
   * [bootstrap-sass](https://github.com/twbs/bootstrap-sass) Allows for
     integrating the [Bootstrap](http://getbootstrap.com) framework
   * [cancancan](https://github.com/CanCanCommunity/cancancan) A very
     good authorization module
   * [capybara](https://github.com/jnicklas/capybara) To write acceptance
     tests
+  * [capybara-email](https://github.com/dockyard/capybara-email) To open email messages when running acceptance
+    tests
   * [capybara-screenshot](https://github.com/mattheworiordan/capybara-screenshot) Creates screenshots when acceptance tests are failing
-  * [capybara-webkit](https://github.com/thoughtbot/capybara-webkit) The
-    webkit driver for [Capybara](http://jnicklas.github.io/capybara/)
   * [codeclimate-test-reporter](https://github.com/codeclimate/ruby-test-reporter) Generates [CodeClimate](https://codeclimate.com/) reports for the code quality and test coverage
   * [devise](https://github.com/plataformatec/devise) For authenticating
     users
@@ -110,6 +122,7 @@ The full list of modules added to the `Gemfile` is:
     sending email messages when running in `development` mode
   * [mysql2](https://github.com/brianmario/mysql2) For establishing
     database connections
+  * [poltergeist](https://github.com/teampoltergeist/poltergeist) Use Poltergeist for feature specs
   * [quiet_assets](https://github.com/evrone/quiet_assets) To skip
     logging assets and polluting the logs
   * [rspec-rails](https://github.com/rspec/rspec-rails) The testing

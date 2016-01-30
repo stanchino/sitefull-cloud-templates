@@ -8,7 +8,7 @@ html[lang="en"]
     meta[name="author" content=""]
     title
       | SiteFull
-    = stylesheet_link_tag 'dashboard', media: 'all', 'data-turbolinks-track' => true
+    = stylesheet_link_tag 'templates', media: 'all', 'data-turbolinks-track' => true
     = javascript_include_tag 'application', 'data-turbolinks-track' => true
     = yield(:javascript_links_content) if content_for?(:javascript_links_content)
     = csrf_meta_tags

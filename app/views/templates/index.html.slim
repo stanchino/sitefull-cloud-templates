@@ -1,23 +1,19 @@
 h1 Listing templates
 
-table
+table.table.table-condensed.table-bordered
   thead
     tr
-      th Name
-      th Script
-      th
-      th
-      th
+      th = ::Template.human_attribute_name('name')
+      th = ::Template.human_attribute_name('os')
+      th colspan="3" = t('actions.title')
 
   tbody
     - @templates.each do |template|
       tr
         td = template.name
         td = template.script
-        td = link_to 'Show', template
-        td = link_to 'Edit', edit_template_path(template)
-        td = link_to 'Destroy', template, data: {:confirm => 'Are you sure?'}, :method => :delete
+        td = link_to t('actions.show'), template
+        td = link_to t('actions.edit'), edit_template_path(template)
+        td = link_to t('actions.destroy'), template, data: {confirm: 'Are you sure?'}, method: :delete
 
-br
-
-= link_to 'New Template', new_template_path
+= link_to 'New Template', new_template_path, class: 'btn add-link fa-plus'

@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-  resources :templates
   devise_for :users, path: ''
 
   authenticated :user do
@@ -9,6 +8,7 @@ Rails.application.routes.draw do
   unauthenticated do
     root to: 'home#index'
   end
+  resources :templates
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
