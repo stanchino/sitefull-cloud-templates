@@ -27,6 +27,17 @@ en:
     home: "Home Page"
     help: "Help"
     contacts: "Contact Us"
+    templates: "Templates"
+  actions:
+    title: 'Actions'
+    show: 'Show'
+    edit: 'Edit'
+    destroy: 'Delete'
   home_page_title: "sitefull"
   main_page_name: "SiteFull"
   user_page_name: "Dashboard"
+  activerecord:
+    attributes:
+      template:
+        name: "Template Name"
+        os: "Operating System"

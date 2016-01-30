@@ -1,0 +1,10 @@
+= simple_form_for(@template) do |f|
+  = f.error_notification
+
+  .form-inputs
+    = f.input :name
+    = f.input :os
+    = f.input :script
+
+  .form-actions
+    = f.button :submit, class: 'icon fa-floppy-o'

@@ -64,6 +64,8 @@ group :development do
 end
 
 group :development, :test do
+  # Use database_cleaner to clear the test database when running tests
+  gem 'database_cleaner'
   # Load enviornment variables from .env
   gem 'dotenv-rails'
   # Create object factories
@@ -81,12 +83,14 @@ end
 group :test do
   # Use Capybara for acceptance tests
   gem 'capybara'
+  # Use capybara-email to open messages
+  gem 'capybara-email'
   # Create screenshot in acceptance tests
   gem 'capybara-screenshot'
-  # Use WebKit as the Capybara acceptance tests engine
-  gem 'capybara-webkit'
   # Generate CodeClimate reports for the project
   gem 'codeclimate-test-reporter', require: false
+  # Use Poltergeist for feature specs
+  gem 'poltergeist'
   # Generate code coverage reports
   gem 'simplecov', require: false
   # Use shoulda matchers in specs
