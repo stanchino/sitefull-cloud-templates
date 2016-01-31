@@ -112,24 +112,50 @@ automatically update the story status in [Pivotal](www.pivotaltracker.com) from 
 * *Rejected*: This task is **not** done or there are regression issues with the task. In this case the task should be restarted.
 * *Accepted*: This task is done.
 
-Deployment
-==========
-There are three different application states being deployed following the standard lifecycle managment process: **development**, **staging** and **production**.
+Application Lifecycle
+=====================
+There are three different application environments following the standard lifecycle managment process: **development**, **staging** and **production**.
 
 Development Environment
 -----------------------
-The **development environment** uses the latest `development` branch and represents work that is currently being finished but is not tested yet. It is deployed to [Heroku](https://heroku.com) and is available at [sitefull-dev.herokuapp.com](http://sitefull-dev.herokuapp.com). You can also spin up your own copy of the `development` branch using the [Deploy to Heroku](https://devcenter.heroku.com/articles/heroku-button) button below:
+This environment uses the `development` branch and includes [Pivotal](https://www.pivotaltracker.com/n/projects/1521509) tasks that are finished and ready for adding to the release but are not tested yet.
+
+Staging Environment
+-------------------
+This environment uses the `staging` branch and a copy of the production database. It contains the features that are going to be included in the release. This environment is intended for testing [Pivotal](https://www.pivotaltracker.com/n/projects/1521509) tasks as described in the [Managing Tasks](#managing-tasks) section.
+
+Production Environment
+----------------------
+This environment uses the `master` branch and includes the latest stable version of the application features that are publicly available.
+
+The production URL for the application is currently setup to [cloud.sitefull.com](http://cloud.sitefull.com) and is deployed to [Heroku](https://heroku.com).
+
+Release Process
+===============
+Development Environment
+-----------------------
+When a task is completed the pull request for the task implementation is merged to the `development` branch. When the [TravisCI](https:/travis-ci.org) and [CodeClimate](https://codeclimate.com) checks are passed the `development` branch is automatically deployed to [Heroku](https://heroku.com).
+
+A deployment of the `development` branch is available at [sitefull-dev.herokuapp.com](http://sitefull-dev.herokuapp.com).
+
+You can also spin up your own copy of the `development` branch using the [Deploy to Heroku](https://devcenter.heroku.com/articles/heroku-button) button below:
+
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
 
 Staging Environment
 -------------------
-The **staging environment** is a copy of the **production environment** data with the latest changes that are going to be included in the next application release. It is intended for testing work that is finished and accepting/rejecting [Pivotal](https://www.pivotaltracker.com/n/projects/1521509) tasks as described in the [Managing Tasks](#managing-tasks) section. The staging environment is currently deployed to [Heroku](https://heroku.com) at [sitefull-stg.herokuapp.com](http://sitefull-stg.herokuapp.com).
+When features from the `development` branch are ready to be released the branch is merged to `staging`. When the [TravisCI](https:/travis-ci.org) and [CodeClimate](https://codeclimate.com) checks are passed the `staging` branch is automatically deployed to [Heroku](https://heroku.com).
+
+The staging URL is currently set to [sitefull-stg.herokuapp.com](http://sitefull-stg.herokuapp.com).
 
 Production Environment
 ----------------------
-The **production environment** contains the latest code from the `master` branch and is the final version of the application that reflects the latest release. The production URL for the application is currently setup to [cloud.sitefull.com](http://cloud.sitefull.com) and is deployed to [Heroku](https://heroku.com).
+When all features deployed to the [staging environment](#staging-environment) are tested and accepted in [Pivota](https://www.pivotaltracker.com) the `staging` branch is merged to `master`. When the [TravisCI](https:/travis-ci.org) and [CodeClimate](https://codeclimate.com) checks are passed the `master` branch is automatically deployed to [Heroku](https://heroku.com).
 
-## Third Party Modules
+The production URL is currently set to [cloud.sitefull.com](http://cloud.sitefull.com).
+
+Third Party Modules
+===================
 The application uses the following languages to speed up the development process:
   * [Slim Template Engine](http://slim-lang.com/) for the views
   * [CoffeeScript](http://coffeescript.org/) as a replacement for JavaScript
