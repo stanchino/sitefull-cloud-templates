@@ -33,37 +33,37 @@ Prerequisites
 
 Project Set Up
 -------------
- * Download the project code from [GitHub](https://github.com/stanchino/sitefull-cloud-deploy)
+ * Download the project code from [GitHub](https://github.com/stanchino/sitefull-cloud-deploy):
 ```
 # git clone git@github.com:stanchino/sitefull-cloud-deploy.git
 ```
- * Install [Ruby](https://www.ruby-lang.org/)
+ * Install [Ruby](https://www.ruby-lang.org/):
 ```
 # cd sitefull-cloud-deploy
 # rvm install ruby-2.3.0
 ```
- * Install [bundler](http://bundler.io/#getting-started)
+ * Install [bundler](http://bundler.io/#getting-started):
 ```
 # gem install bundler
 ```
- * Install [third party](#third-party) dependencies
+ * Install [third party](#third-party-modules) modules dependencies:
 ```
 # bundle install
 ```
- * Initialize the development and test databases
+ * Initialize the development and test databases:
 ```
 # rake db:create db:schema:load
 # rake db:create db:test:prepare RAILS_ENV=test
 ```
- * **Optional**: Seed the database with sample data
+ * **Optional**: Seed the database with sample data:
 ```
 # rake db:seed
 ```
- * Install the [foreman](http://ddollar.github.io/foreman/) Procfile-base manager
+ * Install the [foreman](http://ddollar.github.io/foreman/) Procfile-based manager:
 ```
 # gem install foreman
 ```
- * Start the server
+ * Start the server:
 ```
 # foreman start
 ```
@@ -90,7 +90,7 @@ The application uses [simplecov](https://github.com/colszowka/simplecov) to gene
 
 Managing Tasks
 --------------
-The project uses [Pivotal Tracker](www.pivotaltracker.com) for task management. The SCRUM iteration for the project is one week and the backlog is populated and prioritized on Sunday before the Sprint starts. The recommended steps when working on project tasks is the following:
+The project uses [Pivotal Tracker](https://www.pivotaltracker.com) for task management. The SCRUM iteration for the project is one week and the backlog is populated and prioritized on Sunday before the Sprint starts. The recommended steps when working on project tasks is the following:
  * When you start working on a Task change the task status to started in [Pivotal](https://www.pivotaltracker.com/n/projects/1521509).
  * Create a branch from development that starts with the task ID and shortly describes the task you will be working on, eg.
 ```
@@ -112,7 +112,50 @@ automatically update the story status in [Pivotal](www.pivotaltracker.com) from 
 * *Rejected*: This task is **not** done or there are regression issues with the task. In this case the task should be restarted.
 * *Accepted*: This task is done.
 
-## Third Party Modules
+Application Lifecycle
+=====================
+There are three different application environments following the standard lifecycle managment process: **development**, **staging** and **production**.
+
+Development Environment
+-----------------------
+This environment uses the `development` branch and includes [Pivotal](https://www.pivotaltracker.com/n/projects/1521509) tasks that are finished and ready for adding to the release but are not tested yet.
+
+Staging Environment
+-------------------
+This environment uses the `staging` branch and a copy of the production database. It contains the features that are going to be included in the release. This environment is intended for testing [Pivotal](https://www.pivotaltracker.com/n/projects/1521509) tasks as described in the [Managing Tasks](#managing-tasks) section.
+
+Production Environment
+----------------------
+This environment uses the `master` branch and includes the latest stable version of the application features that are publicly available.
+
+The production URL for the application is currently setup to [cloud.sitefull.com](http://cloud.sitefull.com) and is deployed to [Heroku](https://heroku.com).
+
+Release Process
+===============
+Development Environment
+-----------------------
+When a task is completed the pull request for the task implementation is merged to the `development` branch. When the [TravisCI](https:/travis-ci.org) and [CodeClimate](https://codeclimate.com) checks are passed the `development` branch is automatically deployed to [Heroku](https://heroku.com).
+
+A deployment of the `development` branch is available at [sitefull-dev.herokuapp.com](http://sitefull-dev.herokuapp.com).
+
+You can also spin up your own copy of the `development` branch using the [Deploy to Heroku](https://devcenter.heroku.com/articles/heroku-button) button below:
+
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
+
+Staging Environment
+-------------------
+When features from the `development` branch are ready to be released the branch is merged to `staging`. When the [TravisCI](https:/travis-ci.org) and [CodeClimate](https://codeclimate.com) checks are passed the `staging` branch is automatically deployed to [Heroku](https://heroku.com).
+
+The staging URL is currently set to [sitefull-stg.herokuapp.com](http://sitefull-stg.herokuapp.com).
+
+Production Environment
+----------------------
+When all features deployed to the [staging environment](#staging-environment) are tested and accepted in [Pivota](https://www.pivotaltracker.com) the `staging` branch is merged to `master`. When the [TravisCI](https:/travis-ci.org) and [CodeClimate](https://codeclimate.com) checks are passed the `master` branch is automatically deployed to [Heroku](https://heroku.com).
+
+The production URL is currently set to [cloud.sitefull.com](http://cloud.sitefull.com).
+
+Third Party Modules
+===================
 The application uses the following languages to speed up the development process:
   * [Slim Template Engine](http://slim-lang.com/) for the views
   * [CoffeeScript](http://coffeescript.org/) as a replacement for JavaScript
