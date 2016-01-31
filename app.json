@@ -1,0 +1,6 @@
+{
+  'name': 'SiteFull Cloud',
+  'description': 'A Ruby on Rails application for automating your cloud deployments using Cloud-Init scripts',
+  'repository': 'https://github.com/stanchino/sitefull-cloud-deploy',
+  'keywords': ['rails', 'cloud', 'deploy']
+}
