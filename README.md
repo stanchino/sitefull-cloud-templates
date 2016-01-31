@@ -33,37 +33,37 @@ Prerequisites
 
 Project Set Up
 -------------
- * Download the project code from [GitHub](https://github.com/stanchino/sitefull-cloud-deploy)
+ * Download the project code from [GitHub](https://github.com/stanchino/sitefull-cloud-deploy):
 ```
 # git clone git@github.com:stanchino/sitefull-cloud-deploy.git
 ```
- * Install [Ruby](https://www.ruby-lang.org/)
+ * Install [Ruby](https://www.ruby-lang.org/):
 ```
 # cd sitefull-cloud-deploy
 # rvm install ruby-2.3.0
 ```
- * Install [bundler](http://bundler.io/#getting-started)
+ * Install [bundler](http://bundler.io/#getting-started):
 ```
 # gem install bundler
 ```
- * Install [third party](#third-party) dependencies
+ * Install [third party](#third-party-modules) modules dependencies:
 ```
 # bundle install
 ```
- * Initialize the development and test databases
+ * Initialize the development and test databases:
 ```
 # rake db:create db:schema:load
 # rake db:create db:test:prepare RAILS_ENV=test
 ```
- * **Optional**: Seed the database with sample data
+ * **Optional**: Seed the database with sample data:
 ```
 # rake db:seed
 ```
- * Install the [foreman](http://ddollar.github.io/foreman/) Procfile-base manager
+ * Install the [foreman](http://ddollar.github.io/foreman/) Procfile-based manager:
 ```
 # gem install foreman
 ```
- * Start the server
+ * Start the server:
 ```
 # foreman start
 ```
@@ -90,7 +90,7 @@ The application uses [simplecov](https://github.com/colszowka/simplecov) to gene
 
 Managing Tasks
 --------------
-The project uses [Pivotal Tracker](www.pivotaltracker.com) for task management. The SCRUM iteration for the project is one week and the backlog is populated and prioritized on Sunday before the Sprint starts. The recommended steps when working on project tasks is the following:
+The project uses [Pivotal Tracker](https://www.pivotaltracker.com) for task management. The SCRUM iteration for the project is one week and the backlog is populated and prioritized on Sunday before the Sprint starts. The recommended steps when working on project tasks is the following:
  * When you start working on a Task change the task status to started in [Pivotal](https://www.pivotaltracker.com/n/projects/1521509).
  * Create a branch from development that starts with the task ID and shortly describes the task you will be working on, eg.
 ```
@@ -111,6 +111,23 @@ automatically update the story status in [Pivotal](www.pivotaltracker.com) from 
 * *Delivered*: This task is deployed to staging and readu to be tested. Once the story is tested it can be set to either "Accepted" or "Rejected".
 * *Rejected*: This task is **not** done or there are regression issues with the task. In this case the task should be restarted.
 * *Accepted*: This task is done.
+
+Deployment
+==========
+There are three different application states being deployed following the standard lifecycle managment process: **development**, **staging** and **production**.
+
+Development Environment
+-----------------------
+The **development environment** uses the latest `development` branch and represents work that is currently being finished but is not tested yet. It is deployed to [Heroku](https://heroku.com) and is available at [sitefull-dev.herokuapp.com](http://sitefull-dev.herokuapp.com). You can also spin up your own copy of the `development` branch using the [Deploy to Heroku](https://devcenter.heroku.com/articles/heroku-button) button below:
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
+
+Staging Environment
+-------------------
+The **staging environment** is a copy of the **production environment** data with the latest changes that are going to be included in the next application release. It is intended for testing work that is finished and accepting/rejecting [Pivotal](https://www.pivotaltracker.com/n/projects/1521509) tasks as described in the [Managing Tasks](#managing-tasks) section. The staging environment is currently deployed to [Heroku](https://heroku.com) at [sitefull-stg.herokuapp.com](http://sitefull-stg.herokuapp.com).
+
+Production Environment
+----------------------
+The **production environment** contains the latest code from the `master` branch and is the final version of the application that reflects the latest release. The production URL for the application is currently setup to [cloud.sitefull.com](http://cloud.sitefull.com) and is deployed to [Heroku](https://heroku.com).
 
 ## Third Party Modules
 The application uses the following languages to speed up the development process:
