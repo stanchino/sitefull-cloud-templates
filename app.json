@@ -1,6 +1,12 @@
 {
   "name": "SiteFull Cloud",
   "description": "A Ruby on Rails application for automating your cloud deployments using Cloud-Init scripts",
-  "repository": "https://github.com/stanchino/sitefull-cloud-deploy",
-  "keywords": ["rails", "cloud", "deploy"]
+  "repository": "https://github.com/stanchino/sitefull-cloud-deploy/tree/development",
+  "keywords": ["rails", "cloud", "deploy"],
+  "addons": [
+      "heroku-postgresql:hobby-dev"
+  ],
+  "scripts": {
+      "postdeploy": "bundle exec rake db:migrate"
+  }
 }
