@@ -4,8 +4,8 @@ ruby '2.3.0'
 
 gem 'rails', github: 'rails/rails', branch: '4-2-stable'
 
-# Use MySQL as the database for Active Record
-gem 'mysql2'
+# Use PostgreSQL as the database engine
+gem 'pg'
 
 # Use SCSS for stylesheets
 gem 'sass-rails'
@@ -52,9 +52,13 @@ gem 'cancancan'
 # Use Devise for authentication
 gem 'devise'
 
+# The `core` of the deployments app
+gem 'fog'
+
 group :development do
   # Access an IRB console on exception pages or by using <%= console %> in views
   gem 'web-console'
+  gem 'pry-rails'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
   # Open email message in browser instead of sending them

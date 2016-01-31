@@ -1,11 +1,9 @@
 language: ruby
 cache: bundler
 rvm: 2.3.0
-services:
-  - mysql
 before_script:
-  - 'mysql -u root -h 127.0.0.1 --password="" -e "create database sitefull_templates_test;"'
-  - 'bundle exec rake db:test:prepare'
+  - psql -c 'create database sitefull_deploy_test;' -U postgres
+  - bundle exec rake db:test:prepare
 addons:
   code_climate:
     repo_token: '3d0efcf309a76d2e9ce070cf7f13b2bd92a3b2ae252c293c863d4b5b8b05552a'
