@@ -167,6 +167,7 @@ And some thrid party tools which are useful for creating a good looking user exp
   * [jQuery](https://jquery.com/)
 
 The full list of modules added to the `Gemfile` is:
+  * [acts-as-taggable-on](https://github.com/mbleigh/acts-as-taggable-on) In order to use tags for deployment templates.
   * [database_cleaner](https://github.com/DatabaseCleaner/database_cleaner) Cleans up the database when running the tests.
   * [bootstrap-sass](https://github.com/twbs/bootstrap-sass) Allows for integrating the [Bootstrap](http://getbootstrap.com) framework.
   * [cancancan](https://github.com/CanCanCommunity/cancancan) A very good authorization module.
@@ -190,6 +191,7 @@ The full list of modules added to the `Gemfile` is:
   * [rspec-rails](https://github.com/rspec/rspec-rails) The [RSpec](http://rspec.info/) testing framework for BDD.
   * [rspec-collection_matchers](https://github.com/rspec/rspec-collection_matchers) Usefull for matching collections in your tests.
   * [rspec-activemodel-mocks](https://github.com/rspec/rspec-activemodel-mocks) Allows for mocking ActiveModel objects in tests.
+  * [select2-rails](https://github.com/argerim/select2-rails) Autocomplete and tags support.
   * [shoulda-matchers](https://github.com/thoughtbot/shoulda-matchers) Simplify writing tests big time as discussed on the official [shoulda matchers](http://matchers.shoulda.io/) page.
   * [simple_form](https://github.com/plataformatec/simple_form) For handling forms.
   * [simplecov](https://github.com/colszowka/simplecov) Generates code coverage reports when running the tests.

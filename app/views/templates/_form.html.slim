@@ -1,10 +1,17 @@
+- content_for(:javascript_links_content) do
+  = javascript_include_tag 'select2', 'data-turbolinks-track' => true
+  = javascript_include_tag 'templates/form', 'data-turbolinks-track' => true
+
 = simple_form_for(@template) do |f|
   = f.error_notification
 
   .form-inputs
     = f.input :name
+  .form-inputs
     = f.input :os
-    = f.input :script
+    = f.input :tag_list, as: :select, collection: @template.tag_list, input_html: { multiple: true }
+  .form-inputs
+    = f.input :script, input_html: { rows: 12 }
 
   .form-actions
     = f.button :submit, class: 'icon fa-floppy-o'

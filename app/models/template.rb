@@ -1,6 +1,6 @@
 class Template < ActiveRecord::Base
+  acts_as_taggable
   validates :name, presence: true, uniqueness: { scope: :user_id }
-  validates :os, presence: true
 
   belongs_to :user
 end
