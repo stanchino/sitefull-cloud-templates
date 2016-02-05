@@ -61,6 +61,9 @@ gem 'acts-as-taggable-on'
 # Use Select2 for autocomplete and tags
 gem 'select2-rails'
 
+# Use rails_12factor for Heroku deployments
+gem 'rails_12factor'
+
 group :development do
   # Access an IRB console on exception pages or by using <%= console %> in views
   gem 'web-console'
