@@ -1,0 +1,25 @@
+h1 Listing deployments
+
+table
+  thead
+    tr
+      th Provider
+      th Image
+      th Flavor
+      th
+      th
+      th
+
+  tbody
+    - @deployments.each do |deployment|
+      tr
+        td = deployment.provider
+        td = deployment.image
+        td = deployment.flavor
+        td = link_to 'Show', deployment
+        td = link_to 'Destroy', deployment, data: {:confirm => 'Are you sure?'}, :method => :delete
+
+br
+
+- if @template.present?
+  = link_to 'New Deployment', new_template_deployment_path(@template)

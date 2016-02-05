@@ -11,10 +11,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160202230434) do
+ActiveRecord::Schema.define(version: 20160205174036) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "deployments", force: :cascade do |t|
+    t.integer  "template_id"
+    t.string   "provider"
+    t.json     "credentials"
+    t.string   "image"
+    t.string   "flavor"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "deployments", ["image"], name: "index_deployments_on_image", using: :btree
+  add_index "deployments", ["provider"], name: "index_deployments_on_provider", using: :btree
+  add_index "deployments", ["template_id"], name: "index_deployments_on_template_id", using: :btree
 
   create_table "taggings", force: :cascade do |t|
     t.integer  "tag_id"

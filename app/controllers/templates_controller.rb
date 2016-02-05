@@ -1,6 +1,7 @@
 class TemplatesController < ApplicationController
-  load_and_authorize_resource
   before_action :authenticate_user!
+  load_and_authorize_resource
+
   layout 'dashboard'
 
   # GET /templates
@@ -25,26 +26,20 @@ class TemplatesController < ApplicationController
   # POST /templates.json
   def create
     @template.user = current_user
-    respond_to do |format|
-      if @template.save
-        handle_save_success format, :created, 'Template was successfully created.'
-      else
-        format.html { render :new }
-        format.json { render json: @template.errors, status: :unprocessable_entity }
-      end
+    if @template.save
+      handle_save_success @template, :created, 'Template was successfully created.'
+    else
+      handle_save_error @template, :new
     end
   end
 
   # PATCH/PUT /templates/1
   # PATCH/PUT /templates/1.json
   def update
-    respond_to do |format|
-      if @template.update(template_params)
-        handle_save_success format, :ok, 'Template was successfully updated.'
-      else
-        format.html { render :edit }
-        format.json { render json: @template.errors, status: :unprocessable_entity }
-      end
+    if @template.update(template_params)
+      handle_save_success @template, :ok, 'Template was successfully updated.'
+    else
+      handle_save_error @template, :edit
     end
   end
 
@@ -62,10 +57,5 @@ class TemplatesController < ApplicationController
 
   def template_params
     params.require(:template).permit(:name, :os, :script, tag_list: [])
-  end
-
-  def handle_save_success(format, status, message)
-    format.html { redirect_to @template, notice: message }
-    format.json { render :show, status: status, location: @template }
   end
 end

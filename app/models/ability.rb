@@ -4,8 +4,10 @@ class Ability
   def initialize(user = nil)
     user ||= User.new
     can :manage, user
-    can :manage, user.templates
+    can :manage, Template, user_id: user.id
     can [:read, :create], Template
+    can :manage, Deployment, template: { user_id: user.id }
+    can [:read, :create], Deployment
     # Define abilities for the passed in user here. For example:
     #
     #   user ||= User.new # guest user (not logged in)
