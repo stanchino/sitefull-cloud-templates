@@ -1,4 +1,4 @@
-@import 'common';
+@import 'base';
 
 // Bootstrap components
 @import 'bootstrap/buttons';
@@ -6,7 +6,7 @@
 
 // FontAwesome
 @import 'font-awesome';
-@import 'font-awesome-wrap';
+@import 'mixins/font-awesome-wrap';
 
 .wrapper {
   @include container-fixed;

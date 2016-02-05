@@ -61,7 +61,7 @@ class TemplatesController < ApplicationController
   private
 
   def template_params
-    params.require(:template).permit(:name, :os, :script)
+    params.require(:template).permit(:name, :os, :script, tag_list: [])
   end
 
   def handle_save_success(format, status, message)

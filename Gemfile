@@ -55,6 +55,12 @@ gem 'devise'
 # The `core` of the deployments app
 gem 'fog'
 
+# Tag deployment templates
+gem 'acts-as-taggable-on'
+
+# Use Select2 for autocomplete and tags
+gem 'select2-rails'
+
 group :development do
   # Access an IRB console on exception pages or by using <%= console %> in views
   gem 'web-console'

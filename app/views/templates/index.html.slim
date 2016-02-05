@@ -1,17 +1,26 @@
-h1 Listing templates
-table.table.table-condensed.table-bordered
-  thead
-    tr
-      th = ::Template.human_attribute_name('name')
-      th = ::Template.human_attribute_name('os')
-      th colspan="3" = t('actions.title')
-  tbody
+- content_for(:stylesheet_links_content) do
+  = stylesheet_link_tag 'templates/list', media: 'all', 'data-turbolinks-track' => true
+
+.section
+  .content
+    = link_to 'New Template', new_template_path, class: 'pull-right btn add-link fa-plus'
+.section
+  .content
     - @templates.each do |template|
-      tr
-        td = template.name
-        td = template.script
-        td = link_to t('actions.show'), template
-        td = link_to t('actions.edit'), edit_template_path(template)
-        td = link_to t('actions.destroy'), template, data: {confirm: 'Are you sure?'}, method: :delete
-hr
-= link_to 'New Template', new_template_path, class: 'btn add-link fa-plus'
+      .panel.panel-default
+        .panel-heading
+          .pull-right
+            = link_to t('actions.details'), template, class: 'icon fa-eye'
+            '&nbsp;
+            = link_to t('actions.edit'), edit_template_path(template), class: 'icon fa-pencil'
+            '&nbsp;
+            = link_to t('actions.destroy'), template, data: {confirm: 'Are you sure?'}, class: 'icon fa-trash', method: :delete
+          h2.panel-title style="word-wrap:break-word" = template.name
+        .panel-body
+          strong = ::Template.human_attribute_name('os')
+          ':&nbsp;
+          span style="word-wrap:break-word" = Hash[::Template::OPERATING_SYSTEMS][template.os]
+          br
+          strong = ::Template.human_attribute_name('tag_list')
+          ':&nbsp;
+          = template.tag_list

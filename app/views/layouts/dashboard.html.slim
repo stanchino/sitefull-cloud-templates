@@ -9,7 +9,8 @@ html[lang="en"]
     title
       | SiteFull
     = stylesheet_link_tag 'templates', media: 'all', 'data-turbolinks-track' => true
-    = javascript_include_tag 'application', 'data-turbolinks-track' => true
+    = yield(:stylesheet_links_content) if content_for?(:stylesheet_links_content)
+    = javascript_include_tag 'dashboard', 'data-turbolinks-track' => true
     = yield(:javascript_links_content) if content_for?(:javascript_links_content)
     = csrf_meta_tags
   body

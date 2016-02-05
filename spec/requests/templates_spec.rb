@@ -2,7 +2,7 @@ require 'rails_helper'
 require 'shared_examples/requests'
 
 RSpec.describe 'Templates', type: :request do
-  let(:valid_params) { { name: 'Template', os: 'OS' } }
+  let(:valid_params) { { name: 'Template', os: 'debian', script: Faker::Lorem.paragraph } }
 
   describe 'unauthenticated user' do
     context 'when listing templates' do
@@ -36,7 +36,7 @@ RSpec.describe 'Templates', type: :request do
         expect(response).to be_success
         expect(response).to render_template('templates/show', layout: 'application')
         expect(response.body).to include valid_params[:name]
-        expect(response.body).to include valid_params[:os]
+        expect(response.body).to include Hash[Template::OPERATING_SYSTEMS][valid_params[:os]]
       end
     end
   end

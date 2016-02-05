@@ -1,8 +1,0 @@
-@import 'dashboard/common';
-@import 'bootstrap/buttons';
-@import 'bootstrap/tables';
-
-.add-link {
-  @include icon;
-  @include button-variant($btn-default-color, $btn-default-bg, $btn-default-border);
-}

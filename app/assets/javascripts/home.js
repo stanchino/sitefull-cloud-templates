@@ -1,7 +1,9 @@
 //= require jquery
 //= require jquery_ujs
+//= require jquery.stellar
 //= require bootstrap/alert
 //= require bootstrap/transition
 //= require_tree ./common/
+//= require_tree ./home/
 //= require turbolinks
 //= require_self
