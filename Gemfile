@@ -4,8 +4,8 @@ ruby '2.3.0'
 
 gem 'rails', github: 'rails/rails', branch: '4-2-stable'
 
-# Use MySQL as the database for Active Record
-gem 'mysql2'
+# Use PostgreSQL as the database engine
+gem 'pg'
 
 # Use SCSS for stylesheets
 gem 'sass-rails'
@@ -52,9 +52,22 @@ gem 'cancancan'
 # Use Devise for authentication
 gem 'devise'
 
+# The `core` of the deployments app
+gem 'fog'
+
+# Tag deployment templates
+gem 'acts-as-taggable-on'
+
+# Use Select2 for autocomplete and tags
+gem 'select2-rails'
+
+# Use rails_12factor for Heroku deployments
+gem 'rails_12factor'
+
 group :development do
   # Access an IRB console on exception pages or by using <%= console %> in views
   gem 'web-console'
+  gem 'pry-rails'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
   # Open email message in browser instead of sending them
@@ -64,6 +77,8 @@ group :development do
 end
 
 group :development, :test do
+  # Use database_cleaner to clear the test database when running tests
+  gem 'database_cleaner'
   # Load enviornment variables from .env
   gem 'dotenv-rails'
   # Create object factories
@@ -81,12 +96,14 @@ end
 group :test do
   # Use Capybara for acceptance tests
   gem 'capybara'
+  # Use capybara-email to open messages
+  gem 'capybara-email'
   # Create screenshot in acceptance tests
   gem 'capybara-screenshot'
-  # Use WebKit as the Capybara acceptance tests engine
-  gem 'capybara-webkit'
   # Generate CodeClimate reports for the project
   gem 'codeclimate-test-reporter', require: false
+  # Use Poltergeist for feature specs
+  gem 'poltergeist'
   # Generate code coverage reports
   gem 'simplecov', require: false
   # Use shoulda matchers in specs

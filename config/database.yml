@@ -10,23 +10,20 @@
 #   http://dev.mysql.com/doc/refman/5.0/en/old-client.html
 #
 default: &default
-  adapter: mysql2
-  encoding: utf8
+  adapter: postgresql
+  encoding: unicode
   pool: 5
-  username: root
-  password:
-  host: '127.0.0.1'
 
 development:
   <<: *default
-  database: sitefull_templates_development
+  database: sitefull_deploy_development
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
 # Do not set this db to the same as development or production.
 test:
   <<: *default
-  database: sitefull_templates_test
+  database: sitefull_deploy_test
 
 # As with config/secrets.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is
@@ -49,6 +46,6 @@ test:
 #
 production:
   <<: *default
-  database: sitefull_templates
+  database: sitefull_deploy
   username: <%= ENV['DATABASE_USERNAME'] %>
   password: <%= ENV['DATABASE_PASSWORD'] %>

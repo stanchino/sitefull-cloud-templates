@@ -1,0 +1,30 @@
+@import 'variables';
+@import 'bootstrap/mixins';
+@import 'mixins';
+
+.form-inputs {
+  @include make-row;
+}
+
+.form-group {
+  @include make-sm-column(12);
+}
+
+.form-actions {
+  .save,
+  .cancel {
+    margin-right: 1ex;
+  }
+
+  .save {
+    @include button-variant($btn-primary-color, $btn-primary-bg, $btn-primary-border);
+    span {
+      @include icon;
+    }
+  }
+
+  .cancel {
+    @include icon;
+    @include button-variant($btn-default-color, $btn-default-bg, $btn-default-border);
+  }
+}

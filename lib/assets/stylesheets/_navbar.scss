@@ -1,16 +1,15 @@
 // Bootstrap components
 @import 'bootstrap/forms';
 
+@import 'bootstrap/mixins';
 @import 'bootstrap/navs';
 @import 'bootstrap/navbar';
 
 // FontAwesome
 @import 'font-awesome';
-@import 'font-awesome-wrap';
+@import 'mixins/font-awesome-wrap';
 
 .navbar {
-  margin-bottom: 0;
-
   .navbar-brand {
     @include icon;
   }
