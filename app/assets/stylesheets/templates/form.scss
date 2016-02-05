@@ -1,4 +1,5 @@
 @import 'variables';
+@import 'dashboard/forms';
 @import 'select2';
 @import 'select2-bootstrap';
 
@@ -6,4 +7,20 @@
   font-family: inherit;
   font-size: inherit;
   min-height: ($line-height-computed + 2 * $padding-base-vertical + 2);
+}
+
+.operating-system {
+  @include make-sm-column(3);
+}
+
+.tags-list {
+  @include make-sm-column(9);
+}
+
+.script {
+  textarea {
+    &.form-control {
+      height: 19 * $line-height-computed;
+    }
+  }
 }

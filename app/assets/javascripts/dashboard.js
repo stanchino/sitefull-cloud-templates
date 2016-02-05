@@ -3,6 +3,6 @@
 //= require bootstrap/alert
 //= require bootstrap/collapse
 //= require bootstrap/transition
+//= require_tree ./common/
 //= require turbolinks
-//= require notifications
 //= require_self

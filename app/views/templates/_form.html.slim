@@ -3,7 +3,8 @@
 
 - content_for(:javascript_links_content) do
   = javascript_include_tag 'select2', 'data-turbolinks-track' => true
-  = javascript_include_tag 'tags_field', 'data-turbolinks-track' => true
+  = javascript_include_tag 'tags_list', 'data-turbolinks-track' => true
+  = javascript_include_tag 'templates/form', 'data-turbolinks-track' => true
 
 = simple_form_for(@template) do |f|
   = f.error_notification

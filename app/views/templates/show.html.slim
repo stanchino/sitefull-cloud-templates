@@ -1,3 +1,6 @@
+- content_for(:stylesheet_links_content) do
+  = stylesheet_link_tag 'templates/details', media: 'all', 'data-turbolinks-track' => true
+
 h1 = @template.name
 p
   strong = ::Template.human_attribute_name(:os)
@@ -9,7 +12,7 @@ div
   = @template.tag_list
 div
   h3 Script:
-  pre = @template.script
+  pre.script = @template.script
 hr
 
 = link_to 'Templates', templates_path, class: 'btn btn-default icon fa-list'
