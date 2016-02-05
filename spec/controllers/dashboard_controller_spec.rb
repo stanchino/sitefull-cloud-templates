@@ -1,4 +1,5 @@
 require 'rails_helper'
+require 'shared_examples/controllers'
 
 describe DashboardController, type: :controller do
   describe 'GET #user' do
@@ -10,7 +11,7 @@ describe DashboardController, type: :controller do
     end
     describe 'for authenticated user' do
       login_user
-      verify_success :user, 'dashboard/user', 'dashboard'
+      it_behaves_like 'successful GET action', :user, 'dashboard/user', 'dashboard'
     end
   end
 end

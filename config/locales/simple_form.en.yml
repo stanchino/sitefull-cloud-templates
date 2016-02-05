@@ -9,7 +9,7 @@ en:
       # When using html, text and mark won't be used.
       # html: '<abbr title="required">*</abbr>'
     error_notification:
-      default_message: "Please review the problems below:"
+      default_message: 'Please review the problems below:'
     # Examples
     # labels:
     #   defaults:
@@ -29,3 +29,11 @@ en:
     # prompts:
     #   defaults:
     #     age: 'Select your age'
+    placeholders:
+      template:
+        name: 'Template Name (required)'
+        script: 'Deployment Script (required)'
+        tag_list: 'Template Tags'
+    prompts:
+      template:
+        os: 'Operating System (required)'

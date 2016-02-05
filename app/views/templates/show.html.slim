@@ -1,0 +1,20 @@
+- content_for(:stylesheet_links_content) do
+  = stylesheet_link_tag 'templates/details', media: 'all', 'data-turbolinks-track' => true
+
+h1 = @template.name
+p
+  strong = ::Template.human_attribute_name(:os)
+  ':&nbsp;
+  = Hash[::Template::OPERATING_SYSTEMS][@template.os]
+div
+  strong = ::Template.human_attribute_name(:tag_list)
+  ':&nbsp;
+  = @template.tag_list
+div
+  h3 Script:
+  pre.script = @template.script
+hr
+
+= link_to 'Templates', templates_path, class: 'btn btn-default icon fa-list'
+' &nbsp;
+= link_to 'Edit', edit_template_path(@template), class: 'btn btn-default icon fa-pencil'

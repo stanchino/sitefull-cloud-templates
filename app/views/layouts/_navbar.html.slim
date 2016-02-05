@@ -9,6 +9,7 @@ nav.navbar.navbar-inverse.navbar-static-top
       = link_to t('main_page_name'), root_url, class: 'navbar-brand fa-dashboard'
     #navbar.navbar-collapse.collapse
       ul.nav.navbar-nav
+        li class="#{(params[:controller] == 'templates') ? 'active' : ''}" = link_to t('navigation.templates'), templates_url
         li class="#{(params[:controller] == 'help') ? 'active' : ''}" = link_to t('navigation.help'), '#'
         li class="#{(params[:controller] == 'contacts') ? 'active' : ''}" = link_to t('navigation.contacts'), '#'
       ul.nav.navbar-nav.navbar-right
