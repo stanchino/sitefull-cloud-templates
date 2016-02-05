@@ -291,6 +291,11 @@ GEM
       rails-deprecated_sanitizer (>= 1.0.1)
     rails-html-sanitizer (1.0.3)
       loofah (~> 2.0)
+    rails_12factor (0.0.3)
+      rails_serve_static_assets
+      rails_stdout_logging
+    rails_serve_static_assets (0.0.5)
+    rails_stdout_logging (0.0.4)
     raindrops (0.15.0)
     rake (10.5.0)
     rbvmomi (1.8.2)
@@ -420,6 +425,7 @@ DEPENDENCIES
   pry-rails
   quiet_assets
   rails!
+  rails_12factor
   rspec-activemodel-mocks
   rspec-collection_matchers
   rspec-rails
