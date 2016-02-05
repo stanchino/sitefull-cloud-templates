@@ -20,6 +20,6 @@ namespace :spec do
       t.verbose = false
     end
   rescue LoadError
-    puts 'Unable to load tasks'
+    nil
   end
 end
