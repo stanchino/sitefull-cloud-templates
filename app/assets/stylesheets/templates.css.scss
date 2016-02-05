@@ -1,47 +1,28 @@
-@import 'dashboard/common';
+@import 'dashboard';
+@import 'dashboard/forms';
 @import 'bootstrap/buttons';
-@import 'bootstrap/tables';
-@import 'select2';
-@import 'select2-bootstrap';
+@import 'bootstrap/panels';
 
 .add-link {
+  @include center-block;
   @include icon;
   @include button-variant($btn-default-color, $btn-default-bg, $btn-default-border);
+
+  margin-bottom: $line-height-computed;
 }
 
-.wrapper {
-  @media (min-width: $screen-sm-min) {
-    width: $container-sm;
-  }
-  @media (min-width: $screen-md-min) {
-    width: $container-md;
-  }
-  @media (min-width: $screen-lg-min) {
-    width: $container-lg;
-  }
-}
-
-.form-inputs {
-  @include make-row;
-}
-
-.form-group {
-  @include make-sm-column(12);
-}
-
-.template_os {
+.operating-system {
   @include make-sm-column(3);
 }
 
-.template_tag_list {
+.tags-list {
   @include make-sm-column(9);
+}
 
-  .select2-selection {
-    padding-top: 3px;
-    padding-bottom: 2px;
-  }
-
-  .select2-container {
-    width: auto !important;
+.script {
+  textarea {
+    &.form-control {
+      height: 19 * $line-height-computed;
+    }
   }
 }

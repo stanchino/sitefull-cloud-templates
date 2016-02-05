@@ -1,17 +1,23 @@
+- content_for(:stylesheet_links_content) do
+  = stylesheet_link_tag 'templates/form', media: 'all', 'data-turbolinks-track' => true
+
 - content_for(:javascript_links_content) do
   = javascript_include_tag 'select2', 'data-turbolinks-track' => true
-  = javascript_include_tag 'templates/form', 'data-turbolinks-track' => true
+  = javascript_include_tag 'tags_field', 'data-turbolinks-track' => true
 
 = simple_form_for(@template) do |f|
   = f.error_notification
 
   .form-inputs
-    = f.input :name
+    = f.input :name, placeholder: :translate, label: false
   .form-inputs
-    = f.input :os
-    = f.input :tag_list, as: :select, collection: @template.tag_list, input_html: { multiple: true }
+    = f.input :os, collection: ::Template::OPERATING_SYSTEMS, value_method: :first, label_method: :last, prompt: :translate, wrapper_html: { class: 'operating-system' }, label: false
+    = f.input :tag_list, as: :select, collection: @template.tag_list, wrapper_html: { class: 'tags-list' }, input_html: { multiple: true, style: 'width: 100%' }, label: false
   .form-inputs
-    = f.input :script, input_html: { rows: 12 }
+    = f.input :script, placeholder: :translate, wrapper_html: { class: 'script' }, label: false
 
   .form-actions
-    = f.button :submit, class: 'icon fa-floppy-o'
+    button.btn.save type="submit"
+      span.fa-floppy-o
+      = t('actions.save')
+    = link_to 'Cancel', templates_path, class: 'btn cancel fa-times'

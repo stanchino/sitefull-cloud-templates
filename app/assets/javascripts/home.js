@@ -1,7 +1,10 @@
 //= require jquery
 //= require jquery_ujs
+//= require jquery.stellar
 //= require bootstrap/alert
 //= require bootstrap/transition
 //= require turbolinks
+//= require parallax
+//= require navigation
 //= require notifications
 //= require_self

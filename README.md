@@ -9,7 +9,7 @@ Coverage](https://codeclimate.com/github/stanchino/sitefull-cloud-deploy/badges/
 [![Issue
 Count](https://codeclimate.com/github/stanchino/sitefull-cloud-deploy/badges/issue_count.svg)](https://codeclimate.com/github/stanchino/sitefull-cloud-deploy)
 
-A [Ruby on Rails](http://rubyonrails.com) application for automating your cloud deployments using [Cloud-Init](https://cloudinit.readthedocs.org/en/latest/) scripts.
+A [Ruby on Rails](http://rubyonrails.com) application for automating your cloud deployments.
 
 Contributing
 ============
@@ -19,7 +19,7 @@ Recommended development environment
 -----------------------------------
 
 ### For Mac users:
- * Latest Xcode with command line tool installed
+ * [Xcode with command line tools](http://railsapps.github.io/xcode-command-line-tools.html)
  * [Hombrew](http://mxcl.github.com/homebrew/)
  * [Janus](https://github.com/carlhuda/janus)
  * [iTerm](http://www.iterm2.com/#/section/home)
@@ -68,6 +68,23 @@ Project Set Up
 # foreman start
 ```
 
+Guidelines
+----------
+We use [CodeClimate](https://codeclimate.com/github/stanchino/sitefull-cloud-deploy) for code quality analysis. Every time a pull request is created the quality of the code is determined and reported in GitHub. Coding standards compliance can be tested locally once the project is [setup](#project-set-up) using [Rubocop](https://github.com/bbatsov/rubocop#installation):
+```
+# rubocop
+```
+
+You can also check the [Code Climate CLI](https://github.com/codeclimate/codeclimate) tool and use it to analyze your code quality locally before creating a pull request:
+```
+# cd sitefull-cloud-deploy
+# codeclimate analyze -e scss-lint -e eslint -e coffelint .
+```
+**NOTE** The `duplication` engine takes quite some time to process the application code but you can still run it locally before submitting a pull request:
+```
+# codeclimate analyze -e duplication .
+```
+
 Testing
 -------
 The following tools are used for testing the application:
@@ -86,7 +103,20 @@ The tests are split into three groups: *unit tests*, *integration tests* and *fe
 # rake spec:feature
 ``` 
 
-The application uses [simplecov](https://github.com/colszowka/simplecov) to generate code coverage statistics. It is available in the `coverage/` directory. The goal is to maintain the code coverage **for each** of the *unit*, *integration* and *feature* test suites at **100%** so be carefull when adding new features.
+The application uses [simplecov](https://github.com/colszowka/simplecov) to generate code coverage statistics. It is available in the `coverage/` directory. The goal is to maintain the code coverage at **100%** so be carefull when adding new features and check the test coverage report before creating a pull request.
+
+#### Useful Resources
+ * [betterspecs.org](http://betterspecs.org)
+ * [Thoughtbot's thoughts](https://robots.thoughtbot.com/tags/rspec)
+ * [Relish](https://www.relishapp.com/rspec/)
+  * [Model Specs](https://www.relishapp.com/rspec/rspec-rails/docs/model-specs)
+  * [Controller Specs](https://www.relishapp.com/rspec/rspec-rails/docs/controller-specs)
+  * [Request Specs](https://www.relishapp.com/rspec/rspec-rails/docs/request-specs/request-spec)
+  * [Feature Specs](https://www.relishapp.com/rspec/rspec-rails/docs/feature-specs/feature-spec)
+  * [View Specs](https://www.relishapp.com/rspec/rspec-rails/docs/view-specs)
+  * [Helper Specs](https://www.relishapp.com/rspec/rspec-rails/docs/helper-specs)
+  * [Mailer Specs](https://www.relishapp.com/rspec/rspec-rails/docs/mailer-specs)
+  * [Routing Specs](https://www.relishapp.com/rspec/rspec-rails/docs/routing-specs)
 
 Managing Tasks
 --------------

@@ -1,16 +1,11 @@
-@import 'common';
-$header-image-opacity: .95;
+@import 'base';
 
-// Bootstrap components
+// Additional Bootstrap components
 @import 'bootstrap/buttons';
 @import 'bootstrap/panels';
 
-// FontAwesome
-// @import 'font-awesome';
-// @import 'font-awesome-wrap';
-
+// Hamburger icon menu
 @import 'hamburger';
-// @import 'cloud';
 
 .wrapper {
   @include container-fixed(0);

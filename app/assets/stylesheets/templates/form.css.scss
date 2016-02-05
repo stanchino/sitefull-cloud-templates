@@ -1,0 +1,9 @@
+@import 'variables';
+@import 'select2';
+@import 'select2-bootstrap';
+
+.select2-container--bootstrap .select2-selection {
+  font-family: inherit;
+  font-size: inherit;
+  min-height: ($line-height-computed + 2 * $padding-base-vertical + 2);
+}
