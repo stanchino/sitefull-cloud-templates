@@ -16,11 +16,6 @@ ActiveRecord::Schema.define(version: 20160202230434) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "providers", force: :cascade do |t|
-    t.string "fog_id"
-    t.string "name"
-  end
-
   create_table "taggings", force: :cascade do |t|
     t.integer  "tag_id"
     t.integer  "taggable_id"
@@ -40,17 +35,6 @@ ActiveRecord::Schema.define(version: 20160202230434) do
   end
 
   add_index "tags", ["name"], name: "index_tags_on_name", unique: true, using: :btree
-
-  create_table "template_providers", force: :cascade do |t|
-    t.integer  "template_id"
-    t.integer  "provider_id"
-    t.string   "image"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
-  end
-
-  add_index "template_providers", ["provider_id"], name: "index_template_providers_on_provider_id", using: :btree
-  add_index "template_providers", ["template_id"], name: "index_template_providers_on_template_id", using: :btree
 
   create_table "templates", force: :cascade do |t|
     t.string   "name"
@@ -94,7 +78,5 @@ ActiveRecord::Schema.define(version: 20160202230434) do
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   add_index "users", ["unlock_token"], name: "index_users_on_unlock_token", unique: true, using: :btree
 
-  add_foreign_key "template_providers", "providers"
-  add_foreign_key "template_providers", "templates"
   add_foreign_key "templates", "users"
 end
