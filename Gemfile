@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 ruby '2.3.0'
 
-gem 'rails', github: 'rails/rails', branch: '4-2-stable'
+gem 'rails'
 
 # Use PostgreSQL as the database engine
 gem 'pg'
@@ -39,7 +39,7 @@ gem 'jbuilder'
 gem 'sdoc'
 
 # Use ActiveModel has_secure_password
-gem 'bcrypt'
+# gem 'bcrypt'
 
 # Use Unicorn as the app server
 gem 'unicorn'
@@ -61,12 +61,10 @@ gem 'acts-as-taggable-on'
 # Use Select2 for autocomplete and tags
 gem 'select2-rails'
 
-# Use rails_12factor for Heroku deployments
-gem 'rails_12factor'
-
 group :development do
   # Access an IRB console on exception pages or by using <%= console %> in views
   gem 'web-console'
+  # Use Pry as an alternative to the standard IRB Ruby shell
   gem 'pry-rails'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
@@ -108,4 +106,9 @@ group :test do
   gem 'simplecov', require: false
   # Use shoulda matchers in specs
   gem 'shoulda-matchers', require: false
+end
+
+group :production do
+  # Use rails_12factor for Heroku deployments
+  gem 'rails_12factor'
 end
