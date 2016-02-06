@@ -4,8 +4,12 @@ RSpec.describe DeploymentsController, type: :routing do
   describe 'routing' do
     let(:template) { FactoryGirl.create(:template) }
 
+    it 'routes to #all' do
+      expect(get: '/deployments').to route_to('deployments#all')
+    end
+
     it 'routes to #index' do
-      expect(get: '/deployments').to route_to('deployments#index')
+      expect(get: "/templates/#{template.id}/deployments").to route_to('deployments#index', template_id: template.id.to_s)
     end
 
     it 'routes to #new' do

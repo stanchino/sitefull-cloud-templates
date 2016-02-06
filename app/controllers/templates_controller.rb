@@ -1,5 +1,6 @@
 class TemplatesController < ApplicationController
-  before_action :authenticate_user!
+  include GenericActions
+
   load_and_authorize_resource
 
   layout 'dashboard'
@@ -29,7 +30,7 @@ class TemplatesController < ApplicationController
     if @template.save
       handle_save_success @template, :created, 'Template was successfully created.'
     else
-      handle_save_error @template, :new
+      handle_save_error @template.errors, :new
     end
   end
 
@@ -39,18 +40,14 @@ class TemplatesController < ApplicationController
     if @template.update(template_params)
       handle_save_success @template, :ok, 'Template was successfully updated.'
     else
-      handle_save_error @template, :edit
+      handle_save_error @template.errors, :edit
     end
   end
 
   # DELETE /templates/1
   # DELETE /templates/1.json
   def destroy
-    @template.destroy
-    respond_to do |format|
-      format.html { redirect_to templates_url, notice: 'Template was successfully destroyed.' }
-      format.json { head :no_content }
-    end
+    destroy_resource @template, templates_url, 'Template was successfully deleted.'
   end
 
   private

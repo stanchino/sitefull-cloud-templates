@@ -1,11 +1,18 @@
 class DeploymentsController < ApplicationController
-  before_action :authenticate_user!
-  load_and_authorize_resource :template, only: [:new, :create, :destroy]
-  load_and_authorize_resource through: :template, only: [:new, :create, :destroy]
-  load_and_authorize_resource only: [:index, :show]
+  include GenericActions
+
+  load_and_authorize_resource :template, only: [:index, :new, :create, :destroy]
+  load_and_authorize_resource through: :template, only: [:index, :new, :create, :destroy]
+  load_and_authorize_resource only: [:all, :show]
 
   # GET /deployments
   # GET /deployments.json
+  def all
+    render :index
+  end
+
+  # GET /templates/1/deployments
+  # GET /templates/1/deployments.json
   def index
   end
 
@@ -24,18 +31,14 @@ class DeploymentsController < ApplicationController
     if @deployment.save
       handle_save_success @deployment, :created, 'Deployment was successfully created.'
     else
-      handle_save_error @deployment, :new
+      handle_save_error @deployment.errors, :new
     end
   end
 
   # DELETE /templates/1/deployments/1
   # DELETE /templates/1/deployments/1.json
   def destroy
-    @deployment.destroy
-    respond_to do |format|
-      format.html { redirect_to deployments_url, notice: 'Deployment was successfully destroyed.' }
-      format.json { head :no_content }
-    end
+    destroy_resource @deployment, deployments_url, 'Deployment was successfully deleted.'
   end
 
   private

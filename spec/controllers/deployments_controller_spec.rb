@@ -14,9 +14,16 @@ RSpec.describe DeploymentsController, type: :controller do
   end
   let(:valid_session) { {} }
 
+  describe 'GET #all' do
+    it 'assigns all deployments as @deployments' do
+      get :all, {}, valid_session
+      expect(assigns(:deployments)).to eq([deployment])
+    end
+  end
+
   describe 'GET #index' do
     it 'assigns all deployments as @deployments' do
-      get :index, {}, valid_session
+      get :index, { template_id: template.id }, valid_session
       expect(assigns(:deployments)).to eq([deployment])
     end
   end

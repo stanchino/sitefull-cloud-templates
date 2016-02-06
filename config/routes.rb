@@ -9,9 +9,10 @@ Rails.application.routes.draw do
     root to: 'home#index'
   end
   resources :templates do
-    resources :deployments, only: [:new, :create, :destroy]
+    resources :deployments, only: [:index, :new, :create, :destroy]
   end
-  resources :deployments, only: [:index, :show]
+  resources :deployments, only: :show
+  get '/deployments', to: 'deployments#all'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
