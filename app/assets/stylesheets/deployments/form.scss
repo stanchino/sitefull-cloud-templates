@@ -1,0 +1,67 @@
+@import 'variables';
+@import 'dashboard/forms';
+@import 'bootstrap/mixins';
+@import 'mixins';
+@import 'bootstrap/input-groups';
+@import 'autocomplete';
+
+.provider {
+
+  .form-group {
+    @include make-sm-column(4);
+    @include make-xs-column(12);
+    &:hover {
+      .form-control {
+        background-color: lighten($brand-warning, 30%);
+      }
+
+      .input-group-addon {
+        background-color: lighten($brand-warning, 10%);
+      }
+    }
+  }
+
+  .form-control {
+    @include icon;
+
+    font-size: 0.9 * $font-size-h2;
+    font-weight: normal;
+    text-align: center;
+    vertical-align: middle;
+    height: auto;
+    cursor: pointer;
+
+    &:before {
+      font-size: $font-size-h3;
+    }
+  }
+
+  .aws:before {
+    content: "\f270";
+  }
+
+  .google:before {
+    content: "\f1a0";
+  }
+
+  .azure:before {
+    content: "\f17a";
+  }
+}
+
+.aws {
+  &.form-group {
+    @include make-sm-column(4);
+    @include make-xs-column(12);
+  }
+}
+
+.image,
+.flavor {
+  @include make-sm-column(4);
+  @include make-xs-column(12);
+}
+
+.hidden {
+  display: none;
+}

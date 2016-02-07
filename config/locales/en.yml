@@ -27,7 +27,9 @@ en:
     home: "Home Page"
     help: "Help"
     contacts: "Contact Us"
-    templates: "Templates"
+    templates: "Gallery"
+    deployments: "Deployments"
+    profile: 'My Profile'
   actions:
     details: 'Details'
     edit: 'Edit'
@@ -43,3 +45,15 @@ en:
         os: "Operating System"
         tag_list: "Tags"
         script: "Script"
+  providers:
+    aws: "Amazon"
+    google: "Google"
+    azure: "Azure"
+  deployments:
+    provider:
+      title: 'Cloud Provider'
+    credentials:
+      title: 'Provider Credentials'
+      description: 'You will need to supply credentials for the selected Cloud Provider in order to list the available images and provision your deployment instance.'
+    instance:
+      title: 'Instance Options'

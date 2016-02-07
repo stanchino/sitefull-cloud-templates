@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :deployment do
-    provider 'MyString'
+    provider Deployment::PROVIDERS.sample
     credentials { { foo: :bar }.as_json }
     image 'MyString'
     flavor 'MyString'

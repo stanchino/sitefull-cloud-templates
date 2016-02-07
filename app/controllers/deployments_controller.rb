@@ -5,6 +5,8 @@ class DeploymentsController < ApplicationController
   load_and_authorize_resource through: :template, only: [:index, :new, :create, :destroy]
   load_and_authorize_resource only: [:all, :show]
 
+  layout 'dashboard'
+
   # GET /deployments
   # GET /deployments.json
   def all
