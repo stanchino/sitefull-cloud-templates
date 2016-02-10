@@ -4,7 +4,7 @@ module DeploymentsHelper
   end
 
   def credentials_blank?
-    @deployment.credentials.blank? || @deployment.credentials.any?(&:blank?)
+    @deployment.deployment_credential.blank? || @deployment.deployment_credential.aws_credential.blank?
   end
 
   def selected_provider_is?(provider)

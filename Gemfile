@@ -61,6 +61,9 @@ gem 'acts-as-taggable-on'
 # Use Select2 for autocomplete and tags
 gem 'select2-rails'
 
+# Encrypt and decrpyt attributes
+gem 'attr_encrypted'
+
 group :development do
   # Access an IRB console on exception pages or by using <%= console %> in views
   gem 'web-console'

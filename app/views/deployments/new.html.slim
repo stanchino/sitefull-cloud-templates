@@ -23,7 +23,7 @@
         p = t('deployments.credentials.description')
     - Deployment::PROVIDERS.each do |provider|
       .form-inputs*{class: ('hidden' unless selected_provider_is?(provider))} data-provider-credentials=provider
-        = render "deployments/credentials/aws", form_builder: f
+        = render "deployments/credentials/#{provider}", form_builder: f
   .instance
     h2 = t('deployments.instance.title')
     .form-inputs
@@ -32,4 +32,4 @@
   .form-actions
     = link_to 'Cancel', template_deployments_url(@template), class: 'btn btn-default'
     | &nbsp;
-    = f.button :submit, disabled: true
+    = f.button :submit

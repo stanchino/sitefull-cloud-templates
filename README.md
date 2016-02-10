@@ -198,6 +198,7 @@ And some thrid party tools which are useful for creating a good looking user exp
 
 The full list of modules added to the `Gemfile` is:
   * [acts-as-taggable-on](https://github.com/mbleigh/acts-as-taggable-on) In order to use tags for deployment templates.
+  * [attr_encrypted](https://github.com/attr-encrypted/attr_encrypted) Encrypt attributes when saving cloud provider credentials, etc.
   * [database_cleaner](https://github.com/DatabaseCleaner/database_cleaner) Cleans up the database when running the tests.
   * [bootstrap-sass](https://github.com/twbs/bootstrap-sass) Allows for integrating the [Bootstrap](http://getbootstrap.com) framework.
   * [cancancan](https://github.com/CanCanCommunity/cancancan) A very good authorization module.

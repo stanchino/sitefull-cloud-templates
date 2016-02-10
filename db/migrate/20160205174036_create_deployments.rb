@@ -3,7 +3,6 @@ class CreateDeployments < ActiveRecord::Migration
     create_table :deployments do |t|
       t.references :template, index: true
       t.string :provider, index: true
-      t.json :credentials
       t.string :image, index: true
       t.string :flavor
 

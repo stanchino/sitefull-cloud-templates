@@ -11,29 +11,42 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160205174036) do
+ActiveRecord::Schema.define(version: 20160210084149) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "hstore"
 
-  create_table "deployments", force: :cascade do |t|
-    t.integer  "template_id"
-    t.string   "provider"
-    t.json     "credentials"
-    t.string   "image"
-    t.string   "flavor"
+  create_table "credentials", force: :cascade do |t|
+    t.string   "type"
+    t.hstore   "credentials"
+    t.integer  "user_id"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
   end
 
+  add_index "credentials", ["user_id"], name: "index_credentials_on_user_id", using: :btree
+
+  create_table "deployment_credentials", force: :cascade do |t|
+    t.integer "credential_id"
+  end
+
+  add_index "deployment_credentials", ["credential_id"], name: "index_deployment_credentials_on_credential_id", using: :btree
+
+  create_table "deployments", force: :cascade do |t|
+    t.integer  "template_id"
+    t.string   "provider"
+    t.string   "image"
+    t.string   "flavor"
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+    t.integer  "deployment_credential_id"
+  end
+
+  add_index "deployments", ["deployment_credential_id"], name: "index_deployments_on_deployment_credential_id", using: :btree
   add_index "deployments", ["image"], name: "index_deployments_on_image", using: :btree
   add_index "deployments", ["provider"], name: "index_deployments_on_provider", using: :btree
   add_index "deployments", ["template_id"], name: "index_deployments_on_template_id", using: :btree
-
-  create_table "providers", force: :cascade do |t|
-    t.string "fog_id"
-    t.string "name"
-  end
 
   create_table "taggings", force: :cascade do |t|
     t.integer  "tag_id"
@@ -54,17 +67,6 @@ ActiveRecord::Schema.define(version: 20160205174036) do
   end
 
   add_index "tags", ["name"], name: "index_tags_on_name", unique: true, using: :btree
-
-  create_table "template_providers", force: :cascade do |t|
-    t.integer  "template_id"
-    t.integer  "provider_id"
-    t.string   "image"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
-  end
-
-  add_index "template_providers", ["provider_id"], name: "index_template_providers_on_provider_id", using: :btree
-  add_index "template_providers", ["template_id"], name: "index_template_providers_on_template_id", using: :btree
 
   create_table "templates", force: :cascade do |t|
     t.string   "name"
@@ -108,7 +110,8 @@ ActiveRecord::Schema.define(version: 20160205174036) do
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   add_index "users", ["unlock_token"], name: "index_users_on_unlock_token", unique: true, using: :btree
 
-  add_foreign_key "template_providers", "providers"
-  add_foreign_key "template_providers", "templates"
+  add_foreign_key "credentials", "users"
+  add_foreign_key "deployment_credentials", "credentials"
+  add_foreign_key "deployments", "deployment_credentials"
   add_foreign_key "templates", "users"
 end

@@ -47,6 +47,6 @@ class DeploymentsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def deployment_params
-    params.require(:deployment).permit(:provider, :credentials, :image, :flavor, :template_id)
+    params.require(:deployment).permit(:provider, :image, :flavor, deployment_credential_attributes: { aws_credential_attributes: [:aws_access_key_id, :aws_secret_access_key] })
   end
 end
