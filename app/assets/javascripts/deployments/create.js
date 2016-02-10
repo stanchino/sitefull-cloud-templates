@@ -1,5 +1,7 @@
 //= require dashboard
 //= require select2
+//= require deployments/provider_selection
+//= require deployments/credentials_fields
 //= require deployments/form
 //= require_self
 

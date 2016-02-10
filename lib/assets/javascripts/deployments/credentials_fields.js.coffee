@@ -12,8 +12,9 @@ class SiteFull.Deployments.CredentialsFields
   init: ->
     $(@image_selector).select2
       theme: 'bootstrap'
-    $(document).on 'keyup keypress blur change', "#{@wrapper} :input:visible", =>
-     @toggle_fields_visibility()
+    $(document).on 'keyup keypress blur change',
+    "#{@wrapper} :input:visible", =>
+      @toggle_fields_visibility()
 
   toggle_fields_visibility: =>
     if @all_values_set()

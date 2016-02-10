@@ -10,21 +10,12 @@
   .form-group {
     @include make-sm-column(4);
     @include make-xs-column(12);
-    &:hover {
-      .form-control {
-        background-color: lighten($brand-warning, 30%);
-      }
-
-      .input-group-addon {
-        background-color: lighten($brand-warning, 10%);
-      }
-    }
   }
 
   .form-control {
     @include icon;
 
-    font-size: 0.9 * $font-size-h2;
+    font-size: .9 * $font-size-h2;
     font-weight: normal;
     text-align: center;
     vertical-align: middle;
@@ -37,15 +28,25 @@
   }
 
   .aws:before {
-    content: "\f270";
+    content: '\f270';
   }
 
   .google:before {
-    content: "\f1a0";
+    content: '\f1a0';
   }
 
   .azure:before {
-    content: "\f17a";
+    content: '\f17a';
+  }
+}
+
+.provider .form-group:hover {
+  .form-control {
+    background-color: lighten($brand-warning, 30%);
+  }
+
+  .input-group-addon {
+    background-color: lighten($brand-warning, 10%);
   }
 }
 

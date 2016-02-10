@@ -1,5 +1,3 @@
-//= require deployments/credentials_fields
-
 window.SiteFull ||= {}
 window.SiteFull.Deployments ||= {}
 window.SiteFull.Deployments.ProviderSelection ||= {}
@@ -27,7 +25,13 @@ class SiteFull.Deployments.ProviderSelection
     $(@description, @credentials_wrapper).hide()
 
   hide_all_credentials_sections: ->
-    $(@data_selector, @credentials_wrapper).hide().find(':input:not(:disabled)').prop(disabled: true)
+    $(@data_selector, @credentials_wrapper)
+      .hide()
+      .find(':input:not(:disabled)')
+      .prop(disabled: true)
 
   show_credentials_section_for: (section) ->
-    $("[#{@data_attr}=#{section}]", @credentials_wrapper).show().find(':input:disabled').prop(disabled: false)
+    $("[#{@data_attr}=#{section}]", @credentials_wrapper)
+      .show()
+      .find(':input:disabled')
+      .prop(disabled: false)

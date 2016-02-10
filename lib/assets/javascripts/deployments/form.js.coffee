@@ -1,5 +1,3 @@
-//= require deployments/provider_selection
-
 window.SiteFull ||= {}
 window.SiteFull.Deployments ||= {}
 window.SiteFull.Deployments.Form ||= {}
