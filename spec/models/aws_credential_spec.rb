@@ -6,4 +6,3 @@ RSpec.describe AwsCredential, type: :model do
     it { is_expected.to validate_presence_of(:aws_secret_access_key) }
   end
 end
-
