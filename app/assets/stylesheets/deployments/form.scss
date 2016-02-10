@@ -12,15 +12,25 @@
     @include make-xs-column(12);
   }
 
+  .form-group:hover {
+    .form-control {
+      background-color: lighten($brand-warning, 30%);
+    }
+
+    .input-group-addon {
+      background-color: lighten($brand-warning, 10%);
+    }
+  }
+
   .form-control {
     @include icon;
 
+    cursor: pointer;
     font-size: .9 * $font-size-h2;
     font-weight: normal;
+    height: auto;
     text-align: center;
     vertical-align: middle;
-    height: auto;
-    cursor: pointer;
 
     &:before {
       font-size: $font-size-h3;
@@ -40,15 +50,6 @@
   }
 }
 
-.provider .form-group:hover {
-  .form-control {
-    background-color: lighten($brand-warning, 30%);
-  }
-
-  .input-group-addon {
-    background-color: lighten($brand-warning, 10%);
-  }
-}
 
 .aws {
   &.form-group {

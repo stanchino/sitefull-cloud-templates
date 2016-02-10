@@ -13,7 +13,8 @@ engines:
     enabled: true
     config:
       languages:
-        - 'ruby'
+        ruby:
+          mass_threshold: 22
         - 'javascript'
   rubocop:
     enabled: true
