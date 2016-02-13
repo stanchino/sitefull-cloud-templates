@@ -9,7 +9,11 @@ Rails.application.routes.draw do
     root to: 'home#index'
   end
   resources :templates do
-    resources :deployments, only: [:index, :new, :create, :destroy]
+    resources :deployments, only: [:index, :new, :create, :destroy] do
+      collection do
+        post 'options', to: 'deployments#options', as: 'options'
+      end
+    end
   end
   resources :deployments, only: :show
   get '/deployments', to: 'deployments#all'

@@ -12,8 +12,8 @@ RSpec.describe 'deployments/index', type: :view do
   it 'renders a list of deployments' do
     render
     deployments.each do |deployment|
-      assert_select 'tr>td', text: deployment.provider
-      assert_select 'tr>td', text: deployment.image
+      assert_select 'tr>td', text: I18n.t("providers.#{deployment.provider_type}")
+      assert_select 'tr>td', text: deployment.region
       assert_select 'tr>td', text: deployment.flavor
     end
   end

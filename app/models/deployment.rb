@@ -1,15 +1,24 @@
 class Deployment < ActiveRecord::Base
   PROVIDERS = %w(aws google azure).freeze
+  store_accessor :credentials, Providers::Aws::CREDENTIALS
 
   belongs_to :template
-  belongs_to :deployment_credential
-  has_one :credential, class_name: 'Credential', through: :deployment_credential, inverse_of: :deployments
-  has_one :aws_credential, class_name: 'AwsCredential', through: :deployment_credential, inverse_of: :deployments
-  accepts_nested_attributes_for :deployment_credential
+  has_one :user, through: :template, inverse_of: :deployments
 
-  validates :provider, presence: true, inclusion: PROVIDERS
-  validates :image, presence: true
-  validates :flavor, presence: true
+  validates :provider_type, presence: true, inclusion: PROVIDERS
+  validates :region, presence: true, inclusion: { in: :regions }
+  validates :flavor, presence: true, inclusion: { in: :flavors }
 
-  delegate :user_id, to: :template
+  validates :access_key_id, presence: true, if: -> { is_on?(:aws) }
+  validates :secret_access_key, presence: true, if: -> { is_on?(:aws) }
+
+  delegate :regions, :flavors, to: :provider
+
+  def provider
+    Provider.new(provider_type, credentials)
+  end
+
+  def is_on?(provider)
+    provider_type == provider
+  end
 end

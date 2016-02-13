@@ -5,13 +5,8 @@ RSpec.describe DeploymentsController, type: :controller do
 
   let(:template) { FactoryGirl.create(:template, user: user) }
   let(:deployment) { FactoryGirl.create(:deployment, template: template) }
-
-  let(:valid_attributes) do
-    FactoryGirl.attributes_for(:deployment, template: template)
-  end
-  let(:invalid_attributes) do
-    { template_id: '' }
-  end
+  let(:valid_attributes) { FactoryGirl.attributes_for(:deployment, template: template) }
+  let(:invalid_attributes) { { template_id: '' } }
   let(:valid_session) { {} }
 
   describe 'GET #all' do

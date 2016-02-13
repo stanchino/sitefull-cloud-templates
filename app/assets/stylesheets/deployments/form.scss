@@ -3,13 +3,12 @@
 @import 'bootstrap/mixins';
 @import 'mixins';
 @import 'bootstrap/input-groups';
-@import 'autocomplete';
 
 .provider {
 
   .form-group {
-    @include make-sm-column(4);
     @include make-xs-column(12);
+    @include make-sm-column(4);
   }
 
   .form-group:hover {
@@ -50,15 +49,15 @@
   }
 }
 
-
 .aws {
   &.form-group {
     @include make-sm-column(4);
     @include make-xs-column(12);
   }
+
 }
 
-.image,
+.region,
 .flavor {
   @include make-sm-column(4);
   @include make-xs-column(12);

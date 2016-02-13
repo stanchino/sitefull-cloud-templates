@@ -1,8 +1,8 @@
 class DeploymentsController < ApplicationController
   include GenericActions
 
-  load_and_authorize_resource :template, only: [:index, :new, :create, :destroy]
-  load_and_authorize_resource through: :template, only: [:index, :new, :create, :destroy]
+  load_and_authorize_resource :template, only: [:index, :new, :create, :destroy, :options]
+  load_and_authorize_resource through: :template, only: [:index, :new, :create, :destroy, :options]
   load_and_authorize_resource only: [:all, :show]
 
   layout 'dashboard'
@@ -43,10 +43,22 @@ class DeploymentsController < ApplicationController
     destroy_resource @deployment, deployments_url, 'Deployment was successfully deleted.'
   end
 
+  # POST /templates/1/deployments/options.json
+  def options
+    @deployment = @deployments.new(deployment_params)
+    respond_to do |format|
+      if @deployment.provider.valid?
+        format.json { render }
+      else
+        format.json { render json: { errors: ['Invalid credentials provider'] }, status: :unprocessable_entity }
+      end
+    end
+  end
+
   private
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def deployment_params
-    params.require(:deployment).permit(:provider, :image, :flavor, deployment_credential_attributes: { aws_credential_attributes: [:aws_access_key_id, :aws_secret_access_key] })
+    params.require(:deployment).permit(:provider_type, :region, :flavor, Providers::Aws::CREDENTIALS)
   end
 end

@@ -6,8 +6,8 @@ RSpec.describe 'deployments/show', type: :view do
 
   it 'renders attributes' do
     render
-    expect(rendered).to match(/#{deployment.provider}/)
-    expect(rendered).to match(/#{deployment.image}/)
+    expect(rendered).to match(/#{I18n.t("providers.#{deployment.provider_type}")}/)
+    expect(rendered).to match(/#{deployment.region}/)
     expect(rendered).to match(/#{deployment.flavor}/)
   end
 end

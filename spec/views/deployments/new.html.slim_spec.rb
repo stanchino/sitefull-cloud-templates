@@ -13,14 +13,12 @@ RSpec.describe 'deployments/new', type: :view do
 
     assert_select 'form[action=?][method=?]', template_deployments_path(template), 'post' do
       Deployment::PROVIDERS.each do |provider|
-        assert_select "input#deployment_provider_#{provider}[name=?]", 'deployment[provider]'
+        assert_select "input#deployment_provider_type_#{provider}[name=?]", 'deployment[provider_type]'
       end
 
-      # assert_select 'input#deployment_credentials[name=?]', 'deployment[credentials]'
-
-      # assert_select 'input#deployment_image[name=?]', 'deployment[image]'
-
-      # assert_select 'input#deployment_flavor[name=?]', 'deployment[flavor]'
+      ['region', 'flavor'].each do |type|
+        assert_select "select#deployment_#{type}[name=?]", "deployment[#{type}]"
+      end
     end
   end
 end

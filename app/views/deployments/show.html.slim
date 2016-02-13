@@ -2,12 +2,15 @@ p#notice = notice
 
 p
   strong Provider:
-  = @deployment.provider
+  | &nbsp;
+  = t("providers.#{@deployment.provider_type}")
 p
-  strong Image:
-  = @deployment.image
+  strong Region:
+  | &nbsp;
+  = @deployment.region
 p
   strong Flavor:
+  | &nbsp;
   = @deployment.flavor
 
-= link_to 'Back', deployments_path
+= link_to 'Back', template_deployments_url(@deployment.template)

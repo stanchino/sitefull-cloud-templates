@@ -2,7 +2,7 @@ class Ability
   include CanCan::Ability
 
   def initialize(user = nil)
-    alias_action :all, to: :read
+    alias_action :all, :options, to: :read
 
     user ||= User.new
     can :manage, user

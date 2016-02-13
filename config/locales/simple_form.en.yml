@@ -35,13 +35,14 @@ en:
         script: 'Deployment Script (required)'
         tag_list: 'Template Tags'
       deployment:
-        deployment_credential:
-          aws_credential:
-            aws_access_key_id: "AWS Access Key ID"
-            aws_secret_access_key: "AWS Secret Access Key"
+        access_key_id: "Required"
+        secret_access_key: "Required"
+    labels:
+      deployment:
+        region: "Region"
+        flavor: "Instance Type"
+        access_key_id: "AWS Access Key ID"
+        secret_access_key: "AWS Secret Access Key"
     prompts:
       template:
         os: 'Operating System (required)'
-      deployment:
-        image: "Find image"
-        flavor: "Choose instance type (required)"

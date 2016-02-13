@@ -1,10 +1,10 @@
 module DeploymentsHelper
   def provider_blank?
-    @deployment.provider.blank?
+    @deployment.provider_type.blank?
   end
 
   def credentials_blank?
-    @deployment.deployment_credential.blank? || @deployment.deployment_credential.aws_credential.blank?
+    Providers::Aws::CREDENTIALS.any? { |key| @deployment.send(key).blank? }
   end
 
   def selected_provider_is?(provider)

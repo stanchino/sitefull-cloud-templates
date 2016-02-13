@@ -11,41 +11,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160210084149) do
+ActiveRecord::Schema.define(version: 20160205174036) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "hstore"
 
-  create_table "credentials", force: :cascade do |t|
-    t.string   "type"
-    t.hstore   "credentials"
-    t.integer  "user_id"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
-  end
-
-  add_index "credentials", ["user_id"], name: "index_credentials_on_user_id", using: :btree
-
-  create_table "deployment_credentials", force: :cascade do |t|
-    t.integer "credential_id"
-  end
-
-  add_index "deployment_credentials", ["credential_id"], name: "index_deployment_credentials_on_credential_id", using: :btree
-
   create_table "deployments", force: :cascade do |t|
     t.integer  "template_id"
-    t.string   "provider"
-    t.string   "image"
-    t.string   "flavor"
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
-    t.integer  "deployment_credential_id"
+    t.hstore   "credentials"
+    t.string   "provider_type", null: false
+    t.string   "region",        null: false
+    t.string   "flavor",        null: false
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
   end
 
-  add_index "deployments", ["deployment_credential_id"], name: "index_deployments_on_deployment_credential_id", using: :btree
-  add_index "deployments", ["image"], name: "index_deployments_on_image", using: :btree
-  add_index "deployments", ["provider"], name: "index_deployments_on_provider", using: :btree
+  add_index "deployments", ["provider_type"], name: "index_deployments_on_provider_type", using: :btree
   add_index "deployments", ["template_id"], name: "index_deployments_on_template_id", using: :btree
 
   create_table "taggings", force: :cascade do |t|
@@ -110,8 +92,5 @@ ActiveRecord::Schema.define(version: 20160210084149) do
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   add_index "users", ["unlock_token"], name: "index_users_on_unlock_token", unique: true, using: :btree
 
-  add_foreign_key "credentials", "users"
-  add_foreign_key "deployment_credentials", "credentials"
-  add_foreign_key "deployments", "deployment_credentials"
   add_foreign_key "templates", "users"
 end

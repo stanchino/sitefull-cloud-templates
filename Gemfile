@@ -52,8 +52,8 @@ gem 'cancancan'
 # Use Devise for authentication
 gem 'devise'
 
-# The `core` of the deployments app
-gem 'fog'
+gem 'aws-sdk'
+gem 'google-api-client'
 
 # Tag deployment templates
 gem 'acts-as-taggable-on'
