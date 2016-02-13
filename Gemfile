@@ -67,6 +67,11 @@ gem 'select2-rails'
 # Encrypt and decrpyt attributes
 gem 'attr_encrypted'
 
+# Background processing
+gem 'sidekiq'
+# The Sidekiq UI
+gem 'sinatra', require: nil
+
 group :development do
   # Access an IRB console on exception pages or by using <%= console %> in views
   gem 'web-console'

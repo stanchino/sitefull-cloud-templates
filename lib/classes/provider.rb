@@ -1,10 +1,8 @@
 class Provider
-  attr_accessor :type
-
   def initialize(type, options = {})
+    @options = options.symbolize_keys unless options.nil?
     @type = type
-    @options = options.symbolize_keys if options.present?
-    extend provider_module if type.present?
+    extend provider_module unless type.nil?
   end
 
   def regions
@@ -13,6 +11,10 @@ class Provider
 
   def flavors
     []
+  end
+
+  def valid?
+    false
   end
 
   protected

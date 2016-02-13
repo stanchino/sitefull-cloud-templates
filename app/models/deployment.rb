@@ -12,13 +12,13 @@ class Deployment < ActiveRecord::Base
   validates :access_key_id, presence: true, if: -> { on?(:aws) }
   validates :secret_access_key, presence: true, if: -> { on?(:aws) }
 
-  delegate :regions, :flavors, to: :provider
+  delegate :regions, :flavors, to: :service
 
-  def provider
-    Provider.new(provider_type, credentials)
+  def service
+    @service ||= DeploymentService.new(self)
   end
 
   def on?(provider)
-    provider_type == provider
+    provider_type.present? && provider_type.to_s == provider.to_s
   end
 end

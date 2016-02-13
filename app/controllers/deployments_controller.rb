@@ -30,7 +30,7 @@ class DeploymentsController < ApplicationController
   # POST /templates/1/deployments
   # POST /templates/1/deployments.json
   def create
-    if @deployment.save
+    if @deployment.service.create
       handle_save_success @deployment, :created, 'Deployment was successfully created.'
     else
       handle_save_error @deployment.errors, :new
@@ -47,10 +47,10 @@ class DeploymentsController < ApplicationController
   def options
     @deployment = @deployments.new(deployment_params)
     respond_to do |format|
-      if @deployment.provider.respond_to?(:valid?) && @deployment.provider.valid?
+      if @deployment.service.valid?
         format.json { render }
       else
-        format.json { render json: { errors: ['Invalid credentials provider'] }, status: :unprocessable_entity }
+        format.json { head :unprocessable_entity }
       end
     end
   end

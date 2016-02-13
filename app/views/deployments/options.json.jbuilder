@@ -1,1 +1,1 @@
-json.extract! @deployment.provider, :regions, :flavors
+json.extract! @deployment, :regions, :flavors
