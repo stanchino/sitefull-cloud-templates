@@ -52,7 +52,10 @@ gem 'cancancan'
 # Use Devise for authentication
 gem 'devise'
 
+# Use the AWS SDK for deployments to EC2
 gem 'aws-sdk'
+
+# Use the Google API for deployments to GCE
 gem 'google-api-client'
 
 # Tag deployment templates

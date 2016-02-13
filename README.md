@@ -199,6 +199,7 @@ And some thrid party tools which are useful for creating a good looking user exp
 The full list of modules added to the `Gemfile` is:
   * [acts-as-taggable-on](https://github.com/mbleigh/acts-as-taggable-on) In order to use tags for deployment templates.
   * [attr_encrypted](https://github.com/attr-encrypted/attr_encrypted) Encrypt attributes when saving cloud provider credentials, etc.
+  * [aws-sdk-ruby](https://github.com/aws/aws-sdk-ruby) The official AWS SDK module [http://aws.amazon.com/sdk-for-ruby/](http://aws.amazon.com/sdk-for-ruby/).
   * [database_cleaner](https://github.com/DatabaseCleaner/database_cleaner) Cleans up the database when running the tests.
   * [bootstrap-sass](https://github.com/twbs/bootstrap-sass) Allows for integrating the [Bootstrap](http://getbootstrap.com) framework.
   * [cancancan](https://github.com/CanCanCommunity/cancancan) A very good authorization module.
@@ -210,8 +211,8 @@ The full list of modules added to the `Gemfile` is:
   * [dotenv-rails](https://github.com/bkeepers/dotenv) loads environment variables from the `.env` file on `development`.
   * [factory_girl_rails](https://github.com/thoughtbot/factory_girl_rails) To simplify object creation.
   * [faker](https://github.com/stympy/faker) Useful for generating random data especially when used in tests.
-  * [fog](https://github.com/fog/fog) For managing your cloud deployments behind the scenes.
   * [font-awesome-rails](https://github.com/bokmann/font-awesome-rails) [FontAwesome](https://fortawesome.github.io/Font-Awesome/) icons.
+  * [google-api-client](https://github.com/google/google-api-ruby-client) The official Google API client for Ruby [https://developers.google.com/api-client-library/ruby/](https://developers.google.com/api-client-library/ruby/).
   * [jbuilder](https://github.com/rails/jbuilder) Building JSON responses in a more efficient way.
   * [jquery-rails](https://github.com/rails/jquery-rails) Adds jQuery to the application.
   * [letter_opener](https://github.com/ryanb/letter_opener) To avoid sending email messages when running in `development` mode.
