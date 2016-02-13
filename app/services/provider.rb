@@ -17,10 +17,6 @@ class Provider
 
   protected
 
-  def type
-    @type ||= @options[:provider]
-  end
-
   def credentials
     @credentials ||= Hash[provider_credentials.map { |key| [key, @options[key]] }]
   end

@@ -47,7 +47,7 @@ class DeploymentsController < ApplicationController
   def options
     @deployment = @deployments.new(deployment_params)
     respond_to do |format|
-      if @deployment.provider.valid?
+      if @deployment.provider.respond_to?(:valid?) && @deployment.provider.valid?
         format.json { render }
       else
         format.json { render json: { errors: ['Invalid credentials provider'] }, status: :unprocessable_entity }

@@ -1,4 +1,5 @@
 require 'rails_helper'
+require 'shared_examples/controllers'
 
 RSpec.describe DeploymentsController, type: :controller do
   login_user
@@ -67,6 +68,31 @@ RSpec.describe DeploymentsController, type: :controller do
         post :create, { deployment: invalid_attributes, template_id: template.to_param }, valid_session
         expect(response).to render_template('new')
       end
+    end
+  end
+
+  describe 'POST #options' do
+    context 'with valid params' do
+      it_behaves_like 'deployment with valid options response'
+    end
+
+    context 'with valid provider credentials' do
+      describe_regions_exception Aws::EC2::Errors::DryRunOperation
+      it_behaves_like 'deployment with valid options response'
+    end
+
+    context 'with invalid params' do
+      it_behaves_like 'deployment with invalid options', true
+    end
+
+    context 'with invalid provider credentials' do
+      describe_regions_exception Aws::EC2::Errors::AuthFailure
+      it_behaves_like 'deployment with invalid options'
+    end
+
+    context 'with generic provider validation failure' do
+      before { allow_any_instance_of(Aws::EC2::Client).to receive(:describe_regions).with(dry_run: true).and_raise(StandardError) }
+      it_behaves_like 'deployment with invalid options'
     end
   end
 

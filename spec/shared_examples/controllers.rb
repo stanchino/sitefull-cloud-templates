@@ -34,3 +34,28 @@ RSpec.shared_examples 'update action with data' do |resource, data|
     expect(assigns(resource)).to eq(send(resource))
   end
 end
+
+RSpec.shared_examples 'deployment with valid options response' do
+  it 'assigns a new deployment instance as @deployment' do
+    post :options, { deployment: valid_attributes, template_id: template.to_param, format: :json }, valid_session
+    expect(assigns(:deployment)).to be_a_new(Deployment)
+    expect(assigns(:deployment)).not_to be_persisted
+  end
+
+  it 'responds with success' do
+    post :options, { deployment: valid_attributes, template_id: template.to_param, format: :json }, valid_session
+    expect(response).to be_ok
+  end
+
+  it 'renders the options' do
+    post :options, { deployment: valid_attributes, template_id: template.to_param, format: :json }, valid_session
+    expect(response).to render_template('deployments/options', layout: false)
+  end
+end
+
+RSpec.shared_examples 'deployment with invalid options' do |use_invalid_attributes|
+  it 'responds with error' do
+    post :options, { deployment: use_invalid_attributes ? invalid_attributes : valid_attributes, template_id: template.to_param, format: :json }, valid_session
+    expect(response).to have_http_status(422)
+  end
+end
