@@ -41,5 +41,7 @@ module SiteFull
         [u, p] == [ENV['HTTP_USER'], ENV['HTTP_PASS']]
       end
     end
+
+    config.autoload_paths << Rails.root.join('lib/modules')
   end
 end

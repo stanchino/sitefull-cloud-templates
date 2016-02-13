@@ -17,6 +17,7 @@
             = link_to t('actions.destroy'), template, data: {confirm: 'Are you sure?'}, class: 'icon fa-trash', method: :delete
           h2.panel-title style="word-wrap:break-word" = template.name
         .panel-body
+          = link_to 'Deploy', new_template_deployment_url(template), class: 'btn deploy fa-cloud-upload'
           strong = ::Template.human_attribute_name('os')
           ':&nbsp;
           span style="word-wrap:break-word" = Hash[::Template::OPERATING_SYSTEMS][template.os]

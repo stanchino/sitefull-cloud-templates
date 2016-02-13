@@ -46,6 +46,15 @@ Capybara.app_host = 'http://localhost:3001'
 
 CodeClimate::TestReporter.start if ENV['CODECLIMATE_REPO_TOKEN']
 
+Shoulda::Matchers.configure do |config|
+  config.integrate do |with|
+    with.test_framework :rspec
+    with.library :rails
+  end
+end
+
+Aws.config[:stub_responses] = true
+
 RSpec.configure do |config|
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   # config.fixture_path = "#{::Rails.root}/spec/fixtures"

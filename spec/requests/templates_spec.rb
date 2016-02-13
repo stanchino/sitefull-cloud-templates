@@ -1,10 +1,10 @@
 require 'rails_helper'
 require 'shared_examples/requests'
 
-RSpec.describe 'Templates', type: :request do
+RSpec.describe 'Template actions', type: :request do
   let(:valid_params) { { name: 'Template', os: 'debian', script: Faker::Lorem.paragraph } }
 
-  describe 'unauthenticated user' do
+  describe 'without access' do
     context 'when listing templates' do
       before { get templates_path }
       it_behaves_like 'unauthenticated user'
@@ -15,7 +15,7 @@ RSpec.describe 'Templates', type: :request do
     end
   end
 
-  describe 'authenticated users' do
+  describe 'for authenticated user' do
     login_user
     context 'can manage templates' do
       it 'using JSON requests' do

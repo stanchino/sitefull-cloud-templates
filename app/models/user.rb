@@ -8,4 +8,5 @@ class User < ActiveRecord::Base
   validates :last_name, presence: true
 
   has_many :templates
+  has_many :deployments, through: :templates
 end

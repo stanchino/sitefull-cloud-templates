@@ -18,4 +18,5 @@ class Template < ActiveRecord::Base
   validates :script, presence: true
 
   belongs_to :user
+  has_many :deployments
 end

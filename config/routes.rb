@@ -8,7 +8,15 @@ Rails.application.routes.draw do
   unauthenticated do
     root to: 'home#index'
   end
-  resources :templates
+  resources :templates do
+    resources :deployments, only: [:index, :new, :create, :destroy] do
+      collection do
+        post 'options', to: 'deployments#options', as: 'options'
+      end
+    end
+  end
+  resources :deployments, only: :show
+  get '/deployments', to: 'deployments#all'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

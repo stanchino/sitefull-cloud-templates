@@ -1,0 +1,16 @@
+p#notice = notice
+
+p
+  strong Provider:
+  | &nbsp;
+  = t("providers.#{@deployment.provider_type}")
+p
+  strong Region:
+  | &nbsp;
+  = @deployment.region
+p
+  strong Flavor:
+  | &nbsp;
+  = @deployment.flavor
+
+= link_to 'Back', template_deployments_url(@deployment.template)

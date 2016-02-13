@@ -1,0 +1,36 @@
+- content_for(:stylesheet_links_content) do
+  = stylesheet_link_tag 'deployments/form', media: 'all', 'data-turbolinks-track' => true
+
+- content_for(:js_manifest) do
+  = javascript_include_tag 'deployments/create', 'data-turbolinks-track' => true
+
+= simple_form_for [@template, @deployment] do |f|
+  = f.error_notification
+
+  .provider
+    h2 = t('deployments.provider.title')
+    .form-inputs
+      - Deployment::PROVIDERS.each do |provider_type|
+        .form-group
+          .input-group
+            span.input-group-addon
+              = f.radio_button :provider_type, provider_type
+            label.form-control class=provider_type for="deployment_provider_type_#{provider_type}"
+              = t("providers.#{provider_type}")
+  .credentials
+    h2 = t('deployments.credentials.title')
+    .section.description*{class: ('hidden' unless provider_blank?)}
+      .content
+        p = t('deployments.credentials.description')
+    - Deployment::PROVIDERS.each do |provider|
+      .form-inputs*{class: ('hidden' unless @deployment.on?(provider))} data-provider-credentials=provider data-options-url=options_template_deployments_url(@template)
+        = render "deployments/credentials/#{provider}", form_builder: f
+  .instance
+    h2 = t('deployments.instance.title')
+    .form-inputs
+      = f.input :region, collection: @deployment.regions, prompt: :translate, wrapper_html: { class: 'region' }, disabled: provider_blank? || credentials_blank?
+      = f.input :flavor, collection: @deployment.flavors, prompt: :translate, wrapper_html: { class: 'flavor' }, disabled: provider_blank? || credentials_blank?
+  .form-actions
+    = link_to 'Cancel', template_deployments_url(@template), class: 'btn btn-default'
+    | &nbsp;
+    = f.button :submit
