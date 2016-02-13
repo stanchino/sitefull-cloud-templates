@@ -14,4 +14,4 @@
   $(document).on('ready', function() {
     deployments_form.init();
   })
-})(jQuery);
+}(jQuery));
