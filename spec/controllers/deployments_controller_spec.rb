@@ -77,7 +77,7 @@ RSpec.describe DeploymentsController, type: :controller do
     end
 
     context 'with valid provider credentials' do
-      before { expect_any_instance_of(Aws::EC2::Client).to receive(:describe_regions).with(dry_run: true).and_raise(::Aws::EC2::Errors::DryRunOperation.new(double, double)) }
+      describe_regions_exception Aws::EC2::Errors::DryRunOperation
       it_behaves_like 'deployment with valid options response'
     end
 
@@ -86,7 +86,7 @@ RSpec.describe DeploymentsController, type: :controller do
     end
 
     context 'with invalid provider credentials' do
-      before { allow_any_instance_of(Aws::EC2::Client).to receive(:describe_regions).with(dry_run: true).and_raise(::Aws::EC2::Errors::AuthFailure.new(double, double)) }
+      describe_regions_exception Aws::EC2::Errors::AuthFailure
       it_behaves_like 'deployment with invalid options'
     end
 
