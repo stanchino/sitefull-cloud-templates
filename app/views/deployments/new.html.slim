@@ -23,7 +23,7 @@
       .content
         p = t('deployments.credentials.description')
     - Deployment::PROVIDERS.each do |provider|
-      .form-inputs*{class: ('hidden' unless @deployment.is_on?(provider))} data-provider-credentials=provider data-options-url=options_template_deployments_url(@template)
+      .form-inputs*{class: ('hidden' unless @deployment.on?(provider))} data-provider-credentials=provider data-options-url=options_template_deployments_url(@template)
         = render "deployments/credentials/#{provider}", form_builder: f
   .instance
     h2 = t('deployments.instance.title')

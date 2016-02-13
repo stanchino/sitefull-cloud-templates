@@ -9,8 +9,8 @@ class Deployment < ActiveRecord::Base
   validates :region, presence: true, inclusion: { in: :regions }
   validates :flavor, presence: true, inclusion: { in: :flavors }
 
-  validates :access_key_id, presence: true, if: -> { is_on?(:aws) }
-  validates :secret_access_key, presence: true, if: -> { is_on?(:aws) }
+  validates :access_key_id, presence: true, if: -> { on?(:aws) }
+  validates :secret_access_key, presence: true, if: -> { on?(:aws) }
 
   delegate :regions, :flavors, to: :provider
 
@@ -18,7 +18,7 @@ class Deployment < ActiveRecord::Base
     Provider.new(provider_type, credentials)
   end
 
-  def is_on?(provider)
+  def on?(provider)
     provider_type == provider
   end
 end

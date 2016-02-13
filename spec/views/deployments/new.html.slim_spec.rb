@@ -16,7 +16,7 @@ RSpec.describe 'deployments/new', type: :view do
         assert_select "input#deployment_provider_type_#{provider}[name=?]", 'deployment[provider_type]'
       end
 
-      ['region', 'flavor'].each do |type|
+      %w(region flavor).each do |type|
         assert_select "select#deployment_#{type}[name=?]", "deployment[#{type}]"
       end
     end

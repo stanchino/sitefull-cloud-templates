@@ -29,7 +29,7 @@ class SiteFull.Deployments.CredentialsFields
   all_values_set: =>
     $(':input:visible', @wrapper).filter( -> return @.value == '').length == 0
 
-  add_options_to: (select, options) =>
+  add_options_to: (select, options) ->
     $.each options, (i, option) ->
       select.append $('<option/>').val(option).text(option)
 

@@ -6,7 +6,7 @@
 //= require_self
 
 
-;(function($) {
+(function($) {
   var deployments_form;
 
   deployments_form = new SiteFull.Deployments.Form();

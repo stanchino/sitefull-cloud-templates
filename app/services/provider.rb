@@ -1,11 +1,10 @@
 class Provider
-
   attr_accessor :type
 
   def initialize(type, options = {})
     @type = type
     @options = options.symbolize_keys if options.present?
-    self.extend provider_module if type.present?
+    extend provider_module if type.present?
   end
 
   def regions
@@ -17,6 +16,7 @@ class Provider
   end
 
   protected
+
   def type
     @type ||= @options[:provider]
   end
@@ -26,6 +26,7 @@ class Provider
   end
 
   private
+
   def provider_module
     "Providers::#{@type.capitalize}".constantize
   end
