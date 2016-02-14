@@ -19,15 +19,17 @@ module Providers
 
     def images(os)
       name = Hash[Template::OPERATING_SYSTEMS][os]
-      connection.describe_images(filters: [{ name: 'name', values: [name, "#{name}*"] }]).images
+      connection.describe_images(filters: [{ name: 'name', values: [name, "#{name}*"] }, { name: 'virtualization-type', values: ['hvm'] }]).images
     end
 
     def create_network
+      vpc = connection.create_vpc(cidr_block: '172.30.0.0/16').vpc
+      connection.create_subnet(vpc_id: vpc.vpc_id, cidr_block: '172.30.1.0/24').subnet.subnet_id
     end
 
     # Uses http://docs.aws.amazon.com/sdkforruby/api/Aws/EC2/Client.html#run_instances-instance_method
-    def create_instance(image_id, instance_type)
-      connection.run_instances(dry_run: true, image_id: image_id, instance_type: instance_type, min_count: 1, max_count: 1)
+    def create_instance(image_id, instance_type, subnet_id)
+      connection.run_instances(image_id: image_id, instance_type: instance_type, subnet_id: subnet_id, min_count: 1, max_count: 1).instances.first.instance_id
     end
 
     def valid?

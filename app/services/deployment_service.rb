@@ -2,7 +2,7 @@ class DeploymentService
   attr_accessor :deployment, :provider
 
   delegate :provider_type, :credentials, :image, :flavor, to: :deployment
-  delegate :regions, :flavors, :valid?, :create_network, to: :provider
+  delegate :regions, :flavors, :valid?, to: :provider
 
   def initialize(deployment)
     @deployment ||= deployment
@@ -21,7 +21,15 @@ class DeploymentService
     end
   end
 
+  def create_network
+    return deployment.network_id if deployment.network_id.present?
+    network_id = provider.create_network
+    deployment.update_attributes(network_id: network_id)
+  end
+
   def create_instance
-    provider.create_instance image, flavor
+    return deployment.instance_id if deployment.instance_id.present?
+    instance_id = provider.create_instance(image, flavor, deployment.network_id)
+    deployment.update_attributes(instance_id: instance_id)
   end
 end
