@@ -29,3 +29,4 @@ ratings:
     - '**.slim'
 exclude_paths:
   - 'vendor/**/*'
+  - 'config/initializers/simple_form_bootstrap.rb'
