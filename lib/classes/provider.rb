@@ -13,6 +13,10 @@ class Provider
     []
   end
 
+  def images(_os)
+    []
+  end
+
   def valid?
     false
   end

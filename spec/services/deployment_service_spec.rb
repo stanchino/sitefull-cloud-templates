@@ -1,0 +1,23 @@
+require 'rails_helper'
+
+RSpec.describe DeploymentService, type: :service do
+  let(:deployment) { FactoryGirl.create(:deployment) }
+  subject { DeploymentService.new(deployment) }
+
+  describe 'delegates' do
+    it { is_expected.to delegate_method(:provider_type).to(:deployment) }
+    it { is_expected.to delegate_method(:credentials).to(:deployment) }
+    it { is_expected.to delegate_method(:image).to(:deployment) }
+    it { is_expected.to delegate_method(:flavor).to(:deployment) }
+    it { is_expected.to delegate_method(:regions).to(:provider) }
+    it { is_expected.to delegate_method(:flavors).to(:provider) }
+    it { is_expected.to delegate_method(:valid?).to(:provider) }
+    it { is_expected.to delegate_method(:create_network).to(:provider) }
+  end
+
+  describe 'images' do
+    let(:images) { double(images: [double(image_id: 'image', name: 'Test Image')]) }
+    before { allow_any_instance_of(Aws::EC2::Client).to receive(:describe_images).and_return(images) }
+    it { expect(subject.images).to match_array images.images }
+  end
+end

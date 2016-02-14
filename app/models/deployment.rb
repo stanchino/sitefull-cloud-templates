@@ -9,15 +9,17 @@ class Deployment < ActiveRecord::Base
 
   validates :provider_type, presence: true, inclusion: PROVIDERS
   validates :region, presence: true, inclusion: { in: :regions }
+  validates :image, presence: true, inclusion: { in: :images }
   validates :flavor, presence: true, inclusion: { in: :flavors }
 
   validates :access_key_id, presence: true, if: -> { on?(:aws) }
   validates :secret_access_key, presence: true, if: -> { on?(:aws) }
 
-  delegate :regions, :flavors, to: :service
+  delegate :regions, :images, :flavors, to: :decorator
+  delegate :os, to: :template
 
-  def service
-    @service ||= DeploymentService.new(self)
+  def decorator
+    @decorator ||= DeploymentDecorator.new(self)
   end
 
   def on?(provider)

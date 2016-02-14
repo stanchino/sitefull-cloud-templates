@@ -4,7 +4,7 @@ class DeploymentJob
   sidekiq_options queue: :deployments, retry: false
 
   def perform(deployment_id)
-    service = Deployment.find(deployment_id).service
+    service = DeploymentService.new Deployment.find(deployment_id)
     raise StandardError, I18n.t('deployments.jobs.errors.invalid_service') unless service.valid?
     create_network(service)
     create_instance(service)

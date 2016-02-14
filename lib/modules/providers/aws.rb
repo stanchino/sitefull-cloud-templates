@@ -10,17 +10,24 @@ module Providers
     end
 
     def regions
-      connection.describe_regions.regions.map(&:region_name).sort
+      @regions ||= connection.describe_regions.regions
     end
 
     def flavors
       FLAVORS
     end
 
+    def images(os)
+      name = Hash[Template::OPERATING_SYSTEMS][os]
+      connection.describe_images(filters: [{ name: 'name', values: [name, "#{name}*"] }]).images
+    end
+
     def create_network
     end
 
-    def create_instance
+    # Uses http://docs.aws.amazon.com/sdkforruby/api/Aws/EC2/Client.html#run_instances-instance_method
+    def create_instance(image_id, instance_type)
+      connection.run_instances(dry_run: true, image_id: image_id, instance_type: instance_type, min_count: 1, max_count: 1)
     end
 
     def valid?

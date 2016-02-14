@@ -4,6 +4,7 @@ if ENV['RAILS_ENV'] == 'test'
   require 'simplecov'
   SimpleCov.start 'rails' do
     add_group 'Services', 'app/services'
+    add_group 'Decorators', 'app/decorators'
   end
 end
 
@@ -22,7 +23,7 @@ require 'capybara/email/rspec'
 require 'capybara-screenshot/rspec'
 require 'codeclimate-test-reporter'
 require 'devise'
-require 'sidekiq/testing'
+require 'sidekiq/testing/inline'
 require 'sidekiq-status/testing/inline'
 
 # Requires supporting ruby files with custom matchers and macros, etc, in

@@ -28,8 +28,9 @@
   .instance
     h2 = t('deployments.instance.title')
     .form-inputs
-      = f.input :region, collection: @deployment.regions, prompt: :translate, wrapper_html: { class: 'region' }, disabled: provider_blank? || credentials_blank?
-      = f.input :flavor, collection: @deployment.flavors, prompt: :translate, wrapper_html: { class: 'flavor' }, disabled: provider_blank? || credentials_blank?
+      = f.input :region, collection: @deployment.decorator.regions_for_select, prompt: :translate, wrapper_html: { class: 'region' }, disabled: provider_blank? || credentials_blank?
+      = f.input :image, collection: @deployment.decorator.images_for_select, prompt: :translate, wrapper_html: { class: 'image' }, disabled: provider_blank? || credentials_blank?
+      = f.input :flavor, collection: @deployment.decorator.flavors_for_select, prompt: :translate, wrapper_html: { class: 'flavor' }, disabled: provider_blank? || credentials_blank?
   .form-actions
     = link_to 'Cancel', template_deployments_url(@template), class: 'btn btn-default'
     | &nbsp;
