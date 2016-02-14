@@ -57,3 +57,6 @@ en:
       description: 'You will need to supply credentials for the selected Cloud Provider in order to list the available images and provision your deployment instance.'
     instance:
       title: 'Instance Options'
+    jobs:
+      errors:
+        invalid_service: 'Invalid service.'

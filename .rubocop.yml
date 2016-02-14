@@ -13,4 +13,3 @@ Metrics/LineLength:
 AllCops:
   Exclude:
     - 'db/**/*'
-    - 'config/**/*'

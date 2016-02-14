@@ -2,7 +2,7 @@ class DeploymentService
   attr_accessor :deployment, :provider
 
   delegate :provider_type, :credentials, to: :deployment
-  delegate :regions, :flavors, :valid?, to: :provider
+  delegate :regions, :flavors, :valid?, :create_network, :create_instance, to: :provider
 
   def initialize(deployment)
     @deployment ||= deployment

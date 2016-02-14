@@ -17,6 +17,12 @@ module Providers
       FLAVORS
     end
 
+    def create_network
+    end
+
+    def create_instance
+    end
+
     def valid?
       connection.describe_regions(dry_run: true)
     rescue ::Aws::EC2::Errors::DryRunOperation
