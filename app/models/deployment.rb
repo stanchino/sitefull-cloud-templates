@@ -1,4 +1,6 @@
 class Deployment < ActiveRecord::Base
+  attr_accessor :job_id
+
   PROVIDERS = %w(aws google azure).freeze
   store_accessor :credentials, Providers::Aws::CREDENTIALS
 

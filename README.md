@@ -226,6 +226,7 @@ The full list of modules added to the `Gemfile` is:
   * [select2-rails](https://github.com/argerim/select2-rails) Autocomplete and tags support.
   * [shoulda-matchers](https://github.com/thoughtbot/shoulda-matchers) Simplify writing tests big time as discussed on the official [shoulda matchers](http://matchers.shoulda.io/) page.
   * [sidekiq](https://github.com/mperham/sidekiq) Sidekiq is used for processing background jobs across the application.
+  * [sidekiq-status](https://github.com/utgarda/sidekiq-status) Sidekiq status allows for tracking the queued jobs progress.
   * [simple_form](https://github.com/plataformatec/simple_form) For handling forms.
   * [simplecov](https://github.com/colszowka/simplecov) Generates code coverage reports when running the tests.
   * [sinatra](https://github.com/sinatra/sinatra) Required for the Sidekiq monitoring interface [https://github.com/mperham/sidekiq/wiki/Monitoring](https://github.com/mperham/sidekiq/wiki/Monitoring).

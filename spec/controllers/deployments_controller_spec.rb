@@ -49,7 +49,7 @@ RSpec.describe DeploymentsController, type: :controller do
       it 'schedules a new deployment job' do
         expect do
           post :create, { deployment: valid_attributes, template_id: template.to_param }, valid_session
-        end.to change(ActiveJob::Base.queue_adapter.enqueued_jobs, :size).by(1)
+        end.to change(DeploymentJob.jobs, :size).by(1)
       end
 
       it 'assigns a newly created deployment as @deployment' do

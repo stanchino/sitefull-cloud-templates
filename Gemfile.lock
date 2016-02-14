@@ -270,6 +270,8 @@ GEM
       concurrent-ruby (~> 1.0)
       connection_pool (~> 2.2, >= 2.2.0)
       redis (~> 3.2, >= 3.2.1)
+    sidekiq-status (0.6.0)
+      sidekiq (>= 2.7)
     signet (0.7.2)
       addressable (~> 2.3)
       faraday (~> 0.9)
@@ -371,6 +373,7 @@ DEPENDENCIES
   select2-rails
   shoulda-matchers
   sidekiq
+  sidekiq-status
   simple_form
   simplecov
   sinatra

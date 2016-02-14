@@ -71,6 +71,8 @@ gem 'attr_encrypted'
 gem 'sidekiq'
 # The Sidekiq UI
 gem 'sinatra', require: nil
+# Sidekiq status tracker
+gem 'sidekiq-status'
 
 group :development do
   # Access an IRB console on exception pages or by using <%= console %> in views

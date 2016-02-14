@@ -12,7 +12,7 @@ class DeploymentService
   def create
     ActiveRecord::Base.transaction do
       success = deployment.save
-      DeploymentJob.perform_later(deployment) if success
+      deployment.job_id = DeploymentJob.perform_async(deployment.id)
       success
     end
   end

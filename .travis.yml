@@ -10,3 +10,4 @@ addons:
     repo_token: '3d0efcf309a76d2e9ce070cf7f13b2bd92a3b2ae252c293c863d4b5b8b05552a'
 services:
   - postgresql
+  - redis
