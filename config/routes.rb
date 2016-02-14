@@ -21,7 +21,7 @@ Rails.application.routes.draw do
   resources :deployments, only: :show
   get '/deployments', to: 'deployments#all'
 
-  authenticate :user, lambda { |u| u.admin? } do
+  authenticate :user, -> (u) { u.admin? } do
     mount Sidekiq::Web => '/sidekiq'
   end
   # The priority is based upon order of creation: first created -> highest priority.
