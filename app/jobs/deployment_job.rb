@@ -1,6 +1,7 @@
 class DeploymentJob
   include Sidekiq::Worker
   include Sidekiq::Status::Worker
+  sidekiq_options queue: :deployments, retry: false
 
   def perform(deployment_id)
     service = Deployment.find(deployment_id).service
