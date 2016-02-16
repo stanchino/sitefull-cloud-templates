@@ -15,7 +15,7 @@ RSpec.describe Provider do
     end
 
     describe 'images' do
-      it { expect(subject.images(Template::OPERATING_SYSTEMS.sample.first)).not_to be_empty }
+      it { expect(subject.images('debian')).not_to be_empty }
     end
 
     describe 'valid?' do

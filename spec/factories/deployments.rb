@@ -3,7 +3,7 @@ FactoryGirl.define do
     provider_type 'aws'
     region 'us-east-1'
     flavor 't2.micro'
-    image 'image'
+    image Providers::Aws::IMAGES[:debian].sample.image_id
     access_key_id Faker::Internet.password
     secret_access_key Faker::Internet.password
     template

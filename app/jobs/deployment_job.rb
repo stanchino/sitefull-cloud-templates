@@ -7,18 +7,29 @@ class DeploymentJob
     service = DeploymentService.new Deployment.find(deployment_id)
     raise StandardError, I18n.t('deployments.jobs.errors.invalid_service') unless service.valid?
     create_network(service)
+    create_key(service)
     create_instance(service)
+    create_public_ip(service)
+    at 100, 'Done'
   end
 
   def create_network(service)
-    at 25, 'Creating network'
+    at 0, 'Network Setup'
     service.create_network
-    at 50, 'Network created'
+  end
+
+  def create_key(service)
+    at 25, 'Generating key'
+    service.create_key
   end
 
   def create_instance(service)
-    at 75, 'Creating instance'
+    at 50, 'Creating instance'
     service.create_instance
-    at 100, 'Instance created'
+  end
+
+  def create_public_ip(service)
+    at 75, 'Assigning public IP'
+    service.create_public_ip
   end
 end

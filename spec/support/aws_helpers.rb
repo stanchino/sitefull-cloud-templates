@@ -5,5 +5,8 @@ RSpec.configure do |config|
 
     images = double(images: [double(image_id: 'image', name: 'Test Image')])
     allow_any_instance_of(Aws::EC2::Client).to receive(:describe_images).and_return(images)
+
+    statuses = double(instance_statuses: [double(instance_state: double(name: 'running'))])
+    allow_any_instance_of(Aws::EC2::Client).to receive(:describe_instance_status).and_return(statuses)
   end
 end

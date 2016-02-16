@@ -21,6 +21,10 @@ class Provider
     false
   end
 
+  def wait_for_status(instance_id, status)
+    sleep 1 until get_status(instance_id) == status
+  end
+
   protected
 
   def credentials

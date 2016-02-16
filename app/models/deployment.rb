@@ -4,6 +4,8 @@ class Deployment < ActiveRecord::Base
   PROVIDERS = %w(aws google azure).freeze
   store_accessor :credentials, Providers::Aws::CREDENTIALS
 
+  attr_encrypted :key_data, mode: :per_attribute_iv_and_salt, key: ENV['ENC_KEY'] || Rails.application.secrets.encryption_key
+
   belongs_to :template
   has_one :user, through: :template, inverse_of: :deployments
 
