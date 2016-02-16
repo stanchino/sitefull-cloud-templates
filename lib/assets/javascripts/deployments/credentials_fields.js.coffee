@@ -8,6 +8,7 @@ class SiteFull.Deployments.CredentialsFields
     @wrapper = '.credentials'
     @instance_wrapper = '.instance:visible'
     @region_selector = '#deployment_region'
+    @image_selector = '#deployment_image'
     @flavor_selector = '#deployment_flavor'
     @timer = null
     @interval = 250
@@ -31,7 +32,7 @@ class SiteFull.Deployments.CredentialsFields
 
   add_options_to: (select, options) ->
     $.each options, (i, option) ->
-      select.append $('<option/>').val(option).text(option)
+      select.append $('<option/>').val(option.id).text(option.name)
 
   enable_instance_inputs: ->
     $(':input:visible:disabled', @instance_wrapper).prop(disabled: false)
@@ -49,6 +50,7 @@ class SiteFull.Deployments.CredentialsFields
       data: $('form').serializeArray()
       success: (data) =>
         @add_options_to $(@region_selector, @instance_wrapper), data.regions
+        @add_options_to $(@image_selector, @instance_wrapper), data.images
         @add_options_to $(@flavor_selector, @instance_wrapper), data.flavors
         @enable_instance_inputs()
       error: (xhr, textStatus, errorThrown) =>

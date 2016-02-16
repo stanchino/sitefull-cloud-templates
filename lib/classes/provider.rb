@@ -1,10 +1,8 @@
 class Provider
-  attr_accessor :type
-
   def initialize(type, options = {})
+    @options = options.symbolize_keys unless options.nil?
     @type = type
-    @options = options.symbolize_keys if options.present?
-    extend provider_module if type.present?
+    extend provider_module unless type.nil?
   end
 
   def regions
@@ -13,6 +11,18 @@ class Provider
 
   def flavors
     []
+  end
+
+  def images(_os)
+    []
+  end
+
+  def valid?
+    false
+  end
+
+  def wait_for_status(instance_id, status)
+    sleep 1 until get_status(instance_id) == status
   end
 
   protected

@@ -49,4 +49,6 @@ Rails.application.configure do
   config.logger = Logger.new(STDOUT)
   config.logger.level = Logger.const_get(log_level.upcase)
   config.log_level    = log_level.downcase.to_sym
+
+  config.quiet_assets_paths << '/sidekiq/'
 end

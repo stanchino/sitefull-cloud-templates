@@ -5,7 +5,15 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
-johndoe = User.where(first_name: 'John', last_name: 'Doe', email: 'john@doe.com').first_or_initialize.tap do |user|
+
+User.where(first_name: 'Chuck', last_name: 'Norris', admin: true, email: 'admin@sitefull.com').first_or_initialize.tap do |user|
+  user.password = user.password_confirmation = 'asdfasdf'
+  user.skip_confirmation!
+  user.save!
+  user.confirm
+end
+
+johndoe = User.where(first_name: 'John', last_name: 'Doe', email: 'john.doe@sitefull.com').first_or_initialize.tap do |user|
   user.password = user.password_confirmation = 'asdfasdf'
   user.skip_confirmation!
   user.save!

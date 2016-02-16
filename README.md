@@ -30,6 +30,7 @@ Prerequisites
  * A running [PostgreSQL](http://www.enterprisedb.com/products-services-training/pgdownload) database server.
  * [RVM](https://rvm.io) installed as described [here](https://rvm.io/install) to manage the [Ruby](https://ruby-lang.org) version.
  * The [PhantomJS](http://phantomjs.org/) headless WebKit engine [installed](http://phantomjs.org/download.html) to run the feature tests.
+ * A local [Redis](http://redis.io) [installation](http://redis.io/topics/quickstart) for processing background jobs.
 
 Project Set Up
 -------------
@@ -67,18 +68,20 @@ Project Set Up
 ```
 # foreman start
 ```
+**NOTE** Make sure your local [PostgreSQL](http://www.postgresql.org/docs/9.5/static/server-start.html) and [Redis](http://redis.io/topics/quickstart#starting-redis) servers are up and running before starting the application server.
 
 Guidelines
 ----------
 We use [CodeClimate](https://codeclimate.com/github/stanchino/sitefull-cloud-deploy) for code quality analysis. Every time a pull request is created the quality of the code is determined and reported in GitHub. Coding standards compliance can be tested locally once the project is [setup](#project-set-up) using [Rubocop](https://github.com/bbatsov/rubocop#installation):
 ```
+# gem install rubocop
 # rubocop
 ```
 
 You can also check the [Code Climate CLI](https://github.com/codeclimate/codeclimate) tool and use it to analyze your code quality locally before creating a pull request:
 ```
 # cd sitefull-cloud-deploy
-# codeclimate analyze -e scss-lint -e eslint -e coffelint .
+# codeclimate analyze -e scss-lint -e eslint -e coffelint -e brakeman -e bundler-audit -e rubocop .
 ```
 **NOTE** The `duplication` engine takes quite some time to process the application code but you can still run it locally before submitting a pull request:
 ```
@@ -95,6 +98,7 @@ To run all the tests execute
 ```
 # rake spec
 ```
+**NOTE** Make sure your local [PostgreSQL](http://www.postgresql.org/docs/9.5/static/server-start.html) and [Redis](http://redis.io/topics/quickstart#starting-redis) servers are up and running before running the tests.
 
 The tests are split into three groups: *unit tests*, *integration tests* and *feature tests*. Each one can be executed using the following commands:
 ```
@@ -142,6 +146,10 @@ automatically update the story status in [Pivotal](www.pivotaltracker.com) from 
 * *Rejected*: This task is **not** done or there are regression issues with the task. In this case the task should be restarted.
 * *Accepted*: This task is done.
 
+Management tools
+================
+The application uses [Sidekiq](http://sidekiq.org/) for background jobs processing and exposes the native Sidekiq Web UI under `/sidekiq`.
+
 Application Lifecycle
 =====================
 There are three different application environments following the standard lifecycle managment process: **development**, **staging** and **production**.
@@ -180,7 +188,7 @@ The staging URL is currently set to [sitefull-stg.herokuapp.com](http://sitefull
 
 Production Environment
 ----------------------
-When all features deployed to the [staging environment](#staging-environment) are tested and accepted in [Pivota](https://www.pivotaltracker.com) the `staging` branch is merged to `master`. When the [TravisCI](https:/travis-ci.org) and [CodeClimate](https://codeclimate.com) checks are passed the `master` branch is automatically deployed to [Heroku](https://heroku.com).
+When all features deployed to the [staging environment](#staging-environment) are tested and accepted in [Pivotal](https://www.pivotaltracker.com) the `staging` branch is merged to `master`. When the [TravisCI](https:/travis-ci.org) and [CodeClimate](https://codeclimate.com) checks are passed the `master` branch is automatically deployed to [Heroku](https://heroku.com).
 
 The production URL is currently set to [cloud.sitefull.com](http://cloud.sitefull.com).
 
@@ -225,8 +233,12 @@ The full list of modules added to the `Gemfile` is:
   * [rspec-activemodel-mocks](https://github.com/rspec/rspec-activemodel-mocks) Allows for mocking ActiveModel objects in tests.
   * [select2-rails](https://github.com/argerim/select2-rails) Autocomplete and tags support.
   * [shoulda-matchers](https://github.com/thoughtbot/shoulda-matchers) Simplify writing tests big time as discussed on the official [shoulda matchers](http://matchers.shoulda.io/) page.
+  * [sidekiq](https://github.com/mperham/sidekiq) Sidekiq is used for processing background jobs across the application.
+  * [sidekiq-failures](https://github.com/mhfs/sidekiq-failures) Keep track of Sidekiq failed jobs.
+  * [sidekiq-status](https://github.com/utgarda/sidekiq-status) Sidekiq status allows for tracking the queued jobs progress.
   * [simple_form](https://github.com/plataformatec/simple_form) For handling forms.
   * [simplecov](https://github.com/colszowka/simplecov) Generates code coverage reports when running the tests.
+  * [sinatra](https://github.com/sinatra/sinatra) Required for the Sidekiq monitoring interface [https://github.com/mperham/sidekiq/wiki/Monitoring](https://github.com/mperham/sidekiq/wiki/Monitoring).
   * [slim](https://github.com/slim-template/slim) The template engine.
   * [slim-rails](https://github.com/slim-template/slim-rails) Rails implementation of the [Slim](http://slim-lang.org) template engine.
   * [unicorn](http://unicorn.bogomips.org/) To run the application server.

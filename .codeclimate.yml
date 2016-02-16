@@ -26,6 +26,7 @@ ratings:
     - '**.coffee'
     - '**.scss'
     - '**.js'
+    - '**.slim'
 exclude_paths:
   - 'vendor/**/*'
-  - 'config/initializers/**/*'
+  - 'config/initializers/simple_form_bootstrap.rb'

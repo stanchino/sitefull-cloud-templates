@@ -13,4 +13,24 @@ p
   | &nbsp;
   = @deployment.flavor
 
+p
+  strong Image:
+  | &nbsp;
+  = @deployment.image
+
+p
+  strong Key:
+  | &nbsp;
+  = @deployment.key_name
+
+p
+  strong Public IP:
+  | &nbsp;
+  = @deployment.public_ip
+
+p
+  strong Job ID:
+  | &nbsp;
+  = @deployment.job_id
+
 = link_to 'Back', template_deployments_url(@deployment.template)
