@@ -228,9 +228,9 @@ The full list of modules added to the `Gemfile` is:
   * [poltergeist](https://github.com/teampoltergeist/poltergeist) Use Poltergeist for feature tests.
   * [quiet_assets](https://github.com/evrone/quiet_assets) To skip logging assets and polluting the logs.
   * [pry-rails](https://github.com/rweng/pry-rails) Use [Pry](http://pryrepl.org/) as an alternative to the standard IRB Ruby shell. 
-  * [rspec-rails](https://github.com/rspec/rspec-rails) The [RSpec](http://rspec.info/) testing framework for BDD.
-  * [rspec-collection_matchers](https://github.com/rspec/rspec-collection_matchers) Usefull for matching collections in your tests.
   * [rspec-activemodel-mocks](https://github.com/rspec/rspec-activemodel-mocks) Allows for mocking ActiveModel objects in tests.
+  * [rspec-collection_matchers](https://github.com/rspec/rspec-collection_matchers) Usefull for matching collections in your tests.
+  * [rspec-rails](https://github.com/rspec/rspec-rails) The [RSpec](http://rspec.info/) testing framework for BDD.
   * [select2-rails](https://github.com/argerim/select2-rails) Autocomplete and tags support.
   * [shoulda-matchers](https://github.com/thoughtbot/shoulda-matchers) Simplify writing tests big time as discussed on the official [shoulda matchers](http://matchers.shoulda.io/) page.
   * [sidekiq](https://github.com/mperham/sidekiq) Sidekiq is used for processing background jobs across the application.

@@ -9,7 +9,6 @@ class DeploymentJob
     create_network(service)
     create_key(service)
     create_instance(service)
-    create_public_ip(service)
     at 100, 'Done'
   end
 
@@ -19,17 +18,12 @@ class DeploymentJob
   end
 
   def create_key(service)
-    at 25, 'Generating key'
+    at 33, 'Generating key'
     service.create_key
   end
 
   def create_instance(service)
-    at 50, 'Creating instance'
+    at 67, 'Creating instance'
     service.create_instance
-  end
-
-  def create_public_ip(service)
-    at 75, 'Assigning public IP'
-    service.create_public_ip
   end
 end
