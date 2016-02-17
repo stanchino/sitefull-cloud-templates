@@ -26,20 +26,11 @@ class DeploymentService
   end
 
   def create_key
-    unless key_name.present?
-      key = provider.create_key("deployment_#{deployment.id}")
-      deployment.update_attributes(key_name: key.name, key_data: key.data)
-    end
+    key = provider.create_key("deployment_#{deployment.id}")
+    deployment.update_attributes(key_name: key.name, key_data: key.data)
   end
 
   def create_instance
     deployment.update_attributes(instance_id: provider.create_instance(image, flavor, network_id, key_name)) unless instance_id.present?
-  end
-
-  def create_public_ip
-    unless public_ip.present?
-      provider.wait_for_status(instance_id, 'running')
-      deployment.update_attributes(public_ip: provider.create_public_ip(instance_id))
-    end
   end
 end

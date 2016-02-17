@@ -16,6 +16,8 @@ RSpec.describe DeploymentService, type: :service do
   end
 
   describe 'images' do
-    it { expect(subject.images).to match_array Providers::Aws::IMAGES[:debian] }
+    let(:images) { [double(image_id: 'image-id', name: 'Image')] }
+    before { allow_any_instance_of(Aws::EC2::Client).to receive(:describe_images).and_return(double(images: images)) }
+    it { expect(subject.images).to match_array images }
   end
 end
