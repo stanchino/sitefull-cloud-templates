@@ -224,10 +224,10 @@ The full list of modules added to the `Gemfile` is:
   * [jbuilder](https://github.com/rails/jbuilder) Building JSON responses in a more efficient way.
   * [jquery-rails](https://github.com/rails/jquery-rails) Adds jQuery to the application.
   * [letter_opener](https://github.com/ryanb/letter_opener) To avoid sending email messages when running in `development` mode.
-  * [mysql2](https://github.com/brianmario/mysql2) For establishing database connections.
+  * [pg](https://bitbucket.org/ged/ruby-pg/wiki/Home) For database connections.
   * [poltergeist](https://github.com/teampoltergeist/poltergeist) Use Poltergeist for feature tests.
-  * [quiet_assets](https://github.com/evrone/quiet_assets) To skip logging assets and polluting the logs.
   * [pry-rails](https://github.com/rweng/pry-rails) Use [Pry](http://pryrepl.org/) as an alternative to the standard IRB Ruby shell. 
+  * [quiet_assets](https://github.com/evrone/quiet_assets) To skip logging assets and polluting the logs.
   * [rspec-activemodel-mocks](https://github.com/rspec/rspec-activemodel-mocks) Allows for mocking ActiveModel objects in tests.
   * [rspec-collection_matchers](https://github.com/rspec/rspec-collection_matchers) Usefull for matching collections in your tests.
   * [rspec-rails](https://github.com/rspec/rspec-rails) The [RSpec](http://rspec.info/) testing framework for BDD.
