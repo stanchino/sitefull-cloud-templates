@@ -4,6 +4,6 @@ module DeploymentsHelper
   end
 
   def credentials_blank?
-    Providers::Aws::CREDENTIALS.any? { |key| @deployment.send(key).blank? }
+    Provider::Aws::CREDENTIALS.any? { |key| @deployment.send(key).blank? }
   end
 end

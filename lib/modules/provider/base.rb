@@ -1,4 +1,4 @@
-module Providers
+module Provider
   module Base
     def regions
       []

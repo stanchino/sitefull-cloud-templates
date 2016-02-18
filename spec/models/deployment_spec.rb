@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Deployment, type: :model do
-  before { subject.template = FactoryGirl.create(:template) }
+  before { subject.template = stub_model(Template) }
   describe 'relationships' do
     it { is_expected.to belong_to(:template) }
   end

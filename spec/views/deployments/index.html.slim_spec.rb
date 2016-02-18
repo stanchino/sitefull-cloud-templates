@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe 'deployments/index', type: :view do
-  let(:template) { FactoryGirl.create(:template) }
-  let(:deployments) { FactoryGirl.create_list(:deployment, 2, template: template) }
+  let(:template) { stub_model(Template, os: 'debian') }
+  let(:deployments) { Array.new(2) { stub_model(Deployment, provider_type: 'aws', template: template) } }
 
   before do
     assign(:template, template)

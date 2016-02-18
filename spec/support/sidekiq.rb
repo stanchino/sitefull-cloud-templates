@@ -1,4 +1,4 @@
-Sidekiq::Testing.fake!
+Sidekiq::Testing.inline!
 
 RSpec.configure do |config|
   config.before(:each) do

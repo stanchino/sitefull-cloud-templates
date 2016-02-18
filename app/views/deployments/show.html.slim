@@ -24,13 +24,8 @@ p
   = @deployment.key_name
 
 p
-  strong Public IP:
+  strong Instance ID:
   | &nbsp;
-  = @deployment.public_ip
-
-p
-  strong Job ID:
-  | &nbsp;
-  = @deployment.job_id
+  = @deployment.instance_id
 
 = link_to 'Back', template_deployments_url(@deployment.template)

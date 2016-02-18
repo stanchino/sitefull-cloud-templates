@@ -71,10 +71,13 @@ gem 'attr_encrypted'
 gem 'sidekiq'
 # Keep track of Sidekiq failed jobs
 gem 'sidekiq-failures'
-# Sidekiq status tracker
-gem 'sidekiq-status'
 # The Sidekiq UI
 gem 'sinatra', require: nil
+
+# Pub/Sub implementation
+gem 'wisper'
+# Asynchronous processing for Pub/Sub
+gem 'wisper-sidekiq'
 
 group :development do
   # Access an IRB console on exception pages or by using <%= console %> in views
@@ -104,6 +107,8 @@ group :development, :test do
   gem 'rspec-collection_matchers'
   # Use Rspec as the test framework
   gem 'rspec-rails'
+  # Rspec matcher and stubbing for Wisper.
+  gem 'wisper-rspec', require: false
 end
 
 group :test do

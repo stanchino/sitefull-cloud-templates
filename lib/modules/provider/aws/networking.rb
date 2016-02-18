@@ -1,4 +1,4 @@
-module Providers
+module Provider
   module Aws
     module Networking
       TEMPLATE_TAG = 'SiteFull Deployment'.freeze

@@ -1,8 +1,8 @@
 class Deployment < ActiveRecord::Base
-  attr_accessor :job_id
+  include Wisper::Publisher
 
   PROVIDERS = %w(aws google azure).freeze
-  store_accessor :credentials, Providers::Aws::CREDENTIALS
+  store_accessor :credentials, Provider::Aws::CREDENTIALS
 
   attr_encrypted :key_data, mode: :per_attribute_iv_and_salt, key: ENV['ENC_KEY'] || Rails.application.secrets.encryption_key
 

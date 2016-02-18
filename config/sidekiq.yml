@@ -7,4 +7,3 @@ production:
 :queues:
   - default
   - mailers
-  - [deployments, 2]
