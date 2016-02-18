@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe DeploymentsController, type: :routing do
   describe 'routing' do
-    let(:template) { FactoryGirl.create(:template) }
+    let(:template) { stub_model(Template) }
 
     it 'routes to #all' do
       expect(get: '/deployments').to route_to('deployments#all')

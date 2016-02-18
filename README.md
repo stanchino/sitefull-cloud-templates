@@ -235,10 +235,12 @@ The full list of modules added to the `Gemfile` is:
   * [shoulda-matchers](https://github.com/thoughtbot/shoulda-matchers) Simplify writing tests big time as discussed on the official [shoulda matchers](http://matchers.shoulda.io/) page.
   * [sidekiq](https://github.com/mperham/sidekiq) Sidekiq is used for processing background jobs across the application.
   * [sidekiq-failures](https://github.com/mhfs/sidekiq-failures) Keep track of Sidekiq failed jobs.
-  * [sidekiq-status](https://github.com/utgarda/sidekiq-status) Sidekiq status allows for tracking the queued jobs progress.
   * [simple_form](https://github.com/plataformatec/simple_form) For handling forms.
   * [simplecov](https://github.com/colszowka/simplecov) Generates code coverage reports when running the tests.
   * [sinatra](https://github.com/sinatra/sinatra) Required for the Sidekiq monitoring interface [https://github.com/mperham/sidekiq/wiki/Monitoring](https://github.com/mperham/sidekiq/wiki/Monitoring).
   * [slim](https://github.com/slim-template/slim) The template engine.
   * [slim-rails](https://github.com/slim-template/slim-rails) Rails implementation of the [Slim](http://slim-lang.org) template engine.
   * [unicorn](http://unicorn.bogomips.org/) To run the application server.
+  * [wisper](https://github.com/krisleech/wisper) A micro library providing Ruby objects with Publish-Subscribe capabilities.
+  * [wisper-rspec](https://github.com/krisleech/wisper-rspec) Rspec matchers and stubbing for Wisper.
+  * [wispre-sidekiq](https://github.com/krisleech/wisper-sidekiq) Asynchronous event publishing for Wisper using Sidekiq.

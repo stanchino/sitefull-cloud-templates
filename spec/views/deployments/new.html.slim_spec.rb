@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe 'deployments/new', type: :view do
-  let(:template) { FactoryGirl.create(:template) }
-  let(:deployment) { FactoryGirl.build(:deployment, template: template) }
+  let(:template) { stub_model(Template, os: 'debian') }
+  let(:deployment) { Deployment.new(provider_type: 'aws', template: template) }
   before do
     assign(:template, template)
     assign(:deployment, deployment)

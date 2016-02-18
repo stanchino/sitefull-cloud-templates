@@ -1,7 +1,7 @@
 require 'rails_helper'
 
-RSpec.describe Provider do
-  subject { Provider.new(type, options) }
+RSpec.describe Provider::Factory do
+  subject { Provider::Factory.new(type, options) }
   describe 'with type set to AWS' do
     let(:type) { 'aws' }
     let(:options) { { foo: :bar } }

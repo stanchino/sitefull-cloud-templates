@@ -5,6 +5,7 @@ if ENV['RAILS_ENV'] == 'test'
   SimpleCov.start 'rails' do
     add_group 'Services', 'app/services'
     add_group 'Decorators', 'app/decorators'
+    add_group 'Listeners', 'app/listeners'
   end
 end
 
@@ -23,8 +24,8 @@ require 'capybara/email/rspec'
 require 'capybara-screenshot/rspec'
 require 'codeclimate-test-reporter'
 require 'devise'
-require 'sidekiq/testing/inline'
-require 'sidekiq-status/testing/inline'
+require 'sidekiq/testing'
+require 'wisper/rspec/matchers'
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
@@ -91,6 +92,7 @@ RSpec.configure do |config|
   config.include Shoulda::Matchers::ActiveModel, type: :model
   config.include Shoulda::Matchers::ActiveRecord, type: :model
   config.include Devise::TestHelpers, type: :controller
+  config.include Wisper::RSpec::BroadcastMatcher
   config.include Rails.application.routes.url_helpers, type: :feature
 
   config.extend ControllerHelpers, type: :controller

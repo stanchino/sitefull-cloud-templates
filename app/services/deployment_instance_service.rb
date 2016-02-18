@@ -1,0 +1,25 @@
+class DeploymentInstanceService
+  include Wisper::Publisher
+
+  attr_accessor :deployment, :provider
+
+  def initialize(deployment)
+    @deployment ||= deployment
+    @provider = Provider::Factory.new(deployment.provider_type, deployment.credentials)
+  end
+
+  def create_network
+    network_id = provider.create_network
+    broadcast(:network_created, deployment.id, network_id)
+  end
+
+  def create_key
+    key = provider.create_key("deployment_#{deployment.id}")
+    broadcast(:key_created, deployment.id, key.name, key.data)
+  end
+
+  def create_instance
+    instance_id = provider.create_instance(deployment.image, deployment.flavor, deployment.network_id, deployment.key_name)
+    broadcast(:instance_created, deployment.id, instance_id)
+  end
+end

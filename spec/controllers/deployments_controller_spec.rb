@@ -39,17 +39,21 @@ RSpec.describe DeploymentsController, type: :controller do
   end
 
   describe 'POST #create' do
+    let(:vpc_id) { 'vpc-id' }
+    let(:route_table_id) { 'route-table-id' }
+    let(:group_id) { 'group-id' }
+    before do
+      allow_any_instance_of(Aws::EC2::Client).to receive(:run_instances).and_return(double(instances: [double(instance_id: 'instance_id')]))
+      allow_any_instance_of(Aws::EC2::Client).to receive(:create_vpc).and_return(double(vpc: double(vpc_id: vpc_id, tags: [])))
+      allow_any_instance_of(Aws::EC2::Client).to receive(:describe_route_tables).and_return(double(route_tables: [double(vpc_id: vpc_id, route_table_id: route_table_id, tags: [])]))
+      allow_any_instance_of(Aws::EC2::Client).to receive(:describe_security_groups).and_return(double(security_groups: [double(vpc_id: vpc_id, group_id: group_id, tags: [])]))
+    end
+
     context 'with valid params' do
       it 'creates a new Deployment' do
         expect do
           post :create, { deployment: valid_attributes, template_id: template.to_param }, valid_session
         end.to change(Deployment, :count).by(1)
-      end
-
-      it 'schedules a new deployment job' do
-        expect do
-          post :create, { deployment: valid_attributes, template_id: template.to_param }, valid_session
-        end.to change(DeploymentJob.jobs, :size).by(1)
       end
 
       it 'assigns a newly created deployment as @deployment' do
@@ -61,6 +65,26 @@ RSpec.describe DeploymentsController, type: :controller do
       it 'redirects to the created deployment' do
         post :create, { deployment: valid_attributes, template_id: template.to_param }, valid_session
         expect(response).to redirect_to(Deployment.last)
+      end
+
+      context 'with new internet gateway' do
+        it 'publish the event' do
+          expect do
+            post :create, { deployment: valid_attributes, template_id: template.to_param }, valid_session
+          end.to broadcast(:deployment_saved)
+        end
+      end
+
+      context 'with existing internet gateway' do
+        let(:internet_gateway_id) { 'internet-gateway-id' }
+        before do
+          allow_any_instance_of(Aws::EC2::Client).to receive(:describe_internet_gateways).and_return(double(internet_gateways: [double(internet_gateway_id: internet_gateway_id, attachments: [double(vpc_id: vpc_id)])]))
+        end
+        it 'publish the event' do
+          expect do
+            post :create, { deployment: valid_attributes, template_id: template.to_param }, valid_session
+          end.to broadcast(:deployment_saved)
+        end
       end
     end
 
