@@ -16,10 +16,17 @@ class SiteFull.Deployments.ProviderSelection
     @credentials_fields.init()
     $(document).on 'change', "#{@wrapper} input[type='radio']", (event) =>
       $target = $(event.target)
-      @hide_credentials_description() &&
-        @hide_all_credentials_sections() &&
-        @show_credentials_section_for($target.val()) &&
-        @credentials_fields.toggle_fields_visibility()
+      oauth_url = $target.data?('oauth-url')
+      if oauth_url
+        window.location.href = oauth_url
+      else
+        @render_credentials($target)
+
+  render_credentials: ($target) ->
+    @hide_credentials_description() &&
+      @hide_all_credentials_sections() &&
+      @show_credentials_section_for($target.val()) &&
+      @credentials_fields.toggle_fields_visibility()
 
   hide_credentials_description: ->
     $(@description, @credentials_wrapper).hide()

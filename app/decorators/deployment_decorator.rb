@@ -1,39 +1,21 @@
 class DeploymentDecorator
-  attr_accessor :service
+  delegate :deployment,
+           :regions, :regions_for_select,
+           :flavors, :flavors_for_select,
+           :images,  :images_for_select,
+           :options_for_selection, :valid?, to: :@provider
 
   def initialize(deployment)
-    @deployment = deployment
-    @service = DeploymentService.new(deployment)
-    extend decorator_name.constantize if deployment.provider_type
+    provider deployment.provider_type || 'base', for: deployment
   end
 
-  def regions
-    []
-  end
-
-  def flavors
-    []
-  end
-
-  def images
-    []
-  end
-
-  def regions_for_select
-    []
-  end
-
-  def flavors_for_select
-    []
-  end
-
-  def images_for_select
-    []
+  def provider(provider_type, options = {})
+    @provider = provider_class(provider_type).new provider_type, options[:for] || deployment
   end
 
   private
 
-  def decorator_name
-    "Decorators::#{@deployment.provider_type.capitalize}"
+  def provider_class(provider_type)
+    "DeploymentDecorators::#{provider_type.capitalize}".constantize
   end
 end

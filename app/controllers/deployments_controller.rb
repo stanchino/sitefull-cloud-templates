@@ -1,9 +1,11 @@
 class DeploymentsController < ApplicationController
   include GenericActions
 
-  load_and_authorize_resource :template, only: [:index, :new, :create, :destroy, :options]
-  load_and_authorize_resource through: :template, only: [:index, :new, :create, :destroy, :options]
+  load_and_authorize_resource :template, only: [:index, :new, :edit, :create, :destroy, :options, :google_auth]
+  load_and_authorize_resource through: :template, only: [:index, :new, :edit, :create, :destroy, :options, :google_auth]
   load_and_authorize_resource only: [:all, :show]
+
+  before_action :setup_decorator, only: [:new, :edit]
 
   layout 'dashboard'
 
@@ -37,6 +39,11 @@ class DeploymentsController < ApplicationController
     end
   end
 
+  # GET /templates/1/deployments/2
+  # GET /templates/1/deployments/2.json
+  def edit
+  end
+
   # DELETE /templates/1/deployments/1
   # DELETE /templates/1/deployments/1.json
   def destroy
@@ -45,9 +52,9 @@ class DeploymentsController < ApplicationController
 
   # POST /templates/1/deployments/options.json
   def options
+    @decorator = DeploymentDecorator.new @template.deployments.build(deployment_params)
     respond_to do |format|
-      @deployment = @deployments.new(deployment_params)
-      if DeploymentService.new(@deployment).valid?
+      if @decorator.valid?
         format.json { render }
       else
         format.json { head :unprocessable_entity }
@@ -55,10 +62,26 @@ class DeploymentsController < ApplicationController
     end
   end
 
+  def google_auth
+    deployment = @template.deployments.build(provider_type: :google)
+    service = DeploymentOauthGoogle.new(deployment)
+    if service.save
+      session[:template_id] = @template.id
+      session[:deployment_id] = deployment.id
+      redirect_to service.authorization_uri
+    else
+      redirect_to new_template_deployment_path(@template), alert: 'Could not setup OAuth credentials.'
+    end
+  end
+
   private
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def deployment_params
-    params.require(:deployment).permit(:provider_type, :region, :image, :flavor, Provider::Aws::CREDENTIALS)
+    params.require(:deployment).permit(:provider_type, :region, :image, :flavor, Provider::Aws::CREDENTIALS, Provider::Google::CREDENTIALS)
+  end
+
+  def setup_decorator
+    @decorator = DeploymentDecorator.new(@deployment)
   end
 end

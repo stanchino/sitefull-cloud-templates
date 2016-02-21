@@ -38,8 +38,9 @@ end
 RSpec.shared_examples 'deployment with valid options response' do
   it 'assigns a new deployment instance as @deployment' do
     post :options, { deployment: valid_attributes, template_id: template.to_param, format: :json }, valid_session
-    expect(assigns(:deployment)).to be_a_new(Deployment)
-    expect(assigns(:deployment)).not_to be_persisted
+    expect(assigns(:decorator)).to be_a(DeploymentDecorator)
+    expect(assigns(:decorator).deployment).to be_a_new(Deployment)
+    expect(assigns(:decorator).deployment).not_to be_persisted
   end
 
   it 'responds with success' do
@@ -47,9 +48,17 @@ RSpec.shared_examples 'deployment with valid options response' do
     expect(response).to be_ok
   end
 
-  it 'renders the options' do
+  it 'renders the options view' do
     post :options, { deployment: valid_attributes, template_id: template.to_param, format: :json }, valid_session
     expect(response).to render_template('deployments/options', layout: false)
+  end
+
+  context 'rendering' do
+    render_views
+    it 'generates the response data' do
+      post :options, { deployment: valid_attributes, template_id: template.to_param, format: :json }, valid_session
+      expect(response.body).not_to be_empty
+    end
   end
 end
 

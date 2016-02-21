@@ -2,7 +2,7 @@ class Ability
   include CanCan::Ability
 
   def initialize(user = nil)
-    alias_action :all, :options, to: :read
+    alias_action :all, :options, :google_auth, to: :read
 
     user ||= User.new
     can :manage, :all if user.admin?
@@ -15,6 +15,6 @@ class Ability
     can [:read, :create], Template
 
     can [:destroy], Deployment, template: { user_id: user.id }
-    can [:read, :create], Deployment
+    can [:read, :create, :update], Deployment
   end
 end

@@ -47,7 +47,7 @@ class SiteFull.Deployments.CredentialsFields
       url: url
       dataType: 'json'
       method: 'post'
-      data: $('form').serializeArray()
+      data: $(':input:not(:disabled):not([name="_method"])').serializeArray()
       success: (data) =>
         @add_options_to $(@region_selector, @instance_wrapper), data.regions
         @add_options_to $(@image_selector, @instance_wrapper), data.images

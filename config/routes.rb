@@ -5,15 +5,17 @@ Rails.application.routes.draw do
 
   authenticated :user do
     root to: 'dashboard#user', as: :user_root
+    get '/google_auth_callback', to: 'application#google_auth_callback'
   end
 
   unauthenticated do
     root to: 'home#index'
   end
   resources :templates do
-    resources :deployments, only: [:index, :new, :create, :destroy] do
+    resources :deployments, only: [:index, :new, :edit, :create, :destroy] do
       collection do
         post 'options', to: 'deployments#options', as: 'options'
+        get 'google_auth', to: 'deployments#google_auth'
       end
     end
   end

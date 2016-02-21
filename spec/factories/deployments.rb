@@ -6,6 +6,7 @@ FactoryGirl.define do
     image 'image-id'
     access_key_id Faker::Internet.password
     secret_access_key Faker::Internet.password
+    google_auth '{}'
     template
   end
 end

@@ -14,9 +14,6 @@ RSpec.describe Deployment, type: :model do
   end
 
   describe 'delegates' do
-    it { is_expected.to delegate_method(:regions).to(:decorator) }
-    it { is_expected.to delegate_method(:flavors).to(:decorator) }
-    it { is_expected.to delegate_method(:images).to(:decorator) }
     it { is_expected.to delegate_method(:os).to(:template) }
   end
 end
