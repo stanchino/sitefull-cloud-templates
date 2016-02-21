@@ -1,3 +1,5 @@
+require 'google/api_client/client_secrets'
+
 class DeploymentOauthGoogle
   SCOPE = ['https://www.googleapis.com/auth/cloud-platform', 'https://www.googleapis.com/auth/compute'].freeze
 

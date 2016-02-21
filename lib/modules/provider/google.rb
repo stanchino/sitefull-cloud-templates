@@ -1,9 +1,10 @@
+require 'google/apis/compute_v1'
+
 module Provider
   module Google
     CREDENTIALS = [:project_name, :google_auth].freeze
     FLAVORS = %w(t2.nano t2.micro t2.small t2.medium t2.large m4.large m4.xlarge m4.2xlarge m4.4xlarge m4.10xlarge m3.medium m3.large m3.xlarge m3.2xlarge).freeze
 
-    SCOPES = ['https://www.googleapis.com/auth/cloud-platform', 'https://www.googleapis.com/auth/compute'].freeze
     DEFAULT_REGION = 'us-east-1'.freeze
     DEFAULT_FLAVOR = 't2.micro'.freeze
 

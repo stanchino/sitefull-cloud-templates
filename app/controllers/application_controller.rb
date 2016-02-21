@@ -1,6 +1,3 @@
-require 'google/apis/compute_v1'
-require 'google/api_client/client_secrets'
-
 class ApplicationController < ActionController::Base
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
