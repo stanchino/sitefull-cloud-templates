@@ -14,7 +14,7 @@
         .form-group
           .input-group
             span.input-group-addon
-              = f.radio_button :provider_type, provider_type, @decorator.provider(provider_type).options_for_selection.merge(checked: @deployment.provider_type == provider_type)
+              = f.radio_button :provider_type, provider_type, @decorator.provider(provider_type).options_for_selection(request)
             label.form-control class=provider_type for="deployment_provider_type_#{provider_type}"
               = t("providers.#{provider_type}")
   .credentials

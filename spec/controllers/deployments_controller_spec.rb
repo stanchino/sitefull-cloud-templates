@@ -47,6 +47,21 @@ RSpec.describe DeploymentsController, type: :controller do
           expect(assigns(:deployment)).to be_a_new(Deployment)
           expect(assigns(:decorator)).to be_a DeploymentDecorator
         end
+
+        context 'with credentials' do
+          it 'sets the deployment credentials' do
+            get :new, { template_id: template.id }, valid_session
+            expect(assigns(:deployment).google_auth).not_to be_nil
+          end
+        end
+
+        context 'without credentials' do
+          before { expect_any_instance_of(Google::Auth::WebUserAuthorizer).to receive(:get_credentials).with(user.to_param, request).and_raise(StandardError) }
+          it 'does not set the deployment credentials' do
+            get :new, { template_id: template.id }, valid_session
+            expect(assigns(:deployment).google_auth).to be_nil
+          end
+        end
       end
 
       describe 'GET #edit' do
@@ -170,26 +185,6 @@ RSpec.describe DeploymentsController, type: :controller do
         it 'redirects to the deployments list' do
           delete :destroy, { id: deployment.to_param, template_id: template.to_param }, valid_session
           expect(response).to redirect_to(deployments_url)
-        end
-      end
-
-      describe 'GET #google_auth' do
-        context 'when deployment is successfully updated' do
-          before { get :google_auth, { template_id: template.id }, valid_session }
-
-          it { is_expected.to redirect_to 'https://accounts.google.com/o/oauth2/auth?access_type=offline&client_id=client_id&redirect_uri=http:%20//localhost:%205000/google_auth_callback&response_type=code&scope=https://www.googleapis.com/auth/cloud-platform%20https://www.googleapis.com/auth/compute' }
-          it { expect(assigns(:template)).to eq template }
-          it { is_expected.to set_session[:template_id].to eq template.id }
-        end
-
-        context 'when deployment save fails' do
-          before do
-            allow_any_instance_of(DeploymentOauthGoogle).to receive(:save).and_return(false)
-            get :google_auth, { template_id: template.id }, valid_session
-          end
-
-          it { is_expected.to redirect_to new_template_deployment_path(template) }
-          it { is_expected.to set_flash[:alert].to('Could not setup OAuth credentials.') }
         end
       end
     end

@@ -1,35 +1,43 @@
-require 'google/api_client/client_secrets'
+require 'googleauth/web_user_authorizer'
+require 'googleauth/stores/redis_token_store'
 
 class DeploymentOauthGoogle
   SCOPE = ['https://www.googleapis.com/auth/cloud-platform', 'https://www.googleapis.com/auth/compute'].freeze
 
-  attr_accessor :deployment
-
   def initialize(deployment)
     @deployment = deployment
+    @user_id = deployment.user.to_param
   end
 
-  def save
-    deployment.credentials = { google_auth: oauth_client.to_json }
-    deployment.save(validate: false)
+  def authorization_url(request)
+    authorizer.get_authorization_url(login_hint: @user_id, request: request)
   end
 
-  def authorization_uri
-    oauth_client.authorization_uri.to_s
+  def authorize(request)
+    credentials = credentials(request)
+    if credentials.present?
+      @deployment.provider_type = :google
+      @deployment.credentials = { google_auth: credentials }
+    end
   end
 
-  def oauth_client
-    client_secrets = ::Google::APIClient::ClientSecrets.new JSON.parse(ENV['GCE_CLIENT_SECRET'])
-    auth_client = client_secrets.to_authorization
-    auth_client.update!(scope: SCOPE)
-    auth_client
+  def authorizer
+    @authorizer ||= Google::Auth::WebUserAuthorizer.new(client_id, SCOPE, token_store, Rails.application.routes.url_helpers.google_auth_callback_path)
   end
 
-  def authorize!(code)
-    client_opts = JSON.parse(deployment.google_auth)
-    auth_client = Signet::OAuth2::Client.new(client_opts)
-    auth_client.code = code
-    auth_client.fetch_access_token!
-    deployment.update_column(:credentials, google_auth: auth_client.to_json)
+  private
+
+  def credentials(request)
+    authorizer.get_credentials(@user_id, request).to_json
+  rescue StandardError
+    nil
+  end
+
+  def token_store
+    @token_store ||= Google::Auth::Stores::RedisTokenStore.new
+  end
+
+  def client_id
+    @client_id ||= Google::Auth::ClientId.from_hash JSON.parse(ENV['GCE_CLIENT_SECRET'])
   end
 end

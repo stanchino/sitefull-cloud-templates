@@ -10,10 +10,10 @@ module Provider
 
     def connection
       return @connection if @connection.present?
-      auth_client = Signet::OAuth2::Client.new(JSON.parse(credentials[:google_auth]))
-      @connection = ::Google::Apis::ComputeV1::ComputeService.new
-      @connection.authorization = auth_client
-      @connection
+
+      connection = ::Google::Apis::ComputeV1::ComputeService.new
+      connection.authorization = Signet::OAuth2::Client.new(JSON.parse(credentials[:google_auth]))
+      @connection = connection
     end
 
     def project_name

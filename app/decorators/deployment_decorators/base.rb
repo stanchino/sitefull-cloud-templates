@@ -32,8 +32,8 @@ module DeploymentDecorators
       []
     end
 
-    def options_for_selection
-      {}
+    def options_for_selection(_request)
+      { checked: deployment.provider_type == @provider_type }
     end
 
     protected

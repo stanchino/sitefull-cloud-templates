@@ -27,6 +27,7 @@ class DeploymentsController < ApplicationController
 
   # GET /templates/1/deployments/new
   def new
+    DeploymentOauthGoogle.new(@deployment).authorize(request)
   end
 
   # POST /templates/1/deployments
@@ -59,18 +60,6 @@ class DeploymentsController < ApplicationController
       else
         format.json { head :unprocessable_entity }
       end
-    end
-  end
-
-  def google_auth
-    deployment = @template.deployments.build(provider_type: :google)
-    service = DeploymentOauthGoogle.new(deployment)
-    if service.save
-      session[:template_id] = @template.id
-      session[:deployment_id] = deployment.id
-      redirect_to service.authorization_uri
-    else
-      redirect_to new_template_deployment_path(@template), alert: 'Could not setup OAuth credentials.'
     end
   end
 

@@ -22,14 +22,11 @@ module DeploymentDecorators
       provider.images(deployment.os).sort_by(&:name).map { |i| OpenStruct.new(id: i.id, name: i.name) }
     end
 
-    def options_for_selection
-      deployment.google_auth.present? ? {} : { 'data-oauth-url' => authorization_uri }
-    end
+    def options_for_selection(request)
+      return super if deployment.google_auth.present?
 
-    private
-
-    def authorization_uri
-      Rails.application.routes.url_helpers.google_auth_template_deployments_path(deployment.template)
+      service = DeploymentOauthGoogle.new(deployment)
+      super.merge(data: { 'oauth-url' => service.authorization_url(request) })
     end
   end
 end
