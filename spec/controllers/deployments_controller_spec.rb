@@ -49,6 +49,7 @@ RSpec.describe DeploymentsController, type: :controller do
         end
 
         context 'with credentials' do
+          before { expect_any_instance_of(Google::Auth::WebUserAuthorizer).to receive(:get_credentials).with(user.to_param, request).and_return({foo: :bar}) }
           it 'sets the deployment credentials' do
             get :new, { template_id: template.id }, valid_session
             expect(assigns(:deployment).google_auth).not_to be_nil

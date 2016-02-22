@@ -98,17 +98,4 @@ RSpec.configure do |config|
 
   config.extend ControllerHelpers, type: :controller
   config.extend RequestHelpers, type: :request
-
-  ENV['GCE_CLIENT_SECRET'] = {
-    web: {
-      client_id: 'client_id',
-      project_id: 'project_id',
-      auth_uri: 'https: //accounts.google.com/o/oauth2/auth',
-      token_uri: 'https: //accounts.google.com/o/oauth2/token',
-      auth_provider_x509_cert_url: 'https: //www.googleapis.com/oauth2/v1/certs',
-      client_secret: 'client_secret',
-      redirect_uris: ['http: //localhost: 5000/google_auth_callback'],
-      javascript_origins: ['http: //localhost']
-    }
-  }.to_json
 end
