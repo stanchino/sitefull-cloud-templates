@@ -11,5 +11,4 @@ addons:
 services:
   - postgresql
 env:
-  - ENC_KEY='5aa7c2bf4ffb3cf3866b3fbea953421e12a23fabcf9410e4bff1d2fb0bdbfacb08d4d83d486be3203012d5a4be4a95c781ab32d6b4065af7020992730fbcbd42'
-  - GCE_CLIENT_SECRET='{\"web\":{\"client_id\":\"client_id\",\"project_id\":\"project_id\",\"auth_uri\":\"https://accounts.google.com/o/oauth2/auth\",\"token_uri\":\"https://accounts.google.com/o/oauth2/token\",\"auth_provider_x509_cert_url\":\"https://www.googleapis.com/oauth2/v1/certs\",\"client_secret\":\"client_secret\",\"redirect_uris\":[\"http://localhost:5000/google_auth_callback\"],\"javascript_origins\":[\"http://localhost\"]}}'
+  - ENC_KEY='5aa7c2bf4ffb3cf3866b3fbea953421e12a23fabcf9410e4bff1d2fb0bdbfacb08d4d83d486be3203012d5a4be4a95c781ab32d6b4065af7020992730fbcbd42' GCE_CLIENT_SECRET='{\"web\":{\"client_id\":\"client_id\",\"project_id\":\"project_id\",\"auth_uri\":\"https://accounts.google.com/o/oauth2/auth\",\"token_uri\":\"https://accounts.google.com/o/oauth2/token\",\"auth_provider_x509_cert_url\":\"https://www.googleapis.com/oauth2/v1/certs\",\"client_secret\":\"client_secret\",\"redirect_uris\":[\"http://localhost:5000/google_auth_callback\"],\"javascript_origins\":[\"http://localhost\"]}}'
