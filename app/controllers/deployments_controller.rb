@@ -1,11 +1,11 @@
 class DeploymentsController < ApplicationController
   include GenericActions
 
-  load_and_authorize_resource :template, only: [:index, :new, :edit, :create, :destroy, :options, :google_auth]
-  load_and_authorize_resource through: :template, only: [:index, :new, :edit, :create, :destroy, :options, :google_auth]
+  load_and_authorize_resource :template, only: [:index, :new, :create, :destroy, :options]
+  load_and_authorize_resource through: :template, only: [:index, :new, :create, :destroy, :options]
   load_and_authorize_resource only: [:all, :show]
 
-  before_action :setup_decorator, only: [:new, :edit]
+  before_action :setup_decorator, only: [:new, :create]
 
   layout 'dashboard'
 
@@ -27,7 +27,7 @@ class DeploymentsController < ApplicationController
 
   # GET /templates/1/deployments/new
   def new
-    DeploymentOauthGoogle.new(@deployment).authorize(request)
+    GoogleAuthService.new(@deployment).authorize(request)
   end
 
   # POST /templates/1/deployments

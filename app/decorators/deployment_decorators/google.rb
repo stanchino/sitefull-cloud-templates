@@ -1,32 +1,32 @@
 module DeploymentDecorators
   class Google < Base
-    delegate :flavors, to: :provider
-
     def regions
       provider.regions.map(&:name)
     end
 
     def images
-      provider.images(deployment.os).map(&:id)
+      provider.images(deployment.os).map(&:self_link)
+    end
+
+    def flavors
+      provider.flavors(deployment.region).map(&:self_link)
     end
 
     def regions_for_select
-      provider.regions.sort_by(&:name).map { |r| OpenStruct.new(id: r.id, name: r.name) }
+      provider.regions.sort_by(&:name).map { |r| OpenStruct.new(id: r.name, name: r.name) }
     end
 
     def flavors_for_select
-      provider.flavors.map { |f| OpenStruct.new(id: f, name: f) }
+      provider.flavors(deployment.region).map { |f| OpenStruct.new(id: f.self_link, name: f) }
     end
 
     def images_for_select
-      provider.images(deployment.os).sort_by(&:name).map { |i| OpenStruct.new(id: i.id, name: i.name) }
+      provider.images(deployment.os).sort_by(&:name).map { |i| OpenStruct.new(id: i.self_link, name: i.name) }
     end
 
     def options_for_selection(request)
       return super if deployment.google_auth.present?
-
-      service = DeploymentOauthGoogle.new(deployment)
-      super.merge(data: { 'oauth-url' => service.authorization_url(request) })
+      super.merge(data: { 'oauth-url' => GoogleAuthService.new(deployment).authorization_url(request) })
     end
   end
 end

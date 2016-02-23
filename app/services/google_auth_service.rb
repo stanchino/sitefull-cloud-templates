@@ -1,7 +1,7 @@
 require 'googleauth/web_user_authorizer'
 require 'googleauth/stores/redis_token_store'
 
-class DeploymentOauthGoogle
+class GoogleAuthService
   SCOPE = ['https://www.googleapis.com/auth/cloud-platform', 'https://www.googleapis.com/auth/compute'].freeze
 
   def initialize(deployment)

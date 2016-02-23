@@ -31,6 +31,7 @@ class SiteFull.Deployments.CredentialsFields
     $(':input:visible', @wrapper).filter( -> return @.value == '').length == 0
 
   add_options_to: (select, options) ->
+    select.find('options:not([value=""])').remove()
     $.each options, (i, option) ->
       select.append $('<option/>').val(option.id).text(option.name)
 

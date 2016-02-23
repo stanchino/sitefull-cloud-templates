@@ -1,5 +1,5 @@
 class DeploymentStatusListener
-  def self.network_created(id, network_id)
+  def self.firewall_rules_created(id, network_id)
     DeploymentStatusService.new(Deployment.find(id)).save_network_id(network_id)
   end
 
