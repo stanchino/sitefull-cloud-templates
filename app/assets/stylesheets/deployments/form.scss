@@ -2,6 +2,7 @@
 @import 'dashboard/forms';
 @import 'bootstrap/mixins';
 @import 'mixins';
+@import 'loading';
 @import 'bootstrap/input-groups';
 
 .provider {
@@ -57,9 +58,9 @@
 
 }
 
-.region,
-.image,
-.flavor {
+.regions,
+.images,
+.flavors {
   @include make-sm-column(4);
   @include make-xs-column(12);
 }

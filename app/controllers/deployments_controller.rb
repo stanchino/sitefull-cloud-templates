@@ -1,11 +1,11 @@
 class DeploymentsController < ApplicationController
   include GenericActions
 
-  load_and_authorize_resource :template, only: [:index, :new, :create, :destroy, :options]
-  load_and_authorize_resource through: :template, only: [:index, :new, :create, :destroy, :options]
+  load_and_authorize_resource :template, only: [:index, :new, :create, :destroy, :validate, :options]
+  load_and_authorize_resource through: :template, only: [:index, :new, :create, :destroy, :validate, :options]
   load_and_authorize_resource only: [:all, :show]
 
-  before_action :setup_decorator, only: [:new, :create]
+  before_action :setup_decorator, only: [:new, :create, :validate, :options]
 
   layout 'dashboard'
 
@@ -51,12 +51,23 @@ class DeploymentsController < ApplicationController
     destroy_resource @deployment, deployments_url, 'Deployment was successfully deleted.'
   end
 
-  # POST /templates/1/deployments/options.json
-  def options
-    @decorator = DeploymentDecorator.new @template.deployments.build(deployment_params)
+  # POST /templates/1/deployments/validate.json
+  def validate
     respond_to do |format|
       if @decorator.valid?
         format.json { head :no_content }
+      else
+        format.json { head :unprocessable_entity }
+      end
+    end
+  end
+
+  # POST /templates/1/deployments/options.json
+  def options
+    respond_to do |format|
+      if @decorator.valid?
+        @items = @decorator.send("#{params[:type]}_for_select")
+        format.json { render }
       else
         format.json { head :unprocessable_entity }
       end
@@ -71,6 +82,6 @@ class DeploymentsController < ApplicationController
   end
 
   def setup_decorator
-    @decorator = DeploymentDecorator.new(@deployment)
+    @decorator = DeploymentDecorator.new(@deployment || @template.deployments.build(deployment_params))
   end
 end

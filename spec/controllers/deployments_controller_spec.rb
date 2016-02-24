@@ -40,20 +40,20 @@ RSpec.describe DeploymentsController, type: :controller do
       end
     end
 
-    describe 'POST #options' do
+    describe 'POST #validate' do
       context 'with valid provider credentials' do
         describe_regions_exception Aws::EC2::Errors::DryRunOperation
-        it_behaves_like 'deployment with valid options response'
+        it_behaves_like 'deployment with valid data'
       end
 
       context 'with invalid provider credentials' do
         describe_regions_exception Aws::EC2::Errors::AuthFailure
-        it_behaves_like 'deployment with invalid options'
+        it_behaves_like 'deployment with invalid data'
       end
 
       context 'with generic provider validation failure' do
         before { allow_any_instance_of(Aws::EC2::Client).to receive(:describe_regions).with(dry_run: true).and_raise(StandardError) }
-        it_behaves_like 'deployment with invalid options'
+        it_behaves_like 'deployment with invalid data'
       end
     end
   end
@@ -90,10 +90,15 @@ RSpec.describe DeploymentsController, type: :controller do
       end
     end
 
-    describe 'POST #options' do
+    describe 'POST #validate' do
       context 'with generic provider validation failure' do
         before { allow_any_instance_of(Google::Apis::ComputeV1::ComputeService).to receive(:list_zones).and_raise(StandardError) }
-        it_behaves_like 'deployment with invalid options'
+        it_behaves_like 'deployment with invalid data'
+      end
+
+      context 'with failure when retrieving flavors' do
+        before { allow_any_instance_of(Google::Apis::ComputeV1::ComputeService).to receive(:list_machine_types).and_raise(::Google::Apis::ClientError.new(any_args)) }
+        it_behaves_like 'deployment options with valid data', :flavors
       end
     end
   end

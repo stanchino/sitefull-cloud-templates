@@ -26,6 +26,8 @@ module Provider
 
     def flavors(zone)
       @flavors ||= connection.list_machine_types(project_name, zone).items
+    rescue ::Google::Apis::ClientError
+      []
     end
 
     def images(os)

@@ -2,7 +2,7 @@ class Ability
   include CanCan::Ability
 
   def initialize(user = nil)
-    alias_action :all, :options, :google_auth, to: :read
+    alias_action :all, :options, :validate, to: :read
 
     user ||= User.new
     can :manage, :all if user.admin?

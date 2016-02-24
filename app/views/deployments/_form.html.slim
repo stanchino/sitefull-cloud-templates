@@ -22,14 +22,14 @@
       .content
         p = t('deployments.provider.settings.description')
     - Deployment::PROVIDERS.each do |provider|
-      .form-inputs*{class: ('hidden' unless @deployment.on?(provider))} data-provider-settings=provider data-options-url=options_template_deployments_url(@template)
+      .form-inputs*{class: ('hidden' unless @deployment.on?(provider))} data-provider-settings=provider data-validate-url=validate_template_deployments_url(@template)
         = render "deployments/provider_settings/#{provider}", form_builder: f
-  .options
+  .options*{data: provider_options_urls}
     h2 = t('deployments.options.title')
     .form-inputs
-      = f.input :region, collection: @decorator.regions_for_select, prompt: :translate, wrapper_html: { class: 'region' }, disabled: provider_blank? || credentials_blank?
-      = f.input :image, collection: @decorator.images_for_select, prompt: :translate, wrapper_html: { class: 'image' }, disabled: provider_blank? || credentials_blank?
-      = f.input :flavor, collection: @decorator.flavors_for_select, prompt: :translate, wrapper_html: { class: 'flavor' }, disabled: provider_blank? || credentials_blank?
+      = f.input :region, collection: @decorator.regions_for_select, prompt: :translate, wrapper_html: { class: 'regions' }, disabled: provider_blank? || credentials_blank?
+      = f.input :image, collection: @decorator.images_for_select, prompt: :translate, wrapper_html: { class: 'images' }, disabled: provider_blank? || credentials_blank?
+      = f.input :flavor, collection: @decorator.flavors_for_select, prompt: :translate, wrapper_html: { class: 'flavors' }, disabled: provider_blank? || credentials_blank?
   .form-actions
     = link_to 'Cancel', template_deployments_url(@template), class: 'btn btn-default'
     | &nbsp;

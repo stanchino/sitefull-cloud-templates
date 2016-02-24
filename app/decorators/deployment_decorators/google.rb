@@ -17,7 +17,7 @@ module DeploymentDecorators
     end
 
     def flavors_for_select
-      provider.flavors(deployment.region).map { |f| OpenStruct.new(id: f.self_link, name: f) }
+      provider.flavors(deployment.region).map { |f| OpenStruct.new(id: f.self_link, name: f.name) }
     end
 
     def images_for_select

@@ -35,31 +35,60 @@ RSpec.shared_examples 'update action with data' do |resource, data|
   end
 end
 
-RSpec.shared_examples 'deployment with valid options response' do
+RSpec.shared_examples 'deployment with valid data' do
   it 'assigns a new deployment instance as @deployment' do
-    post :options, { deployment: valid_attributes, template_id: template.to_param, format: :json }, valid_session
+    post :validate, { deployment: valid_attributes, template_id: template.to_param, format: :json }, valid_session
     expect(assigns(:decorator)).to be_a(DeploymentDecorator)
     expect(assigns(:decorator).deployment).to be_a_new(Deployment)
     expect(assigns(:decorator).deployment).not_to be_persisted
   end
 
-  it 'responds with success' do
-    post :options, { deployment: valid_attributes, template_id: template.to_param, format: :json }, valid_session
+  it 'validate responds with success' do
+    post :validate, { deployment: valid_attributes, template_id: template.to_param, format: :json }, valid_session
     expect(response).to have_http_status(:no_content)
   end
 
   context 'rendering' do
     render_views
-    it 'generates the response data' do
-      post :options, { deployment: valid_attributes, template_id: template.to_param, format: :json }, valid_session
+    it 'validate generates the response data' do
+      post :validate, { deployment: valid_attributes, template_id: template.to_param, format: :json }, valid_session
       expect(response.body).to be_empty
     end
   end
 end
 
-RSpec.shared_examples 'deployment with invalid options' do |use_invalid_attributes|
-  it 'responds with error' do
-    post :options, { deployment: use_invalid_attributes ? invalid_attributes : valid_attributes, template_id: template.to_param, format: :json }, valid_session
+RSpec.shared_examples 'deployment with invalid data' do |use_invalid_attributes|
+  it 'validate responds with error' do
+    post :validate, { deployment: use_invalid_attributes ? invalid_attributes : valid_attributes, template_id: template.to_param, format: :json }, valid_session
+    expect(response).to have_http_status(:unprocessable_entity)
+  end
+end
+
+RSpec.shared_examples 'deployment options with valid data' do |type|
+  it 'assigns a new deployment instance as @deployment' do
+    post :options, { deployment: valid_attributes, template_id: template.to_param, type: type, format: :json }, valid_session
+    expect(assigns(:decorator)).to be_a(DeploymentDecorator)
+    expect(assigns(:decorator).deployment).to be_a_new(Deployment)
+    expect(assigns(:decorator).deployment).not_to be_persisted
+  end
+
+  it 'validate responds with success' do
+    post :options, { deployment: valid_attributes, template_id: template.to_param, type: type, format: :json }, valid_session
+    expect(response).to have_http_status(:ok)
+  end
+
+  context 'rendering' do
+    render_views
+    it 'validate generates the response data' do
+      post :options, { deployment: valid_attributes, template_id: template.to_param, type: type, format: :json }, valid_session
+      expect(response.body).not_to be_empty
+    end
+  end
+end
+
+RSpec.shared_examples 'deployment options with invalid data' do |type, use_invalid_attributes|
+  it 'validate responds with error' do
+    post :options, { deployment: use_invalid_attributes ? invalid_attributes : valid_attributes, template_id: template.to_param, type: type, format: :json }, valid_session
     expect(response).to have_http_status(:unprocessable_entity)
   end
 end

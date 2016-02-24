@@ -77,13 +77,17 @@ RSpec.shared_examples 'deployment controller' do
     end
   end
 
-  describe 'POST #options' do
-    context 'with valid params' do
-      it_behaves_like 'deployment with valid options response'
-    end
+  describe 'POST #validate' do
+    it_behaves_like 'deployment with valid data'
+    it_behaves_like 'deployment with invalid data', true
+  end
 
-    context 'with invalid params' do
-      it_behaves_like 'deployment with invalid options', true
+  describe 'POST #options' do
+    [:regions, :images, :flavors].each do |type|
+      context "for #{type}" do
+        it_behaves_like 'deployment options with valid data', type
+        it_behaves_like 'deployment options with invalid data', type, true
+      end
     end
   end
 

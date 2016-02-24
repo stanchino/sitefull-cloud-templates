@@ -15,8 +15,8 @@ Rails.application.routes.draw do
   resources :templates do
     resources :deployments, only: [:index, :new, :edit, :create, :destroy] do
       collection do
-        post 'options', to: 'deployments#options', as: 'options'
-        get 'google_auth', to: 'deployments#google_auth'
+        post 'validate', to: 'deployments#validate', as: 'validate'
+        post 'options/:type', to: 'deployments#options', as: 'options'
       end
     end
   end
