@@ -8,5 +8,8 @@ class SiteFull.Deployments.ProviderOptions.Aws extends SiteFull.Deployments.Prov
     requests = []
     $.each ['regions', 'images', 'flavors'], (index, type) =>
       requests.push @get_data_for(type)
-    $.when.apply(undefined, requests).done(@enable_instance_inputs).fail(@disable_instance_inputs).always( -> $('body').removeClass('loading') )
+    $.when.apply(undefined, requests)
+      .done(@enable_instance_inputs)
+      .fail(@disable_instance_inputs)
+      .always( -> $('body').removeClass('loading') )
 

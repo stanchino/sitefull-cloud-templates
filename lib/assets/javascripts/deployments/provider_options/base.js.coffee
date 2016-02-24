@@ -17,10 +17,13 @@ class SiteFull.Deployments.ProviderOptions.Base
     $(':input:visible:disabled', @instance_wrapper).prop(disabled: false)
 
   enable_instance_input: (cls)->
-    $(':input:visible:disabled', "#{@instance_wrapper} .#{cls}").prop(disabled: false)
+    $(':input:visible:disabled', "#{@instance_wrapper} .#{cls}")
+      .prop(disabled: false)
 
   disable_instance_inputs: ->
-    $(':input:visible:not(:disabled)', @instance_wrapper).val('').prop(disabled: true)
+    $(':input:visible:not(:disabled)', @instance_wrapper)
+      .val('')
+      .prop(disabled: true)
 
   get_data_for: (type) ->
     $.ajax
