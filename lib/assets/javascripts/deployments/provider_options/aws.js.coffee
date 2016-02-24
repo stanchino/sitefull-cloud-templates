@@ -3,7 +3,8 @@ window.SiteFull.Deployments ||= {}
 window.SiteFull.Deployments.ProviderOptions ||= {}
 window.SiteFull.Deployments.ProviderOptions.Aws ||= {}
 
-class SiteFull.Deployments.ProviderOptions.Aws extends SiteFull.Deployments.ProviderOptions.Base
+class SiteFull.Deployments.ProviderOptions.Aws \
+extends SiteFull.Deployments.ProviderOptions.Base
   init: ->
     requests = []
     $.each ['regions', 'images', 'flavors'], (index, type) =>

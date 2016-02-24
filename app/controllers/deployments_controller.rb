@@ -66,7 +66,7 @@ class DeploymentsController < ApplicationController
   def options
     respond_to do |format|
       if @decorator.valid?
-        @items = @decorator.send("#{params[:type]}_for_select")
+        @items = @decorator.send("#{options_params[:type]}_for_select")
         format.json { render }
       else
         format.json { head :unprocessable_entity }
@@ -79,6 +79,10 @@ class DeploymentsController < ApplicationController
   # Never trust parameters from the scary internet, only allow the white list through.
   def deployment_params
     params.require(:deployment).permit(:provider_type, :region, :image, :flavor, Provider::Aws::CREDENTIALS, Provider::Google::CREDENTIALS)
+  end
+
+  def options_params
+    params.permit(:type)
   end
 
   def setup_decorator
