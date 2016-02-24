@@ -28,7 +28,8 @@ class GoogleAuthService
   private
 
   def credentials(request)
-    authorizer.get_credentials(@user_id, request).to_json
+    credentials = authorizer.get_credentials(@user_id, request)
+    credentials.to_json if credentials.present?
   rescue StandardError
     nil
   end

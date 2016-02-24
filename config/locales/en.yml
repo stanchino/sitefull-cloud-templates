@@ -52,10 +52,10 @@ en:
   deployments:
     provider:
       title: 'Cloud Provider'
-    credentials:
-      title: 'Provider Credentials'
-      description: 'You will need to supply credentials for the selected Cloud Provider in order to list the available images and provision your deployment instance.'
-    instance:
+      settings:
+        title: 'Provider Settings'
+        description: 'You will need to supply provider specific settings for the selected Cloud Provider in order to enable the available instance options and provision your deployment instance.'
+    options:
       title: 'Instance Options'
     jobs:
       errors:

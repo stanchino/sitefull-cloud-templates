@@ -1,6 +1,4 @@
 class Deployment < ActiveRecord::Base
-  include Wisper::Publisher
-
   PROVIDERS = %w(aws google azure).freeze
   store_accessor :credentials, Provider::Aws::CREDENTIALS, Provider::Google::CREDENTIALS
 

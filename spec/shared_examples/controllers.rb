@@ -45,19 +45,14 @@ RSpec.shared_examples 'deployment with valid options response' do
 
   it 'responds with success' do
     post :options, { deployment: valid_attributes, template_id: template.to_param, format: :json }, valid_session
-    expect(response).to be_ok
-  end
-
-  it 'renders the options view' do
-    post :options, { deployment: valid_attributes, template_id: template.to_param, format: :json }, valid_session
-    expect(response).to render_template('deployments/options', layout: false)
+    expect(response).to have_http_status(:no_content)
   end
 
   context 'rendering' do
     render_views
     it 'generates the response data' do
       post :options, { deployment: valid_attributes, template_id: template.to_param, format: :json }, valid_session
-      expect(response.body).not_to be_empty
+      expect(response.body).to be_empty
     end
   end
 end
@@ -65,6 +60,6 @@ end
 RSpec.shared_examples 'deployment with invalid options' do |use_invalid_attributes|
   it 'responds with error' do
     post :options, { deployment: use_invalid_attributes ? invalid_attributes : valid_attributes, template_id: template.to_param, format: :json }, valid_session
-    expect(response).to have_http_status(422)
+    expect(response).to have_http_status(:unprocessable_entity)
   end
 end

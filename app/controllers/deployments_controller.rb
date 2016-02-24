@@ -56,7 +56,7 @@ class DeploymentsController < ApplicationController
     @decorator = DeploymentDecorator.new @template.deployments.build(deployment_params)
     respond_to do |format|
       if @decorator.valid?
-        format.json { render }
+        format.json { head :no_content }
       else
         format.json { head :unprocessable_entity }
       end

@@ -25,7 +25,7 @@ module DeploymentDecorators
     end
 
     def options_for_selection(request)
-      return super if deployment.google_auth.present?
+      return super unless deployment.google_auth.nil?
       super.merge(data: { 'oauth-url' => GoogleAuthService.new(deployment).authorization_url(request) })
     end
   end
