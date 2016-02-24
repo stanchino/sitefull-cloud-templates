@@ -3,9 +3,10 @@ ENV['RAILS_ENV'] ||= 'test'
 if ENV['RAILS_ENV'] == 'test'
   require 'simplecov'
   SimpleCov.start 'rails' do
-    add_group 'Services', 'app/services'
     add_group 'Decorators', 'app/decorators'
     add_group 'Listeners', 'app/listeners'
+    add_group 'Services', 'app/services'
+    add_group 'Validators', 'app/validators'
   end
 end
 

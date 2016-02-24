@@ -30,7 +30,6 @@ module Provider
       setup_vpc
       setup_internet_gateway
       setup_routing
-      setup_security_group
       subnet.subnet_id
     end
 
@@ -39,9 +38,13 @@ module Provider
       OpenStruct.new(name: result.key_name, data: result.key_material)
     end
 
+    def create_firewall_rules(_)
+      setup_security_group
+    end
+
     # Uses http://docs.aws.amazon.com/sdkforruby/api/Aws/EC2/Client.html#run_instances-instance_method
-    def create_instance(image_id, instance_type, subnet_id, key_name)
-      connection.run_instances(image_id: image_id, instance_type: instance_type, subnet_id: subnet_id, key_name: key_name, security_group_ids: [security_group.group_id], min_count: 1, max_count: 1).instances.first.instance_id
+    def create_instance(deployment)
+      connection.run_instances(image_id: deployment.image, instance_type: deployment.flavor, subnet_id: deployment.network_id, key_name: deployment.key_name, security_group_ids: [security_group.group_id], min_count: 1, max_count: 1).instances.first.instance_id
     end
 
     def valid?

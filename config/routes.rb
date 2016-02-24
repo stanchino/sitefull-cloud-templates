@@ -1,19 +1,22 @@
 require 'sidekiq/web'
+require 'googleauth/web_user_authorizer'
 
 Rails.application.routes.draw do
   devise_for :users, path: ''
 
   authenticated :user do
     root to: 'dashboard#user', as: :user_root
+    match '/google_auth_callback', to: Google::Auth::WebUserAuthorizer::CallbackApp, via: :all
   end
 
   unauthenticated do
     root to: 'home#index'
   end
   resources :templates do
-    resources :deployments, only: [:index, :new, :create, :destroy] do
+    resources :deployments, only: [:index, :new, :edit, :create, :destroy] do
       collection do
-        post 'options', to: 'deployments#options', as: 'options'
+        post 'validate', to: 'deployments#validate', as: 'validate'
+        post 'options/:type', to: 'deployments#options', as: 'options'
       end
     end
   end

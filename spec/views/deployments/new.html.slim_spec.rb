@@ -6,6 +6,7 @@ RSpec.describe 'deployments/new', type: :view do
   before do
     assign(:template, template)
     assign(:deployment, deployment)
+    assign(:decorator, DeploymentDecorator.new(deployment))
   end
 
   it 'renders new deployment form' do

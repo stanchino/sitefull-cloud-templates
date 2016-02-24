@@ -5,33 +5,51 @@ window.SiteFull.Deployments.ProviderSelection ||= {}
 class SiteFull.Deployments.ProviderSelection
 
   constructor: ->
-    @credentials_fields = new SiteFull.Deployments.CredentialsFields
-    @wrapper = '.provider'
-    @credentials_wrapper = '.credentials'
+    @data_attr = 'data-provider-settings'
     @description = '.description'
-    @data_attr = 'data-provider-credentials'
-    @data_selector = "[#{@data_attr}]"
+    @provider_selector = ".provider input[type='radio']:checked"
+    @provider_settings = new SiteFull.Deployments.ProviderSettings
+    @settings_wrapper = '.provider-settings'
+    @wrapper = '.provider'
+
 
   init: ->
-    @credentials_fields.init()
-    $(document).on 'change', "#{@wrapper} input[type='radio']", (event) =>
+    @init_provider_settings()
+    @bind_provider_change()
+
+  init_provider_settings: ->
+    provider = @provider_selection()
+    @provider_settings.init(provider) if provider?
+
+  bind_provider_change: ->
+    $(@wrapper).on 'change', "input[type='radio']", (event) =>
       $target = $(event.target)
-      @hide_credentials_description() &&
-        @hide_all_credentials_sections() &&
-        @show_credentials_section_for($target.val()) &&
-        @credentials_fields.toggle_fields_visibility()
+      oauth_url = $target.data?('oauth-url')
+      if oauth_url
+        window.location.href = oauth_url
+      else
+        provider = $target.val()
+        @render_settings(provider)
+        @provider_settings.init(provider)
 
-  hide_credentials_description: ->
-    $(@description, @credentials_wrapper).hide()
+  render_settings: (provider) ->
+    @hide_settings_description() &&
+      @hide_all_settings_sections() &&
+      @show_settings_section_for(provider)
 
-  hide_all_credentials_sections: ->
-    $(@data_selector, @credentials_wrapper)
-      .hide()
-      .find(':input:not(:disabled)')
-      .prop(disabled: true)
+  hide_settings_description: ->
+    $(@description, @settings_wrapper).hide()
 
-  show_credentials_section_for: (section) ->
-    $("[#{@data_attr}=#{section}]", @credentials_wrapper)
+  hide_all_settings_sections: ->
+    sections = $("[#{@data_attr}]", @settings_wrapper)
+    sections.find(':input:visible:not(:disabled)').val('').prop(disabled: true)
+    sections.hide()
+
+  show_settings_section_for: (section) ->
+    $("[#{@data_attr}=#{section}]", @settings_wrapper)
       .show()
-      .find(':input:disabled')
+      .find(':input:visible:disabled')
       .prop(disabled: false)
+
+  provider_selection: ->
+    $(@provider_selector).val()

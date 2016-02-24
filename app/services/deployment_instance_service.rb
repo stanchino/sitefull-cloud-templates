@@ -13,13 +13,18 @@ class DeploymentInstanceService
     broadcast(:network_created, deployment.id, network_id)
   end
 
+  def create_firewall_rules(network_id)
+    provider.create_firewall_rules(network_id)
+    broadcast(:firewall_rules_created, deployment.id, network_id)
+  end
+
   def create_key
     key = provider.create_key("deployment_#{deployment.id}")
     broadcast(:key_created, deployment.id, key.name, key.data)
   end
 
   def create_instance
-    instance_id = provider.create_instance(deployment.image, deployment.flavor, deployment.network_id, deployment.key_name)
+    instance_id = provider.create_instance(deployment)
     broadcast(:instance_created, deployment.id, instance_id)
   end
 end

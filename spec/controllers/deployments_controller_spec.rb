@@ -1,47 +1,20 @@
 require 'rails_helper'
-require 'shared_examples/controllers'
+require 'shared_examples/deployments_controller'
 
 RSpec.describe DeploymentsController, type: :controller do
   login_user
 
   let(:template) { FactoryGirl.create(:template, user: user) }
-  let(:deployment) { FactoryGirl.create(:deployment, template: template) }
-  let(:valid_attributes) { FactoryGirl.attributes_for(:deployment, template: template) }
   let(:invalid_attributes) { { template_id: '' } }
   let(:valid_session) { {} }
 
-  describe 'GET #all' do
-    it 'assigns all deployments as @deployments' do
-      get :all, {}, valid_session
-      expect(assigns(:deployments)).to eq([deployment])
-    end
-  end
-
-  describe 'GET #index' do
-    it 'assigns all deployments as @deployments' do
-      get :index, { template_id: template.id }, valid_session
-      expect(assigns(:deployments)).to eq([deployment])
-    end
-  end
-
-  describe 'GET #show' do
-    it 'assigns the requested deployment as @deployment' do
-      get :show, { id: deployment.to_param }, valid_session
-      expect(assigns(:deployment)).to eq(deployment)
-    end
-  end
-
-  describe 'GET #new' do
-    it 'assigns a new deployment as @deployment' do
-      get :new, { template_id: template.id }, valid_session
-      expect(assigns(:deployment)).to be_a_new(Deployment)
-    end
-  end
-
-  describe 'POST #create' do
+  describe 'with AWS as provider', aws: true do
+    let(:deployment) { FactoryGirl.create(:deployment, :aws, template: template) }
+    let(:valid_attributes) { FactoryGirl.attributes_for(:deployment, :aws, template: template) }
     let(:vpc_id) { 'vpc-id' }
     let(:route_table_id) { 'route-table-id' }
     let(:group_id) { 'group-id' }
+
     before do
       allow_any_instance_of(Aws::EC2::Client).to receive(:run_instances).and_return(double(instances: [double(instance_id: 'instance_id')]))
       allow_any_instance_of(Aws::EC2::Client).to receive(:create_vpc).and_return(double(vpc: double(vpc_id: vpc_id, tags: [])))
@@ -49,94 +22,84 @@ RSpec.describe DeploymentsController, type: :controller do
       allow_any_instance_of(Aws::EC2::Client).to receive(:describe_security_groups).and_return(double(security_groups: [double(vpc_id: vpc_id, group_id: group_id, tags: [])]))
     end
 
-    context 'with valid params' do
-      it 'creates a new Deployment' do
-        expect do
-          post :create, { deployment: valid_attributes, template_id: template.to_param }, valid_session
-        end.to change(Deployment, :count).by(1)
-      end
+    it_behaves_like 'deployment controller'
 
-      it 'assigns a newly created deployment as @deployment' do
-        post :create, { deployment: valid_attributes, template_id: template.to_param }, valid_session
-        expect(assigns(:deployment)).to be_a(Deployment)
-        expect(assigns(:deployment)).to be_persisted
-      end
-
-      it 'redirects to the created deployment' do
-        post :create, { deployment: valid_attributes, template_id: template.to_param }, valid_session
-        expect(response).to redirect_to(Deployment.last)
-      end
-
-      context 'with new internet gateway' do
-        it 'publish the event' do
-          expect do
-            post :create, { deployment: valid_attributes, template_id: template.to_param }, valid_session
-          end.to broadcast(:deployment_saved)
-        end
-      end
-
-      context 'with existing internet gateway' do
-        let(:internet_gateway_id) { 'internet-gateway-id' }
-        before do
-          allow_any_instance_of(Aws::EC2::Client).to receive(:describe_internet_gateways).and_return(double(internet_gateways: [double(internet_gateway_id: internet_gateway_id, attachments: [double(vpc_id: vpc_id)])]))
-        end
-        it 'publish the event' do
-          expect do
-            post :create, { deployment: valid_attributes, template_id: template.to_param }, valid_session
-          end.to broadcast(:deployment_saved)
+    describe 'POST #create' do
+      context 'with valid params' do
+        context 'with existing internet gateway' do
+          let(:internet_gateway_id) { 'internet-gateway-id' }
+          before do
+            allow_any_instance_of(Aws::EC2::Client).to receive(:describe_internet_gateways).and_return(double(internet_gateways: [double(internet_gateway_id: internet_gateway_id, attachments: [double(vpc_id: vpc_id)])]))
+          end
+          it 'publish the event' do
+            expect do
+              post :create, { deployment: valid_attributes, template_id: template.to_param }, valid_session
+            end.to broadcast(:deployment_saved)
+          end
         end
       end
     end
 
-    context 'with invalid params' do
-      it 'assigns a newly created but unsaved deployment as @deployment' do
-        post :create, { deployment: invalid_attributes, template_id: template.to_param }, valid_session
-        expect(assigns(:deployment)).to be_a_new(Deployment)
+    describe 'POST #validate' do
+      context 'with valid provider credentials' do
+        describe_regions_exception Aws::EC2::Errors::DryRunOperation
+        it_behaves_like 'deployment with valid data'
       end
 
-      it "re-renders the 'new' template" do
-        post :create, { deployment: invalid_attributes, template_id: template.to_param }, valid_session
-        expect(response).to render_template('new')
+      context 'with invalid provider credentials' do
+        describe_regions_exception Aws::EC2::Errors::AuthFailure
+        it_behaves_like 'deployment with invalid data'
+      end
+
+      context 'with generic provider validation failure' do
+        before { allow_any_instance_of(Aws::EC2::Client).to receive(:describe_regions).with(dry_run: true).and_raise(StandardError) }
+        it_behaves_like 'deployment with invalid data'
       end
     end
   end
 
-  describe 'POST #options' do
-    context 'with valid params' do
-      it_behaves_like 'deployment with valid options response'
+  describe 'with Google as provider', google: true do
+    let(:project_name) { 'project' }
+    let(:deployment) { FactoryGirl.create(:deployment, :google, template: template) }
+    let(:valid_attributes) { FactoryGirl.attributes_for(:deployment, :google, template: template).merge(project_name: project_name) }
+
+    before do
+      allow_any_instance_of(Google::Apis::ComputeV1::ComputeService).to receive(:get_network).with(project_name, 'sitefull-cloud').and_raise(::Google::Apis::ClientError.new('error'))
+      allow_any_instance_of(Google::Apis::ComputeV1::ComputeService).to receive(:insert_network).with(project_name, instance_of(::Google::Apis::ComputeV1::Network)).and_return(double(target_link: 'network_id'))
+      allow_any_instance_of(Google::Apis::ComputeV1::ComputeService).to receive(:insert_firewall).with(project_name, instance_of(::Google::Apis::ComputeV1::Firewall)).and_return(nil)
+      allow_any_instance_of(Google::Apis::ComputeV1::ComputeService).to receive(:insert_instance).with(project_name, valid_attributes[:region], instance_of(::Google::Apis::ComputeV1::Instance)).and_return(double(target_link: 'instance_id'))
     end
 
-    context 'with valid provider credentials' do
-      describe_regions_exception Aws::EC2::Errors::DryRunOperation
-      it_behaves_like 'deployment with valid options response'
+    it_behaves_like 'deployment controller'
+
+    describe 'GET #new' do
+      context 'with Google OAuth credentials' do
+        before { expect_any_instance_of(Google::Auth::WebUserAuthorizer).to receive(:get_credentials).with(user.to_param, request).and_return(foo: :bar) }
+        it 'sets the deployment credentials' do
+          get :new, { template_id: template.id }, valid_session
+          expect(assigns(:deployment).google_auth).not_to be_nil
+        end
+      end
+
+      context 'without Google OAuth credentials' do
+        before { expect_any_instance_of(Google::Auth::WebUserAuthorizer).to receive(:get_credentials).with(user.to_param, request).and_raise(StandardError) }
+        it 'does not set the deployment credentials' do
+          get :new, { template_id: template.id }, valid_session
+          expect(assigns(:deployment).google_auth).to be_nil
+        end
+      end
     end
 
-    context 'with invalid params' do
-      it_behaves_like 'deployment with invalid options', true
-    end
+    describe 'POST #validate' do
+      context 'with generic provider validation failure' do
+        before { allow_any_instance_of(Google::Apis::ComputeV1::ComputeService).to receive(:list_zones).and_raise(StandardError) }
+        it_behaves_like 'deployment with invalid data'
+      end
 
-    context 'with invalid provider credentials' do
-      describe_regions_exception Aws::EC2::Errors::AuthFailure
-      it_behaves_like 'deployment with invalid options'
-    end
-
-    context 'with generic provider validation failure' do
-      before { allow_any_instance_of(Aws::EC2::Client).to receive(:describe_regions).with(dry_run: true).and_raise(StandardError) }
-      it_behaves_like 'deployment with invalid options'
-    end
-  end
-
-  describe 'DELETE #destroy' do
-    it 'destroys the requested deployment' do
-      id = deployment.to_param
-      expect do
-        delete :destroy, { id: id, template_id: template.to_param }, valid_session
-      end.to change(Deployment, :count).by(-1)
-    end
-
-    it 'redirects to the deployments list' do
-      delete :destroy, { id: deployment.to_param, template_id: template.to_param }, valid_session
-      expect(response).to redirect_to(deployments_url)
+      context 'with failure when retrieving flavors' do
+        before { allow_any_instance_of(Google::Apis::ComputeV1::ComputeService).to receive(:list_machine_types).and_raise(::Google::Apis::ClientError.new(any_args)) }
+        it_behaves_like 'deployment options with valid data', :flavors
+      end
     end
   end
 end
