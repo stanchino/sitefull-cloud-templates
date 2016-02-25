@@ -72,6 +72,17 @@ RSpec.describe DeploymentsController, type: :controller do
 
     it_behaves_like 'deployment controller'
 
+    describe 'POST #create' do
+      context 'with failure when creating firewall rules' do
+        before { allow_any_instance_of(Google::Apis::ComputeV1::ComputeService).to receive(:insert_firewall).and_raise(::Google::Apis::ClientError.new(any_args)) }
+        it 'creates a new Deployment' do
+          expect do
+            post :create, { deployment: valid_attributes, template_id: template.to_param }, valid_session
+          end.to change(Deployment, :count).by(1)
+        end
+      end
+    end
+
     describe 'GET #new' do
       context 'with Google OAuth credentials' do
         before { expect_any_instance_of(Google::Auth::WebUserAuthorizer).to receive(:get_credentials).with(user.to_param, request).and_return(foo: :bar) }
