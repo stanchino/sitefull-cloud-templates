@@ -75,6 +75,9 @@ module Provider
     def create_firewall_rule(network_id, rule_name, port)
       rule = ::Google::Apis::ComputeV1::Firewall.new(name: rule_name, source_ranges: ['0.0.0.0/0'], network: network_id, allowed: [{ ip_protocol: 'tcp', ports: [port] }])
       connection.insert_firewall(project_name, rule)
+    rescue ::Google::Apis::ClientError => e
+      Rails.logger.debug(e.message)
+      nil
     end
 
     def network_id
