@@ -84,7 +84,7 @@ gem 'wisper'
 # Asynchronous processing for Pub/Sub
 gem 'wisper-sidekiq'
 
-gem 'sitefull-oauth', path: 'vendor/gems/sitefull-oauth'
+gem 'sitefull-oauth'
 
 group :development do
   # Access an IRB console on exception pages or by using <%= console %> in views
