@@ -58,6 +58,11 @@ gem 'aws-sdk'
 # Use the Google API for deployments to GCE
 gem 'google-api-client'
 
+# Use the official Azure SDK
+gem 'azure_mgmt_compute'
+gem 'azure_mgmt_resources'
+gem 'azure_mgmt_network'
+
 # Tag deployment templates
 gem 'acts-as-taggable-on'
 
@@ -78,6 +83,8 @@ gem 'sinatra', require: nil
 gem 'wisper'
 # Asynchronous processing for Pub/Sub
 gem 'wisper-sidekiq'
+
+gem 'sitefull-oauth', path: 'vendor/gems/sitefull-oauth'
 
 group :development do
   # Access an IRB console on exception pages or by using <%= console %> in views

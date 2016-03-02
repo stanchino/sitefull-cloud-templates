@@ -9,8 +9,8 @@ RSpec.describe 'deployments/edit', type: :view do
   end
 
   # Deployment::PROVIDERS.each do |provider_type|
-  [:aws, :google].each do |provider_type|
-    let(:deployment) { stub_model(Deployment, provider_type: provider_type, template: template) }
+  [:amazon, :google].each do |provider_type|
+    let(:deployment) { stub_model(Deployment, template: template) }
     it 'renders new deployment form' do
       render
 

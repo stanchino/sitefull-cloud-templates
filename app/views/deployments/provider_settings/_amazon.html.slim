@@ -1,0 +1,2 @@
+= form_builder.input_field :token, as: :hidden, disabled: provider_blank? || !@deployment.on?(:amazon)
+= form_builder.input :role_arn, wrapper_html: { class: 'amazon' }, disabled: provider_blank? || !@deployment.on?(:amazon)

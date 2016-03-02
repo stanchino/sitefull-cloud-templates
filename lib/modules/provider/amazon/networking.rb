@@ -1,5 +1,5 @@
 module Provider
-  module Aws
+  module Amazon
     module Networking
       TEMPLATE_TAG = 'SiteFull Deployment'.freeze
       VPC_CIDR_BLOCK = '172.16.0.0/16'.freeze

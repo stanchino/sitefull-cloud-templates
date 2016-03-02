@@ -8,9 +8,9 @@ RSpec.describe DeploymentsController, type: :controller do
   let(:invalid_attributes) { { template_id: '' } }
   let(:valid_session) { {} }
 
-  describe 'with AWS as provider', aws: true do
-    let(:deployment) { FactoryGirl.create(:deployment, :aws, template: template) }
-    let(:valid_attributes) { FactoryGirl.attributes_for(:deployment, :aws, template: template) }
+  describe 'with Amazon as provider', amazon: true do
+    let(:deployment) { FactoryGirl.create(:deployment, :amazon, template: template) }
+    let(:valid_attributes) { FactoryGirl.attributes_for(:deployment, :amazon, template: template) }
     let(:vpc_id) { 'vpc-id' }
     let(:route_table_id) { 'route-table-id' }
     let(:group_id) { 'group-id' }
@@ -83,24 +83,6 @@ RSpec.describe DeploymentsController, type: :controller do
       end
     end
 
-    describe 'GET #new' do
-      context 'with Google OAuth credentials' do
-        before { expect_any_instance_of(Google::Auth::WebUserAuthorizer).to receive(:get_credentials).with(user.to_param, request).and_return(foo: :bar) }
-        it 'sets the deployment credentials' do
-          get :new, { template_id: template.id }, valid_session
-          expect(assigns(:deployment).google_auth).not_to be_nil
-        end
-      end
-
-      context 'without Google OAuth credentials' do
-        before { expect_any_instance_of(Google::Auth::WebUserAuthorizer).to receive(:get_credentials).with(user.to_param, request).and_raise(StandardError) }
-        it 'does not set the deployment credentials' do
-          get :new, { template_id: template.id }, valid_session
-          expect(assigns(:deployment).google_auth).to be_nil
-        end
-      end
-    end
-
     describe 'POST #validate' do
       context 'with generic provider validation failure' do
         before { allow_any_instance_of(Google::Apis::ComputeV1::ComputeService).to receive(:list_zones).and_raise(StandardError) }
@@ -112,5 +94,13 @@ RSpec.describe DeploymentsController, type: :controller do
         it_behaves_like 'deployment options with valid data', :flavors
       end
     end
+  end
+
+  describe 'with Azure as provider', azure: true do
+    let(:subscription_id) { 'subscription_id' }
+    let(:deployment) { FactoryGirl.create(:deployment, :azure, template: template) }
+    let(:valid_attributes) { FactoryGirl.attributes_for(:deployment, :azure, template: template).merge(subscription_id: subscription_id) }
+
+    it_behaves_like 'deployment controller'
   end
 end

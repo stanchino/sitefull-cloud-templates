@@ -1,5 +1,7 @@
 module Provider
   class Factory
+    attr_reader :type, :options
+
     def initialize(type, options = {})
       @options = options.symbolize_keys unless options.nil?
       @type = type || 'base'
@@ -9,17 +11,13 @@ module Provider
     protected
 
     def credentials
-      @credentials ||= Hash[provider_credentials.map { |key| [key, @options[key]] }]
+      @credentials ||= Sitefull::Oauth::Provider.new(type, options).credentials
     end
 
     private
 
     def provider_module
       @provider_module ||= "Provider::#{@type.capitalize}".constantize
-    end
-
-    def provider_credentials
-      @provider_credentials ||= provider_module::CREDENTIALS
     end
   end
 end

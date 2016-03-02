@@ -2,22 +2,18 @@ require 'google/apis/compute_v1'
 
 module Provider
   module Google
-    CREDENTIALS = [:project_name, :google_auth].freeze
-    FLAVORS = %w(https://www.googleapis.com/compute/v1/projects/sitefull-cloud/zones/us-central1-a/machineTypes/f1-micro).freeze
-
-    DEFAULT_REGION = 'us-east-1'.freeze
-    DEFAULT_FLAVOR = 't2.micro'.freeze
+    REQUIRED_OPTIONS = [:project_name].freeze
 
     def connection
       return @connection if @connection.present?
 
       connection = ::Google::Apis::ComputeV1::ComputeService.new
-      connection.authorization = Signet::OAuth2::Client.new(JSON.parse(credentials[:google_auth]))
+      connection.authorization = credentials
       @connection = connection
     end
 
     def project_name
-      @project_name ||= credentials[:project_name]
+      @project_name ||= options[:project_name]
     end
 
     def regions

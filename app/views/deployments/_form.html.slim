@@ -13,7 +13,7 @@
         .form-group
           .input-group
             span.input-group-addon
-              = f.radio_button :provider_type, provider_type, @decorator.provider(provider_type).options_for_selection(request)
+              = f.radio_button :provider_type, provider_type, options_for_selection(provider_type)
             label.form-control class=provider_type for="deployment_provider_type_#{provider_type}"
               = t("providers.#{provider_type}")
   .provider-settings
@@ -27,9 +27,9 @@
   .options*{data: provider_options_urls}
     h2 = t('deployments.options.title')
     .form-inputs
-      = f.input :region, collection: @decorator.regions_for_select, prompt: :translate, wrapper_html: { class: 'regions' }, disabled: provider_blank? || credentials_blank?
-      = f.input :image, collection: @decorator.images_for_select, prompt: :translate, wrapper_html: { class: 'images' }, disabled: provider_blank? || credentials_blank?
-      = f.input :flavor, collection: @decorator.flavors_for_select, prompt: :translate, wrapper_html: { class: 'flavors' }, disabled: provider_blank? || credentials_blank?
+      = f.input :region, collection: @decorator.regions_for_select, prompt: :translate, wrapper_html: { class: 'regions' }, disabled: provider_blank?
+      = f.input :image, collection: @decorator.images_for_select, prompt: :translate, wrapper_html: { class: 'images' }, disabled: provider_blank?
+      = f.input :flavor, collection: @decorator.flavors_for_select, prompt: :translate, wrapper_html: { class: 'flavors' }, disabled: provider_blank?
   .form-actions
     = link_to 'Cancel', template_deployments_url(@template), class: 'btn btn-default'
     | &nbsp;

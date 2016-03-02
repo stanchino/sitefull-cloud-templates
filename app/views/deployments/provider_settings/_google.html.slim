@@ -1,2 +1,2 @@
-= form_builder.input_field :google_auth, as: :hidden, disabled: provider_blank? || !@deployment.on?(:google)
+= form_builder.input_field :token, as: :hidden, disabled: provider_blank? || !@deployment.on?(:google)
 = form_builder.input :project_name, wrapper_html: { class: 'google' }, disabled: provider_blank? || !@deployment.on?(:google)

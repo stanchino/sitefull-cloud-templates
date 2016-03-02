@@ -23,10 +23,5 @@ module DeploymentDecorators
     def images_for_select
       provider.images(deployment.os).sort_by(&:name).map { |i| OpenStruct.new(id: i.self_link, name: i.name) }
     end
-
-    def options_for_selection(request)
-      return super unless deployment.google_auth.nil?
-      super.merge(data: { 'oauth-url' => GoogleAuthService.new(deployment).authorization_url(request) })
-    end
   end
 end

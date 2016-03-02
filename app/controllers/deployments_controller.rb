@@ -27,7 +27,6 @@ class DeploymentsController < ApplicationController
 
   # GET /templates/1/deployments/new
   def new
-    GoogleAuthService.new(@deployment).authorize(request)
   end
 
   # POST /templates/1/deployments
@@ -78,7 +77,7 @@ class DeploymentsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def deployment_params
-    params.require(:deployment).permit(:provider_type, :region, :image, :flavor, Provider::Aws::CREDENTIALS, Provider::Google::CREDENTIALS)
+    params.require(:deployment).permit(:provider_type, :region, :image, :flavor, :token, Provider::Amazon::REQUIRED_OPTIONS, Provider::Google::REQUIRED_OPTIONS, Provider::Azure::REQUIRED_OPTIONS)
   end
 
   def options_params

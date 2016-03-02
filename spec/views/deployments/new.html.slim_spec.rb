@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe 'deployments/new', type: :view do
   let(:template) { stub_model(Template, os: 'debian') }
-  let(:deployment) { Deployment.new(provider_type: 'aws', template: template) }
+  let(:deployment) { Deployment.new(template: template) }
   before do
     assign(:template, template)
     assign(:deployment, deployment)

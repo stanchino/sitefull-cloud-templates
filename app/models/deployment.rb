@@ -1,6 +1,6 @@
 class Deployment < ActiveRecord::Base
-  PROVIDERS = %w(aws google azure).freeze
-  store_accessor :credentials, Provider::Aws::CREDENTIALS, Provider::Google::CREDENTIALS
+  PROVIDERS = %w(amazon google azure).freeze
+  store_accessor :credentials, [:token] + PROVIDERS.map { |provider| "Provider::#{provider.capitalize}::REQUIRED_OPTIONS".constantize }.flatten
 
   attr_encrypted :key_data, mode: :per_attribute_iv_and_salt, key: ENV['ENC_KEY'] || Rails.application.secrets.encryption_key
 
@@ -12,10 +12,7 @@ class Deployment < ActiveRecord::Base
   validates :image, presence: true, deployment: true
   validates :flavor, presence: true, deployment: true
 
-  validates :access_key_id, presence: true, if: -> { on?(:aws) }
-  validates :secret_access_key, presence: true, if: -> { on?(:aws) }
-
-  validates :google_auth, presence: true, if: -> { on?(:google) }
+  validates_with ProviderOptionsValidator
 
   delegate :os, to: :template
 

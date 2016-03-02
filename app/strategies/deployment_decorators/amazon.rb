@@ -1,6 +1,6 @@
 module DeploymentDecorators
-  class Aws < Base
-    delegate :flavors, :regions, :valid?, to: :provider
+  class Amazon < Base
+    delegate :flavors, to: :provider
 
     def regions
       provider.regions.map(&:region_name)

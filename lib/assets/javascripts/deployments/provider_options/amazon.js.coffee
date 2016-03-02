@@ -1,9 +1,9 @@
 window.SiteFull ||= {}
 window.SiteFull.Deployments ||= {}
 window.SiteFull.Deployments.ProviderOptions ||= {}
-window.SiteFull.Deployments.ProviderOptions.Aws ||= {}
+window.SiteFull.Deployments.ProviderOptions.Amazon ||= {}
 
-class SiteFull.Deployments.ProviderOptions.Aws \
+class SiteFull.Deployments.ProviderOptions.Amazon \
 extends SiteFull.Deployments.ProviderOptions.Base
   init: ->
     requests = []

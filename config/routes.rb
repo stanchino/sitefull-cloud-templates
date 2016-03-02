@@ -7,6 +7,9 @@ Rails.application.routes.draw do
   authenticated :user do
     root to: 'dashboard#user', as: :user_root
     match '/google_auth_callback', to: Google::Auth::WebUserAuthorizer::CallbackApp, via: :all
+    match '/azure_auth_callback', to: 'application#azure_auth_callback', via: [:get, :post]
+    match '/auth/:provider/callback', to: 'application#auth_callback', via: [:get, :post]
+    match '/oauth/:provider/callback', to: 'application#oauth_callback', via: [:get, :post]
   end
 
   unauthenticated do
