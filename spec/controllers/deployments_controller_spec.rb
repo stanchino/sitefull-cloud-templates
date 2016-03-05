@@ -16,17 +16,15 @@ RSpec.describe DeploymentsController, type: :controller do
   end
 
   describe 'with Google as provider', google: true do
-    let(:project_name) { 'project' }
     let(:deployment) { FactoryGirl.create(:deployment, :google, template: template) }
-    let(:valid_attributes) { FactoryGirl.attributes_for(:deployment, :google, template: template).merge(project_name: project_name) }
+    let(:valid_attributes) { FactoryGirl.attributes_for(:deployment, :google, template: template, project_name: 'project') }
 
     it_behaves_like 'deployment controller'
   end
 
   describe 'with Azure as provider', azure: true do
-    let(:subscription_id) { 'subscription_id' }
     let(:deployment) { FactoryGirl.create(:deployment, :azure, template: template) }
-    let(:valid_attributes) { FactoryGirl.attributes_for(:deployment, :azure, template: template).merge(subscription_id: subscription_id) }
+    let(:valid_attributes) { FactoryGirl.attributes_for(:deployment, :azure, template: template, subscription_id: 'subscription_id') }
 
     it_behaves_like 'deployment controller'
   end

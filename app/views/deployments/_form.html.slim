@@ -29,7 +29,7 @@
     .form-inputs
       = f.input :region, collection: @decorator.regions_for_select, prompt: :translate, wrapper_html: { class: 'regions' }, disabled: provider_blank?
       = f.input :image, collection: @decorator.images_for_select, prompt: :translate, wrapper_html: { class: 'images' }, disabled: provider_blank?
-      = f.input :machine_type, collection: @decorator.machine_types_for_select, prompt: :translate, wrapper_html: { class: 'machine_types' }, disabled: provider_blank?
+      = f.input :machine_type, collection: @decorator.machine_types_for_select, prompt: :translate, wrapper_html: { class: 'machine-types' }, disabled: provider_blank?
   .form-actions
     = link_to 'Cancel', template_deployments_url(@template), class: 'btn btn-default'
     | &nbsp;
