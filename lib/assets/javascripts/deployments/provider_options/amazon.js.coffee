@@ -7,7 +7,7 @@ class SiteFull.Deployments.ProviderOptions.Amazon \
 extends SiteFull.Deployments.ProviderOptions.Base
   init: ->
     requests = []
-    $.each ['regions', 'images', 'flavors'], (index, type) =>
+    $.each ['regions', 'images', 'machine_types'], (index, type) =>
       requests.push @get_data_for(type)
     $.when.apply(undefined, requests)
       .done(@enable_instance_inputs)

@@ -1,15 +1,18 @@
 class ProviderDecorator
-  attr_accessor :credentials
+  attr_reader :options
 
-  delegate :auth_provider, :provider, to: :@strategy
-
-  def initialize(provider_type, credentials = {})
-    @credentials = credentials
+  def initialize(provider_type, opt = {})
     self.strategy = provider_type
+    @options = @strategy.options.merge(opt)
+    @auth_provider = Sitefull::Cloud::Auth.new(provider_type, @options)
   end
 
   def strategy=(provider_type)
-    @strategy = provider_class(provider_type).new(credentials)
+    @strategy = provider_class(provider_type).new
+  end
+
+  def authorization_url
+    @auth_provider.authorization_url.to_s
   end
 
   private

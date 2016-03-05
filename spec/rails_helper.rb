@@ -61,7 +61,7 @@ Shoulda::Matchers.configure do |config|
   end
 end
 
-Aws.config[:stub_responses] = true
+Sitefull::Cloud.mock!
 
 RSpec.configure do |config|
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures

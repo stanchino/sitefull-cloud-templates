@@ -13,7 +13,7 @@ RSpec.describe 'deployments/index', type: :view do
     render
     deployments.each do |deployment|
       assert_select 'tr>td', text: deployment.region
-      assert_select 'tr>td', text: deployment.flavor
+      assert_select 'tr>td', text: deployment.machine_type
     end
   end
 end

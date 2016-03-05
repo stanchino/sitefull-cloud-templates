@@ -60,7 +60,7 @@
 
 .regions,
 .images,
-.flavors {
+.machine_types {
   @include make-sm-column(4);
   @include make-xs-column(12);
 }

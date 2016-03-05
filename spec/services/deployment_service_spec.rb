@@ -7,13 +7,11 @@ RSpec.describe DeploymentService, type: :service do
 
   describe 'delegates' do
     it { is_expected.to delegate_method(:regions).to(:provider) }
-    it { is_expected.to delegate_method(:flavors).to(:provider) }
+    it { is_expected.to delegate_method(:machine_types).to(:provider) }
     it { is_expected.to delegate_method(:valid?).to(:provider) }
   end
 
   describe 'images' do
-    let(:images) { [double(image_id: 'image-id', name: 'Image')] }
-    before { allow_any_instance_of(Aws::EC2::Client).to receive(:describe_images).and_return(double(images: images)) }
-    it { expect(subject.images).to match_array images }
+    it { expect(subject.images).to match_array Sitefull::Cloud::Provider.new(:amazon).images(deployment.os) }
   end
 end

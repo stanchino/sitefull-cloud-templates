@@ -52,17 +52,6 @@ gem 'cancancan'
 # Use Devise for authentication
 gem 'devise'
 
-# Use the AWS SDK for deployments to EC2
-gem 'aws-sdk'
-
-# Use the Google API for deployments to GCE
-gem 'google-api-client'
-
-# Use the official Azure SDK
-gem 'azure_mgmt_compute'
-gem 'azure_mgmt_resources'
-gem 'azure_mgmt_network'
-
 # Tag deployment templates
 gem 'acts-as-taggable-on'
 
@@ -84,7 +73,8 @@ gem 'wisper'
 # Asynchronous processing for Pub/Sub
 gem 'wisper-sidekiq'
 
-gem 'sitefull-oauth'
+# The module that will perform cloud operations
+gem 'sitefull-cloud'
 
 group :development do
   # Access an IRB console on exception pages or by using <%= console %> in views

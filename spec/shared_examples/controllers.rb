@@ -58,6 +58,8 @@ RSpec.shared_examples 'deployment with valid data' do
 end
 
 RSpec.shared_examples 'deployment with invalid data' do |use_invalid_attributes|
+  before { allow_any_instance_of(DeploymentDecorator).to receive(:valid?).and_return(false) } if use_invalid_attributes
+
   it 'validate responds with error' do
     post :validate, { deployment: use_invalid_attributes ? invalid_attributes : valid_attributes, template_id: template.to_param, format: :json }, valid_session
     expect(response).to have_http_status(:unprocessable_entity)
@@ -87,6 +89,8 @@ RSpec.shared_examples 'deployment options with valid data' do |type|
 end
 
 RSpec.shared_examples 'deployment options with invalid data' do |type, use_invalid_attributes|
+  before { allow_any_instance_of(DeploymentDecorator).to receive(:valid?).and_return(false) } if use_invalid_attributes
+
   it 'validate responds with error' do
     post :options, { deployment: use_invalid_attributes ? invalid_attributes : valid_attributes, template_id: template.to_param, type: type, format: :json }, valid_session
     expect(response).to have_http_status(:unprocessable_entity)

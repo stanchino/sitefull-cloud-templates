@@ -83,7 +83,7 @@ RSpec.shared_examples 'deployment controller' do
   end
 
   describe 'POST #options' do
-    [:regions, :images, :flavors].each do |type|
+    [:regions, :images, :machine_types].each do |type|
       context "for #{type}" do
         it_behaves_like 'deployment options with valid data', type
         it_behaves_like 'deployment options with invalid data', type, true

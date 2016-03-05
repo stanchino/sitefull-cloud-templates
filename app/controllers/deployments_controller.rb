@@ -77,7 +77,7 @@ class DeploymentsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def deployment_params
-    params.require(:deployment).permit(:provider_type, :region, :image, :flavor, :token, Provider::Amazon::REQUIRED_OPTIONS, Provider::Google::REQUIRED_OPTIONS, Provider::Azure::REQUIRED_OPTIONS)
+    params.require(:deployment).permit(:provider_type, :region, :image, :machine_type, :token, Sitefull::Cloud::Provider.all_required_options)
   end
 
   def options_params

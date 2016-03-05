@@ -1,23 +1,33 @@
 class DeploymentDecorator
-  attr_accessor :deployment
-
-  delegate :regions, :regions_for_select,
-           :flavors, :flavors_for_select,
-           :images,  :images_for_select,
-           :valid?, to: :@strategy
+  attr_accessor :deployment, :provider
+  delegate :valid?, to: :provider
 
   def initialize(deployment)
+    @provider = Sitefull::Cloud::Provider.new(deployment.provider_type, deployment.credentials)
     @deployment = deployment
-    self.strategy = deployment.provider_type || 'base'
   end
 
-  def strategy=(provider_type)
-    @strategy = strategy_class(provider_type).new(deployment)
+  def regions
+    provider.regions.map(&:id)
   end
 
-  private
+  def images
+    provider.images(deployment.os).map(&:id)
+  end
 
-  def strategy_class(provider_type)
-    "DeploymentDecorators::#{provider_type.capitalize}".constantize
+  def machine_types
+    provider.machine_types(deployment.region).map(&:id)
+  end
+
+  def regions_for_select
+    provider.regions.sort_by(&:name)
+  end
+
+  def machine_types_for_select
+    provider.machine_types(deployment.region).sort_by(&:name)
+  end
+
+  def images_for_select
+    provider.images(deployment.os).sort_by(&:name)
   end
 end
