@@ -5,6 +5,7 @@ class DeploymentsController < ApplicationController
   load_and_authorize_resource through: :template, only: [:index, :new, :create, :destroy, :validate, :options]
   load_and_authorize_resource only: [:all, :show]
 
+  before_action :set_provider_type, only: [:new, :create]
   before_action :setup_decorator, only: [:new, :create, :validate, :options]
 
   layout 'dashboard'
@@ -76,15 +77,24 @@ class DeploymentsController < ApplicationController
   private
 
   # Never trust parameters from the scary internet, only allow the white list through.
+  def new_params
+    params.permit(:provider)
+  end
+
   def deployment_params
-    params.require(:deployment).permit(:provider_type, :region, :image, :machine_type, :token, Sitefull::Cloud::Provider.all_required_options)
+    params.require(:deployment).permit(:provider_type, :region, :image, :machine_type, Sitefull::Cloud::Provider.all_required_options)
   end
 
   def options_params
     params.permit(:type)
   end
 
+  def set_provider_type
+    @deployment.provider_type = new_params[:provider] if new_params[:provider].present?
+  end
+
   def setup_decorator
     @decorator = DeploymentDecorator.new(@deployment || @template.deployments.build(deployment_params))
+    @decorator.deployment.session_name = request.session_options[:id]
   end
 end

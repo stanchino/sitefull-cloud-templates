@@ -9,8 +9,13 @@ module DeploymentsHelper
 
   def options_for_selection(provider_type)
     options = { checked: @deployment.provider_type == provider_type }
-    return options if @deployment.token.present?
 
-    options.merge(data: { 'oauth-url' => ProviderDecorator.new(provider_type, base_uri: request.base_url).authorization_url })
+    options.merge(data: { 'oauth-url' => ProviderDecorator.new(provider_type, oauth_url_options(provider_type)).authorization_url })
+  end
+
+  private
+
+  def oauth_url_options(provider_type)
+    { base_uri: request.base_url, state: new_template_deployment_path(@deployment.template, provider: provider_type) }
   end
 end

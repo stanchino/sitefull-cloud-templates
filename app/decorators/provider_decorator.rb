@@ -1,23 +1,25 @@
 class ProviderDecorator
-  attr_reader :options
-
   def initialize(provider_type, opt = {})
-    self.strategy = provider_type
-    @options = @strategy.options.merge(opt)
-    @auth_provider = Sitefull::Cloud::Auth.new(provider_type, @options)
+    @provider_model = Provider.find_by_textkey(provider_type)
+    @provider_type = provider_type
+    @options = token_options.merge(opt).symbolize_keys
   end
 
-  def strategy=(provider_type)
-    @strategy = provider_class(provider_type).new
+  def provider
+    @provider ||= Sitefull::Cloud::Provider.new(@provider_type, @options)
+  end
+
+  def auth
+    @auth ||= Sitefull::Cloud::Auth.new(@provider_type, @options)
+  end
+
+  def token_options
+    @token_options ||= Hash[@provider_model.settings.map { |s| [s.name, s.value] }]
   end
 
   def authorization_url
-    @auth_provider.authorization_url.to_s
+    auth.authorization_url.to_s
   end
 
-  private
-
-  def provider_class(provider_type)
-    "ProviderDecorators::#{provider_type.capitalize}".constantize
-  end
+  delegate :authorize!, to: :auth
 end

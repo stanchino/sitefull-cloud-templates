@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe DeploymentService, type: :service do
   let(:template) { stub_model(Template, os: 'debian') }
-  let(:deployment) { stub_model(Deployment, template: template, provider_type: 'amazon', token: '{"access_key": "access_key"}', role_arn: 'role') }
+  let(:deployment) { stub_model(Deployment, template: template, provider_type: 'amazon', role_arn: 'role', session_name: 'session_id') }
   subject { DeploymentService.new(deployment) }
 
   describe 'delegates' do

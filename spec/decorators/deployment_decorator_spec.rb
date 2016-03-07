@@ -7,7 +7,7 @@ RSpec.describe DeploymentDecorator, type: :decorator do
   describe 'methods' do
     [:regions, :machine_types, :images, :regions_for_select, :machine_types_for_select, :images_for_select].each do |method|
       context "returns an empty array for #{method}" do
-        it { expect(subject.send(method)).not_to be_empty }
+        it { expect(subject.send(method)).to be_empty }
       end
     end
   end

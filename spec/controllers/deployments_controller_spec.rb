@@ -9,6 +9,7 @@ RSpec.describe DeploymentsController, type: :controller do
   let(:valid_session) { {} }
 
   describe 'with Amazon as provider', amazon: true do
+    setup_access(:amazon)
     let(:deployment) { FactoryGirl.create(:deployment, :amazon, template: template) }
     let(:valid_attributes) { FactoryGirl.attributes_for(:deployment, :amazon, template: template) }
 
@@ -16,6 +17,7 @@ RSpec.describe DeploymentsController, type: :controller do
   end
 
   describe 'with Google as provider', google: true do
+    setup_access(:google)
     let(:deployment) { FactoryGirl.create(:deployment, :google, template: template) }
     let(:valid_attributes) { FactoryGirl.attributes_for(:deployment, :google, template: template, project_name: 'project') }
 
@@ -23,6 +25,7 @@ RSpec.describe DeploymentsController, type: :controller do
   end
 
   describe 'with Azure as provider', azure: true do
+    setup_access(:azure)
     let(:deployment) { FactoryGirl.create(:deployment, :azure, template: template) }
     let(:valid_attributes) { FactoryGirl.attributes_for(:deployment, :azure, template: template, subscription_id: 'subscription_id') }
 

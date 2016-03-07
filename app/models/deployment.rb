@@ -1,5 +1,5 @@
 class Deployment < ActiveRecord::Base
-  store_accessor :credentials, [:token] + Sitefull::Cloud::Provider.all_required_options
+  store_accessor :credentials, Sitefull::Cloud::Provider.all_required_options
 
   attr_encrypted :key_data, mode: :per_attribute_iv_and_salt, key: ENV['ENC_KEY'] || Rails.application.secrets.encryption_key
 

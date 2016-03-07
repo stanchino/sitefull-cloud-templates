@@ -5,7 +5,7 @@ class DeploymentInstanceService
 
   def initialize(deployment)
     @deployment ||= deployment
-    @provider = Sitefull::Cloud::Provider.new(deployment.provider_type, deployment.credentials)
+    @provider = DeploymentDecorator.new(deployment).provider
   end
 
   def create_network

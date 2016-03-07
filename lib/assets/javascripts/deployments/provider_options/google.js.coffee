@@ -18,7 +18,7 @@ extends SiteFull.Deployments.ProviderOptions.Base
 
   bind_region_selection: ->
     $(@instance_wrapper).on 'change', '.regions select', (event) =>
-      @get_data_for('machine_types').done( =>
-        @enable_instance_input('machine_types')
+      @get_data_for('machine-types').done( =>
+        @enable_instance_input('machine-types')
       ).fail(@disable_instance_inputs)
         .always( -> $('body').removeClass('loading') )

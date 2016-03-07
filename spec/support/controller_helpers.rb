@@ -4,7 +4,7 @@ module ControllerHelpers
     before(:each) { sign_in user }
   end
 
-  def describe_regions_exception(exc)
-    before { allow_any_instance_of(Aws::EC2::Client).to receive(:describe_regions).with(dry_run: true).and_raise(exc.new(double, double)) }
+  def setup_access(provider_type)
+    before(:each) { FactoryGirl.create(:access, user: user, provider: Provider.find_by_textkey(provider_type)) }
   end
 end

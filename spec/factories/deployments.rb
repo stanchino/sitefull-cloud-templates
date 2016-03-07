@@ -1,7 +1,6 @@
 FactoryGirl.define do
   factory :deployment do
     template
-    token '{"access_key": "access_key"}'
     region 'region-id-1'
     machine_type 'machine-type-id-1'
     image 'image-id-1'
@@ -9,6 +8,7 @@ FactoryGirl.define do
     trait :amazon do
       provider_type 'amazon'
       role_arn 'role'
+      session_name 'session_id'
     end
 
     trait :google do
