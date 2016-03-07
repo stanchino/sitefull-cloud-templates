@@ -8,9 +8,9 @@ RSpec.describe DeploymentsController, type: :controller do
   let(:invalid_attributes) { { template_id: '' } }
   let(:valid_session) { {} }
 
-  Provider.select(:textkey).map(&:textkey).each do |provider|
+  [:amazon, :azure, :google].each do |provider|
     describe "for #{provider}" do
-      it_behaves_like 'deployment controller', provider.to_sym
+      it_behaves_like 'deployment controller', provider
     end
   end
 end
