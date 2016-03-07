@@ -1,6 +1,10 @@
 require 'shared_examples/controllers'
 
-RSpec.shared_examples 'deployment controller' do
+RSpec.shared_examples 'deployment controller' do |provider|
+  setup_access(provider)
+  let(:deployment) { FactoryGirl.create(:deployment, provider, template: template) }
+  let(:valid_attributes) { FactoryGirl.attributes_for(:deployment, provider, template: template) }
+
   describe 'GET #all' do
     it 'assigns all deployments as @deployments' do
       get :all, {}, valid_session

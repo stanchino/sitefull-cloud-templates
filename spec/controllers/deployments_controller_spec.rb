@@ -8,27 +8,9 @@ RSpec.describe DeploymentsController, type: :controller do
   let(:invalid_attributes) { { template_id: '' } }
   let(:valid_session) { {} }
 
-  describe 'with Amazon as provider', amazon: true do
-    setup_access(:amazon)
-    let(:deployment) { FactoryGirl.create(:deployment, :amazon, template: template) }
-    let(:valid_attributes) { FactoryGirl.attributes_for(:deployment, :amazon, template: template) }
-
-    it_behaves_like 'deployment controller'
-  end
-
-  describe 'with Google as provider', google: true do
-    setup_access(:google)
-    let(:deployment) { FactoryGirl.create(:deployment, :google, template: template) }
-    let(:valid_attributes) { FactoryGirl.attributes_for(:deployment, :google, template: template, project_name: 'project') }
-
-    it_behaves_like 'deployment controller'
-  end
-
-  describe 'with Azure as provider', azure: true do
-    setup_access(:azure)
-    let(:deployment) { FactoryGirl.create(:deployment, :azure, template: template) }
-    let(:valid_attributes) { FactoryGirl.attributes_for(:deployment, :azure, template: template, subscription_id: 'subscription_id') }
-
-    it_behaves_like 'deployment controller'
+  Provider.select(:textkey).map(&:textkey).each do |provider|
+    describe "for #{provider}" do
+      it_behaves_like 'deployment controller', provider.to_sym
+    end
   end
 end
