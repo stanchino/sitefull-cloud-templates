@@ -1,12 +1,11 @@
 require 'sidekiq/web'
-require 'googleauth/web_user_authorizer'
 
 Rails.application.routes.draw do
   devise_for :users, path: ''
 
   authenticated :user do
     root to: 'dashboard#user', as: :user_root
-    match '/google_auth_callback', to: Google::Auth::WebUserAuthorizer::CallbackApp, via: :all
+    match '/oauth/:id/callback', to: 'providers#oauth', via: [:get, :post]
   end
 
   unauthenticated do

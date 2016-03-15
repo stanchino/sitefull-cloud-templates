@@ -48,6 +48,7 @@ module SiteFull
 
     # Eager loading for decorators
     config.eager_load_paths << Rails.root.join('app/decorators')
+    config.eager_load_paths << Rails.root.join('app/strategies')
 
     # ActiveJob configuration
     config.active_job.queue_adapter = :sidekiq

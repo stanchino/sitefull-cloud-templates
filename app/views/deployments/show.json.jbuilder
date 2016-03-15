@@ -1,1 +1,1 @@
-json.extract! @deployment, :id, :provider, :image, :flavor, :created_at, :updated_at
+json.extract! @deployment, :id, :provider, :image, :machine_type, :created_at, :updated_at

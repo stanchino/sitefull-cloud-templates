@@ -13,19 +13,20 @@ class SiteFull.Deployments.ProviderOptions.Base
     $.each options, (i, option) ->
       select.append $('<option/>').val(option.id).text(option.name)
 
-  enable_instance_inputs: ->
+  enable_instance_inputs: =>
     $(':input:visible:disabled', @instance_wrapper).prop(disabled: false)
 
-  enable_instance_input: (cls)->
+  enable_instance_input: (cls) =>
     $(':input:visible:disabled', "#{@instance_wrapper} .#{cls}")
       .prop(disabled: false)
 
-  disable_instance_inputs: ->
+  disable_instance_inputs: =>
+    console.log @instance_wrapper
     $(':input:visible:not(:disabled)', @instance_wrapper)
       .val('')
       .prop(disabled: true)
 
-  get_data_for: (type) ->
+  get_data_for: (type) =>
     $.ajax
       beforeSend: -> $('body').addClass('loading')
       url: $(@instance_wrapper).data?("#{type}-url")

@@ -3,11 +3,11 @@ class DeploymentService
 
   attr_accessor :deployment, :provider
 
-  delegate :regions, :flavors, :valid?, to: :provider
+  delegate :regions, :machine_types, :valid?, to: :provider
 
   def initialize(deployment)
     @deployment ||= deployment
-    @provider = Provider::Factory.new(deployment.provider_type, deployment.credentials)
+    @provider = Sitefull::Cloud::Provider.new(deployment.provider_type, deployment.credentials)
   end
 
   def images

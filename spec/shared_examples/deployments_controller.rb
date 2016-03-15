@@ -1,6 +1,10 @@
 require 'shared_examples/controllers'
 
-RSpec.shared_examples 'deployment controller' do
+RSpec.shared_examples 'deployment controller' do |provider|
+  setup_access(provider)
+  let(:deployment) { FactoryGirl.create(:deployment, provider, template: template) }
+  let(:valid_attributes) { FactoryGirl.attributes_for(:deployment, provider, template: template) }
+
   describe 'GET #all' do
     it 'assigns all deployments as @deployments' do
       get :all, {}, valid_session
@@ -83,7 +87,7 @@ RSpec.shared_examples 'deployment controller' do
   end
 
   describe 'POST #options' do
-    [:regions, :images, :flavors].each do |type|
+    [:regions, :images, :machine_types].each do |type|
       context "for #{type}" do
         it_behaves_like 'deployment options with valid data', type
         it_behaves_like 'deployment options with invalid data', type, true

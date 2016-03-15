@@ -37,7 +37,7 @@
     }
   }
 
-  .aws:before {
+  .amazon:before {
     content: '\f270';
   }
 
@@ -50,7 +50,7 @@
   }
 }
 
-.aws {
+.amazon {
   &.form-group {
     @include make-sm-column(4);
     @include make-xs-column(12);
@@ -60,7 +60,7 @@
 
 .regions,
 .images,
-.flavors {
+.machine-types {
   @include make-sm-column(4);
   @include make-xs-column(12);
 }

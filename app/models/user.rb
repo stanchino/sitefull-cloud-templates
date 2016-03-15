@@ -9,4 +9,6 @@ class User < ActiveRecord::Base
 
   has_many :templates
   has_many :deployments, through: :templates
+  has_many :accesses, dependent: :destroy
+  has_many :providers, through: :accesses
 end

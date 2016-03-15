@@ -12,6 +12,9 @@ describe User, type: :model do
 
   describe 'relations' do
     it { is_expected.to have_many(:templates) }
+    it { is_expected.to have_many(:accesses).dependent(:destroy) }
+    it { is_expected.to have_many(:deployments).through(:templates) }
+    it { is_expected.to have_many(:providers).through(:accesses) }
   end
 
   describe 'abilities' do

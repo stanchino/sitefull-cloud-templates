@@ -10,7 +10,7 @@ RSpec.describe Deployment, type: :model do
     it { is_expected.to validate_presence_of(:provider_type) }
     it { is_expected.to validate_presence_of(:region) }
     it { is_expected.to validate_presence_of(:image) }
-    it { is_expected.to validate_presence_of(:flavor) }
+    it { is_expected.to validate_presence_of(:machine_type) }
   end
 
   describe 'delegates' do

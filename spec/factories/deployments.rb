@@ -1,22 +1,24 @@
 FactoryGirl.define do
   factory :deployment do
     template
+    region 'region-id-1'
+    machine_type 'machine-type-id-1'
+    image 'image-id-1'
 
-    trait :aws do
-      provider_type 'aws'
-      region 'us-east-1'
-      flavor 't2.micro'
-      image 'image-id'
-      access_key_id Faker::Internet.password
-      secret_access_key Faker::Internet.password
+    trait :amazon do
+      provider_type 'amazon'
+      role_arn 'role'
+      session_name 'session_id'
     end
 
     trait :google do
       provider_type 'google'
-      region 'us-central1-a'
-      flavor 'machine-type-1'
-      image 'image-id-1'
-      google_auth '{}'
+      project_name 'project'
+    end
+
+    trait :azure do
+      provider_type 'azure'
+      subscription_id 'subscription_id'
     end
   end
 end

@@ -11,18 +11,31 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160220160734) do
+ActiveRecord::Schema.define(version: 20160305120453) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "hstore"
+
+  create_table "accesses", force: :cascade do |t|
+    t.integer  "provider_id"
+    t.integer  "user_id"
+    t.string   "encrypted_token"
+    t.string   "encrypted_token_salt"
+    t.string   "encrypted_token_iv"
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
+  end
+
+  add_index "accesses", ["provider_id"], name: "index_accesses_on_provider_id", using: :btree
+  add_index "accesses", ["user_id"], name: "index_accesses_on_user_id", using: :btree
 
   create_table "deployments", force: :cascade do |t|
     t.integer  "template_id"
     t.hstore   "credentials"
     t.string   "provider_type",                        null: false
     t.string   "region",                  default: "", null: false
-    t.string   "flavor",                  default: "", null: false
+    t.string   "machine_type",            default: "", null: false
     t.datetime "created_at",                           null: false
     t.datetime "updated_at",                           null: false
     t.string   "image",                   default: "", null: false
@@ -36,6 +49,25 @@ ActiveRecord::Schema.define(version: 20160220160734) do
 
   add_index "deployments", ["provider_type"], name: "index_deployments_on_provider_type", using: :btree
   add_index "deployments", ["template_id"], name: "index_deployments_on_template_id", using: :btree
+
+  create_table "provider_settings", force: :cascade do |t|
+    t.string   "name"
+    t.string   "encrypted_value"
+    t.string   "encrypted_value_salt"
+    t.string   "encrypted_value_iv"
+    t.integer  "provider_id"
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
+  end
+
+  add_index "provider_settings", ["provider_id"], name: "index_provider_settings_on_provider_id", using: :btree
+
+  create_table "providers", force: :cascade do |t|
+    t.string   "name"
+    t.string   "textkey"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "taggings", force: :cascade do |t|
     t.integer  "tag_id"
@@ -100,5 +132,8 @@ ActiveRecord::Schema.define(version: 20160220160734) do
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   add_index "users", ["unlock_token"], name: "index_users_on_unlock_token", unique: true, using: :btree
 
+  add_foreign_key "accesses", "providers"
+  add_foreign_key "accesses", "users"
+  add_foreign_key "provider_settings", "providers"
   add_foreign_key "templates", "users"
 end

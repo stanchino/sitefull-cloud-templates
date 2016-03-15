@@ -46,7 +46,7 @@ en:
         tag_list: "Tags"
         script: "Script"
   providers:
-    aws: "Amazon"
+    amazon: "Amazon"
     google: "Google"
     azure: "Azure"
   deployments:
