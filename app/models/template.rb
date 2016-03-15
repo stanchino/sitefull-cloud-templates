@@ -1,15 +1,13 @@
 class Template < ActiveRecord::Base
   OPERATING_SYSTEMS = [
     %w(debian Debian),
-    %w(freebsd FreeBSD),
     %w(centos CentOS),
     ['rhel', 'Red Hat Enterprice Linux'],
     %w(suse SUSE),
     %w(ubuntu Ubuntu),
-    ['windows_2003', 'Windows 2003'],
-    ['windows_2008', 'Windows 2008'],
-    ['windows_2012', 'Windows 2012'],
-    %w(other Other)
+    ['windows_server_2008', 'Windows Server 2008'],
+    ['windows_server_2012', 'Windows Server 2012'],
+    ['windows_server_2016', 'Windows Server 2016']
   ].freeze
 
   acts_as_taggable
