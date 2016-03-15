@@ -74,7 +74,7 @@ gem 'wisper'
 gem 'wisper-sidekiq'
 
 # The module that will perform cloud operations
-gem 'sitefull-cloud', path: 'vendor/gems'
+gem 'sitefull-cloud'
 
 group :development do
   # Access an IRB console on exception pages or by using <%= console %> in views
