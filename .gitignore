@@ -8,9 +8,12 @@
 /.bundle
 
 # Ignore all logfiles and tempfiles.
+/Gemfile.lock
 /log/*
 !/log/.keep
 /tmp
 .env
 /coverage
 public/assets
+*.rdb
+/vendor/gems

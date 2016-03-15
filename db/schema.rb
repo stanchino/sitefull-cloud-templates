@@ -11,10 +11,63 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160202230434) do
+ActiveRecord::Schema.define(version: 20160305120453) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "hstore"
+
+  create_table "accesses", force: :cascade do |t|
+    t.integer  "provider_id"
+    t.integer  "user_id"
+    t.string   "encrypted_token"
+    t.string   "encrypted_token_salt"
+    t.string   "encrypted_token_iv"
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
+  end
+
+  add_index "accesses", ["provider_id"], name: "index_accesses_on_provider_id", using: :btree
+  add_index "accesses", ["user_id"], name: "index_accesses_on_user_id", using: :btree
+
+  create_table "deployments", force: :cascade do |t|
+    t.integer  "template_id"
+    t.hstore   "credentials"
+    t.string   "provider_type",                        null: false
+    t.string   "region",                  default: "", null: false
+    t.string   "machine_type",            default: "", null: false
+    t.datetime "created_at",                           null: false
+    t.datetime "updated_at",                           null: false
+    t.string   "image",                   default: "", null: false
+    t.string   "network_id"
+    t.string   "instance_id"
+    t.string   "key_name"
+    t.string   "encrypted_key_data"
+    t.string   "encrypted_key_data_salt"
+    t.string   "encrypted_key_data_iv"
+  end
+
+  add_index "deployments", ["provider_type"], name: "index_deployments_on_provider_type", using: :btree
+  add_index "deployments", ["template_id"], name: "index_deployments_on_template_id", using: :btree
+
+  create_table "provider_settings", force: :cascade do |t|
+    t.string   "name"
+    t.string   "encrypted_value"
+    t.string   "encrypted_value_salt"
+    t.string   "encrypted_value_iv"
+    t.integer  "provider_id"
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
+  end
+
+  add_index "provider_settings", ["provider_id"], name: "index_provider_settings_on_provider_id", using: :btree
+
+  create_table "providers", force: :cascade do |t|
+    t.string   "name"
+    t.string   "textkey"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "taggings", force: :cascade do |t|
     t.integer  "tag_id"
@@ -50,14 +103,14 @@ ActiveRecord::Schema.define(version: 20160202230434) do
   add_index "templates", ["user_id"], name: "index_templates_on_user_id", using: :btree
 
   create_table "users", force: :cascade do |t|
-    t.string   "first_name",             default: "", null: false
-    t.string   "last_name",              default: "", null: false
-    t.string   "email",                  default: "", null: false
-    t.string   "encrypted_password",     default: "", null: false
+    t.string   "first_name",             default: "",    null: false
+    t.string   "last_name",              default: "",    null: false
+    t.string   "email",                  default: "",    null: false
+    t.string   "encrypted_password",     default: "",    null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          default: 0,  null: false
+    t.integer  "sign_in_count",          default: 0,     null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.inet     "current_sign_in_ip"
@@ -66,11 +119,12 @@ ActiveRecord::Schema.define(version: 20160202230434) do
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
     t.string   "unconfirmed_email"
-    t.integer  "failed_attempts",        default: 0,  null: false
+    t.integer  "failed_attempts",        default: 0,     null: false
     t.string   "unlock_token"
     t.datetime "locked_at"
-    t.datetime "created_at",                          null: false
-    t.datetime "updated_at",                          null: false
+    t.datetime "created_at",                             null: false
+    t.datetime "updated_at",                             null: false
+    t.boolean  "admin",                  default: false, null: false
   end
 
   add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree
@@ -78,5 +132,8 @@ ActiveRecord::Schema.define(version: 20160202230434) do
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   add_index "users", ["unlock_token"], name: "index_users_on_unlock_token", unique: true, using: :btree
 
+  add_foreign_key "accesses", "providers"
+  add_foreign_key "accesses", "users"
+  add_foreign_key "provider_settings", "providers"
   add_foreign_key "templates", "users"
 end

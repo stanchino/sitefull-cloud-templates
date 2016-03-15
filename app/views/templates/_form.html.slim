@@ -1,10 +1,8 @@
 - content_for(:stylesheet_links_content) do
   = stylesheet_link_tag 'templates/form', media: 'all', 'data-turbolinks-track' => true
 
-- content_for(:javascript_links_content) do
-  = javascript_include_tag 'select2', 'data-turbolinks-track' => true
-  = javascript_include_tag 'tags_list', 'data-turbolinks-track' => true
-  = javascript_include_tag 'templates/form', 'data-turbolinks-track' => true
+- content_for(:js_manifest) do
+  = javascript_include_tag 'templates/edit', 'data-turbolinks-track' => true
 
 = simple_form_for(@template) do |f|
   = f.error_notification

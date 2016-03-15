@@ -34,6 +34,15 @@ en:
         name: 'Template Name (required)'
         script: 'Deployment Script (required)'
         tag_list: 'Template Tags'
+      deployment:
+        access_key_id: "Required"
+        secret_access_key: "Required"
+    labels:
+      deployment:
+        region: "Region"
+        flavor: "Instance Type"
+        access_key_id: "AWS Access Key ID"
+        secret_access_key: "AWS Secret Access Key"
     prompts:
       template:
         os: 'Operating System (required)'

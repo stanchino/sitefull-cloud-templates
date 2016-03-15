@@ -27,7 +27,9 @@ en:
     home: "Home Page"
     help: "Help"
     contacts: "Contact Us"
-    templates: "Templates"
+    templates: "Gallery"
+    deployments: "Deployments"
+    profile: 'My Profile'
   actions:
     details: 'Details'
     edit: 'Edit'
@@ -43,3 +45,18 @@ en:
         os: "Operating System"
         tag_list: "Tags"
         script: "Script"
+  providers:
+    amazon: "Amazon"
+    google: "Google"
+    azure: "Azure"
+  deployments:
+    provider:
+      title: 'Cloud Provider'
+      settings:
+        title: 'Provider Settings'
+        description: 'You will need to supply provider specific settings for the selected Cloud Provider in order to enable the available instance options and provision your deployment instance.'
+    options:
+      title: 'Instance Options'
+    jobs:
+      errors:
+        invalid_service: 'Invalid service.'

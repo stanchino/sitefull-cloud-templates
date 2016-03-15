@@ -1,0 +1,31 @@
+p#notice = notice
+
+p
+  strong Provider:
+  | &nbsp;
+  = t("providers.#{@deployment.provider_type}")
+p
+  strong Region:
+  | &nbsp;
+  = @deployment.region
+p
+  strong Flavor:
+  | &nbsp;
+  = @deployment.machine_type
+
+p
+  strong Image:
+  | &nbsp;
+  = @deployment.image
+
+p
+  strong Key:
+  | &nbsp;
+  = @deployment.key_name
+
+p
+  strong Instance ID:
+  | &nbsp;
+  = @deployment.instance_id
+
+= link_to 'Back', template_deployments_url(@deployment.template)

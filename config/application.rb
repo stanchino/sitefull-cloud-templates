@@ -41,5 +41,16 @@ module SiteFull
         [u, p] == [ENV['HTTP_USER'], ENV['HTTP_PASS']]
       end
     end
+
+    # Autoload classes
+    config.autoload_paths << Rails.root.join('lib/modules')
+    config.autoload_paths << Rails.root.join('app/listeners')
+
+    # Eager loading for decorators
+    config.eager_load_paths << Rails.root.join('app/decorators')
+    config.eager_load_paths << Rails.root.join('app/strategies')
+
+    # ActiveJob configuration
+    config.active_job.queue_adapter = :sidekiq
   end
 end
