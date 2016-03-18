@@ -8,8 +8,7 @@ Climate](https://codeclimate.com/github/stanchino/sitefull-cloud-deploy/badges/g
 Coverage](https://codeclimate.com/github/stanchino/sitefull-cloud-deploy/badges/coverage.svg)](https://codeclimate.com/github/stanchino/sitefull-cloud-deploy/coverage)
 [![Issue
 Count](https://codeclimate.com/github/stanchino/sitefull-cloud-deploy/badges/issue_count.svg)](https://codeclimate.com/github/stanchino/sitefull-cloud-deploy)
-[![Dependency
-Status](https://www.versioneye.com/user/projects/56caa80618b2710403dfeb0c/badge.svg?style=flat)](https://www.versioneye.com/user/projects/56caa80618b2710403dfeb0c)
+[![Dependency Status](https://www.versioneye.com/user/projects/56ebab9a4e714c004f4d0c71/badge.svg?style=flat)](https://www.versioneye.com/user/projects/56ebab9a4e714c004f4d0c71)
 
 A [Ruby on Rails](http://rubyonrails.com) application for automating your cloud deployments.
 
