@@ -24,7 +24,7 @@ namespace :sitefull do
       puts "Creating provider #{name} with textkey #{textkey}"
       begin
         provider = Provider.create!(name: name, textkey: textkey)
-        settings.each { |key, value| provider.settings.create(name: key, value: value) }
+        settings.each { |key, value| provider.settings.create(name: key, value: value.strip) }
       rescue ActiveRecord::RecordInvalid => e
         puts "Error #{e.message}"
         exit 1

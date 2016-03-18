@@ -16,4 +16,4 @@
 /coverage
 public/assets
 *.rdb
-/vendor/gems
+vendor/gems
