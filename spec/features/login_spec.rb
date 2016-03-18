@@ -12,8 +12,8 @@ RSpec.feature 'Authentication', type: :feature do
       fill_in 'Password', with: password
       click_on 'Log in'
       expect(current_path).to eq user_root_path
-      expect(page).to have_link 'Templates'
-      expect(page).to have_link 'Sign Out'
+      expect(page).to have_link 'Gallery'
+      expect(page).to have_link 'Deployments'
     end
   end
 
@@ -42,7 +42,8 @@ RSpec.feature 'Authentication', type: :feature do
       fill_in 'Email', with: user.email
       fill_in 'Password', with: password
       click_on 'Log in'
-      expect(page).to have_link 'Templates'
+      expect(page).to have_link 'Gallery'
+      expect(page).to have_link 'Deployments'
       expect(page).to have_link 'Sign Out'
       expect(page).to have_text 'Signed in successfully.'
     end

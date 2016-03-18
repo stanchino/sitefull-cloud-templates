@@ -1,0 +1,14 @@
+//= require templates
+//= require select2
+//= require tags_list
+//= require_self
+
+;(function($) {
+  var tags_list;
+
+  tags_list = new SiteFull.TagsList('.tags-list select', { placeholder: '<%= I18n.t('simple_form.placeholders.template.tag_list') %>' });
+
+  $(document).on('ready', function() {
+    tags_list.render();
+  });
+})(jQuery);

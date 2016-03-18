@@ -88,7 +88,7 @@ RSpec.describe TemplatesController, type: :controller do
       context 'for JSON requests' do
         it 'sets the correct HTTP header' do
           post :create, { template: invalid_attributes, format: :json }, valid_session
-          expect(response).to have_http_status(422)
+          expect(response).to have_http_status(:unprocessable_entity)
         end
 
         it 'generates an error' do
@@ -146,7 +146,7 @@ RSpec.describe TemplatesController, type: :controller do
       context 'for JSON requests' do
         it 'sets the correct HTTP header' do
           put :update, { id: template.to_param, template: invalid_attributes, format: :json }, valid_session
-          expect(response).to have_http_status(422)
+          expect(response).to have_http_status(:unprocessable_entity)
         end
 
         it 'generates an error' do

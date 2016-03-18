@@ -2,7 +2,13 @@
 ENV['RAILS_ENV'] ||= 'test'
 if ENV['RAILS_ENV'] == 'test'
   require 'simplecov'
-  SimpleCov.start 'rails'
+  SimpleCov.start 'rails' do
+    add_filter 'vendor/gems'
+    add_group 'Decorators', 'app/decorators'
+    add_group 'Listeners', 'app/listeners'
+    add_group 'Services', 'app/services'
+    add_group 'Validators', 'app/validators'
+  end
 end
 
 require File.expand_path('../../config/environment', __FILE__)
@@ -20,6 +26,8 @@ require 'capybara/email/rspec'
 require 'capybara-screenshot/rspec'
 require 'codeclimate-test-reporter'
 require 'devise'
+require 'sidekiq/testing'
+require 'wisper/rspec/matchers'
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
@@ -45,6 +53,15 @@ Capybara.server_port = 3001
 Capybara.app_host = 'http://localhost:3001'
 
 CodeClimate::TestReporter.start if ENV['CODECLIMATE_REPO_TOKEN']
+
+Shoulda::Matchers.configure do |config|
+  config.integrate do |with|
+    with.test_framework :rspec
+    with.library :rails
+  end
+end
+
+Sitefull::Cloud.mock!
 
 RSpec.configure do |config|
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
@@ -77,6 +94,7 @@ RSpec.configure do |config|
   config.include Shoulda::Matchers::ActiveModel, type: :model
   config.include Shoulda::Matchers::ActiveRecord, type: :model
   config.include Devise::TestHelpers, type: :controller
+  config.include Wisper::RSpec::BroadcastMatcher
   config.include Rails.application.routes.url_helpers, type: :feature
 
   config.extend ControllerHelpers, type: :controller

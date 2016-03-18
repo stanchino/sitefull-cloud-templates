@@ -1,13 +1,6 @@
 @import 'variables';
 @import 'dashboard/forms';
-@import 'select2';
-@import 'select2-bootstrap';
-
-.select2-container--bootstrap .select2-selection {
-  font-family: inherit;
-  font-size: inherit;
-  min-height: ($line-height-computed + 2 * $padding-base-vertical + 2);
-}
+@import 'autocomplete';
 
 .operating-system {
   @include make-sm-column(3);

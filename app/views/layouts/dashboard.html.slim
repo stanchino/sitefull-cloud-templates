@@ -10,8 +10,10 @@ html[lang="en"]
       | SiteFull
     = stylesheet_link_tag 'templates', media: 'all', 'data-turbolinks-track' => true
     = yield(:stylesheet_links_content) if content_for?(:stylesheet_links_content)
-    = javascript_include_tag 'dashboard', 'data-turbolinks-track' => true
-    = yield(:javascript_links_content) if content_for?(:javascript_links_content)
+    - if content_for(:js_manifest)
+      = yield(:js_manifest)
+    - else
+      = javascript_include_tag "#{controller_name}", 'data-turbolinks-track' => true
     = csrf_meta_tags
   body
     = render 'layouts/navbar'
