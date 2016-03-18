@@ -1,5 +1,6 @@
 //= require dashboard
 //= require select2
+//= require websocket_rails/main
 //= require deployments/provider_selection
 //= require deployments/provider_options/base
 //= require deployments/provider_options/amazon
