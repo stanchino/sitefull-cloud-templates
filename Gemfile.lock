@@ -1,3 +1,19 @@
+PATH
+  remote: vendor/gems
+  specs:
+    sitefull-cloud (0.0.4)
+      activesupport
+      aws-sdk
+      azure
+      azure_mgmt_compute
+      azure_mgmt_network
+      azure_mgmt_resources
+      azure_mgmt_storage
+      faraday
+      google-api-client
+      multi_json
+      signet
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -326,18 +342,6 @@ GEM
       rack (~> 1.5)
       rack-protection (~> 1.4)
       tilt (>= 1.3, < 3)
-    sitefull-cloud (0.0.4)
-      activesupport
-      aws-sdk
-      azure
-      azure_mgmt_compute
-      azure_mgmt_network
-      azure_mgmt_resources
-      azure_mgmt_storage
-      faraday
-      google-api-client
-      multi_json
-      signet
     slim (3.0.6)
       temple (~> 0.7.3)
       tilt (>= 1.3.3, < 2.1)
@@ -436,7 +440,7 @@ DEPENDENCIES
   simple_form
   simplecov
   sinatra
-  sitefull-cloud
+  sitefull-cloud!
   slim
   slim-rails
   spring
