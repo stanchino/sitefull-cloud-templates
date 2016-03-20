@@ -6,8 +6,13 @@ class DeploymentStatusService
   end
 
   def save
+    WebsocketRails[:deployments].trigger :status, id: @deployment.id, status: 'started'
+    @deployment.status = :running
     success = @deployment.save
-    broadcast(:deployment_saved, @deployment.id) if success
+    if success
+      WebsocketRails[:deployments].trigger :status, id: @deployment.id, status: 'running'
+      broadcast(:deployment_saved, @deployment.id)
+    end
     success
   end
 
