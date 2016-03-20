@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 ruby '2.3.0'
 
-gem 'rails'
+gem 'rails', '~> 4.2.5.1'
 
 # Use PostgreSQL as the database engine
 gem 'pg'
@@ -77,7 +77,7 @@ gem 'wisper-sidekiq'
 gem 'sitefull-cloud'
 
 gem 'faye-websocket', '0.10.0'
-gem 'websocket-rails', github: 'websocket-rails/websocket-rails', branch: 'threadsocket-rails-sync'
+gem 'websocket-rails', git: 'https://github.com/websocket-rails/websocket-rails.git', branch: 'threadsocket-rails-sync'
 gem 'websocket-rails-js'
 
 group :development do

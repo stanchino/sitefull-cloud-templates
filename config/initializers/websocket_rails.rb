@@ -22,17 +22,13 @@ WebsocketRails.setup do |config|
   config.synchronize = true
 
   # Prevent Thin from daemonizing (default is true)
-  #config.daemonize = false
-
-  #config.thin_options = {
-  #  port: ENV['WEBSOCKET_PORT']
-  #}
+  # config.daemonize = false
 
   # Uncomment and edit to point to a different redis instance.
   # Will not be used unless standalone or synchronization mode
   # is enabled.
   # config.redis_options = {:host => 'localhost', :port => '6379'}
-  uri = URI.parse(ENV["REDIS_URL"] || "redis://127.0.0.1:6379")
+  uri = URI.parse(ENV['REDIS_URL'] || 'redis://127.0.0.1:6379')
   config.redis_options = { host: uri.host, port: uri.port, user: uri.user, password: uri.password, driver: :ruby }
 
   # By default, all subscribers in to a channel will be removed
