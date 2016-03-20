@@ -15,8 +15,6 @@ class DeploymentInstanceService
   end
 
   def create_firewall_rules(network_id)
-    WebsocketRails[:deployments].trigger :progress, id: deployment.id, message: 'Network Setup', key: :network_setup, status: :completed
-    WebsocketRails[:deployments].trigger :progress, id: deployment.id, message: 'Creating Firewall Rules', key: :firewall_setup, status: :running
     notify_progress 'Network Setup', :network_setup, :completed
     notify_progress 'Creating Firewall Rules', :firewall_setup, :running
     provider.create_firewall_rules(network_id)

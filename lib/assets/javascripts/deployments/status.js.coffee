@@ -29,5 +29,7 @@ class SiteFull.Deployments.Status
     @channel.bind 'status', (data) =>
       if data.id == @deployment_id
         @$deployment_container ||= $('#deployment-information')
-        @$deployment_container.removeClass('running', 'failed', 'completed').addClass(data.status)
+        @$deployment_container
+          .removeClass('running', 'failed', 'completed')
+          .addClass(data.status)
 
