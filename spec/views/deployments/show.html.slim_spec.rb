@@ -7,11 +7,9 @@ RSpec.describe 'deployments/show', type: :view do
 
   it 'renders attributes' do
     render
+    expect(rendered).to match(/#{deployment.provider_type}/)
     expect(rendered).to match(/#{deployment.region}/)
     expect(rendered).to match(/#{deployment.machine_type}/)
     expect(rendered).to match(/#{deployment.image}/)
-    expect(rendered).to match(/#{deployment.key_name}/)
-    expect(rendered).to match(/#{deployment.instance_id}/)
-    assert_select 'a[href=?]', template_deployments_url(template), text: 'Back'
   end
 end

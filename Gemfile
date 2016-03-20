@@ -76,6 +76,7 @@ gem 'wisper-sidekiq'
 # The module that will perform cloud operations
 gem 'sitefull-cloud'
 
+gem 'faye-websocket', '0.10.0'
 gem 'websocket-rails'
 
 group :development do

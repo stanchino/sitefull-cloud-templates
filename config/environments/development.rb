@@ -51,4 +51,6 @@ Rails.application.configure do
   config.log_level    = log_level.downcase.to_sym
 
   config.quiet_assets_paths << '/sidekiq/'
+
+  config.middleware.delete Rack::Lock
 end
