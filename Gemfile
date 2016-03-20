@@ -77,7 +77,8 @@ gem 'wisper-sidekiq'
 gem 'sitefull-cloud'
 
 gem 'faye-websocket', '0.10.0'
-gem 'websocket-rails'
+gem 'websocket-rails', github: 'websocket-rails/websocket-rails', branch: 'threadsocket-rails-sync'
+gem 'websocket-rails-js'
 
 group :development do
   # Access an IRB console on exception pages or by using <%= console %> in views

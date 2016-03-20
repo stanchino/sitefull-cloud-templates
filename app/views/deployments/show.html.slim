@@ -5,7 +5,7 @@ javascript:
   (function($) {
     var deployment_status;
 
-    deployment_status = new SiteFull.Deployments.Status({host: "#{request.host}", port: "#{ENV['WEBSOCKET_PORT']}", channel: 'deployments', deployment_id: "#{@deployment.id}" });
+    deployment_status = new SiteFull.Deployments.Status({host: "#{request.host}", port: "#{request.port}", channel: 'deployments', deployment_id: "#{@deployment.id}" });
 
     $(document).on('ready', function() {
       deployment_status.init();
