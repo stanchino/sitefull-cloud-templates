@@ -5,4 +5,3 @@
 //= require_tree ./common/
 //= require turbolinks
 //= require_self
-
