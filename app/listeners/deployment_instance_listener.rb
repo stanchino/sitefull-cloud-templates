@@ -14,4 +14,8 @@ class DeploymentInstanceListener
   def self.deployment_key_saved(id)
     DeploymentInstanceService.new(Deployment.find(id)).create_instance
   end
+
+  def self.deployment_instance_saved(id)
+    DeploymentInstanceService.new(Deployment.find(id)).finish_deployment
+  end
 end

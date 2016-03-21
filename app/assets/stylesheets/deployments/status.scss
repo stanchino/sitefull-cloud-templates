@@ -1,0 +1,86 @@
+@import 'variables';
+@import 'bootstrap/mixins';
+@import 'mixins';
+@import 'bootstrap/panels';
+@import 'bootstrap/type';
+
+.panel {
+  @include panel-variant($panel-default-border, $panel-default-text, $panel-default-heading-bg, $panel-default-border);
+
+  &.running {
+    @include panel-variant($panel-info-border, $panel-info-text, $panel-info-heading-bg, $panel-info-border);
+    .panel-heading:after {
+      @include spinner;
+
+      content: '';
+    }
+  }
+
+  &.failed {
+    @include panel-variant($panel-danger-border, $panel-danger-text, $panel-danger-heading-bg, $panel-danger-border);
+  }
+
+  &.completed {
+    @include panel-variant($panel-success-border, $panel-success-text, $panel-success-heading-bg, $panel-success-border);
+  }
+}
+
+.deployment-information {
+  @include make-row();
+
+  .attribute {
+    margin-bottom: 10px;
+  }
+
+  .attributes {
+    @include make-sm-column(4);
+    @include make-xs-column(12);
+  }
+
+  .label {
+    display: inline-block;
+    font-weight: bold;
+    min-width: 125px;
+  }
+
+  .status {
+    @include make-sm-column(8);
+    @include make-xs-column(12);
+
+    .panel-body {
+      background-color: $background-color;
+      font-size: 90%;
+    }
+
+    .running,
+    .failed,
+    .completed {
+      @include icon;
+    }
+
+    .running:before {
+      animation: spin 2s infinite linear;
+      content: '\f110';
+    }
+
+    .failed:before {
+      color: $state-danger-text;
+      content: '\f071';
+    }
+
+    .completed:before {
+      color: $state-success-text;
+      content: '\f058';
+    }
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(359deg);
+  }
+}
