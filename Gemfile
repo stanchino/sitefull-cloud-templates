@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 ruby '2.3.0'
 
-gem 'rails'
+gem 'rails', '~> 4.2.5.1'
 
 # Use PostgreSQL as the database engine
 gem 'pg'
@@ -75,6 +75,10 @@ gem 'wisper-sidekiq'
 
 # The module that will perform cloud operations
 gem 'sitefull-cloud'
+
+gem 'faye-websocket', '0.10.0'
+gem 'websocket-rails', git: 'https://github.com/websocket-rails/websocket-rails.git', branch: 'threadsocket-rails-sync'
+gem 'websocket-rails-js'
 
 group :development do
   # Access an IRB console on exception pages or by using <%= console %> in views

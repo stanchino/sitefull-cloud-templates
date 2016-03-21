@@ -1,31 +1,48 @@
-p#notice = notice
+- content_for(:stylesheet_links_content) do
+  = stylesheet_link_tag 'deployments/status', media: 'all', 'data-turbolinks-track' => true
 
-p
-  strong Provider:
-  | &nbsp;
-  = t("providers.#{@deployment.provider_type}")
-p
-  strong Region:
-  | &nbsp;
-  = @deployment.region
-p
-  strong Flavor:
-  | &nbsp;
-  = @deployment.machine_type
+javascript:
+  (function($) {
+    var deployment_status;
 
-p
-  strong Image:
-  | &nbsp;
-  = @deployment.image
+    deployment_status = new SiteFull.Deployments.Status({host: "#{request.host}", port: "#{request.port}", channel: 'deployments', deployment_id: "#{@deployment.id}" });
 
-p
-  strong Key:
-  | &nbsp;
-  = @deployment.key_name
+    $(document).on('ready', function() {
+      deployment_status.init();
+    })
+  }(jQuery));
 
-p
-  strong Instance ID:
-  | &nbsp;
-  = @deployment.instance_id
+- content_for(:js_manifest) do
+  = javascript_include_tag 'deployments/show', 'data-turbolinks-track' => true
 
-= link_to 'Back', template_deployments_url(@deployment.template)
+#deployment-information.panel*{class: @deployment.status}
+  .panel-heading
+    strong Deployment Information
+  .panel-body
+    .deployment-information
+      .attributes
+        .attribute
+          span.label Status:
+          | &nbsp;
+          = @deployment.status
+        .attribute
+          span.label Cloud Provider:
+          | &nbsp;
+          = t("providers.#{@deployment.provider_type}")
+        .attribute
+          span.label Region:
+          | &nbsp;
+          = @deployment.region
+        .attribute
+          span.label Machine Type:
+          | &nbsp;
+          = @deployment.machine_type
+        .attribute
+          span.label Image:
+          | &nbsp;
+          = "#{@deployment.image} (#{@deployment.os})"
+      - unless [:completed, :failed].include? @deployment.status.to_s.to_sym
+        .status
+          p Provisioning Logs
+          .panel
+            .panel-body

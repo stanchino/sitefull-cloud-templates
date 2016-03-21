@@ -51,4 +51,8 @@ Rails.application.configure do
   config.log_level    = log_level.downcase.to_sym
 
   config.quiet_assets_paths << '/sidekiq/'
+
+  config.middleware.delete Rack::Lock
+
+  config.force_ssl = ENV['FORCE_SSL'] if ENV['FORCE_SSL'].present?
 end
