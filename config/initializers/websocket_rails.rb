@@ -60,7 +60,7 @@ WebsocketRails.setup do |config|
   # requires CORS to be enabled for GET "/websocket" request.
   # List here the origin domains allowed to perform the request.
   config.allowed_origins = [
-    'http://localhost:3000',
+    'http://localhost:5000',
     'http://sitefull-dev.herokuapp.com',
     'https://sitefull-dev.herokuapp.com',
     'http://sitefull-stg.herokuapp.com',

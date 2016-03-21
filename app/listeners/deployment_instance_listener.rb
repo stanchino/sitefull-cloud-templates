@@ -1,6 +1,4 @@
 class DeploymentInstanceListener
-  include Wisper::Publisher
-
   def self.network_created(id, network_id)
     DeploymentInstanceService.new(Deployment.find(id)).create_firewall_rules(network_id)
   end

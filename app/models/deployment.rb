@@ -10,7 +10,6 @@ class Deployment < ActiveRecord::Base
   validates :region, presence: true, deployment: true
   validates :image, presence: true, deployment: true
   validates :machine_type, presence: true, deployment: true
-  # validates :status, inclusion: [:started, :running, :failed, :completed]
 
   validates_with ProviderOptionsValidator
 
