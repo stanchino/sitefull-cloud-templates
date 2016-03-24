@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160320103728) do
+ActiveRecord::Schema.define(version: 20160324163740) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -39,19 +39,23 @@ ActiveRecord::Schema.define(version: 20160320103728) do
   create_table "deployments", force: :cascade do |t|
     t.integer  "template_id"
     t.hstore   "credentials"
-    t.string   "provider_type",                        null: false
-    t.string   "region",                  default: "", null: false
-    t.string   "machine_type",            default: "", null: false
-    t.datetime "created_at",                           null: false
-    t.datetime "updated_at",                           null: false
-    t.string   "image",                   default: "", null: false
+    t.string   "provider_type",                           null: false
+    t.string   "region",                     default: "", null: false
+    t.string   "machine_type",               default: "", null: false
+    t.datetime "created_at",                              null: false
+    t.datetime "updated_at",                              null: false
+    t.string   "image",                      default: "", null: false
     t.string   "network_id"
     t.string   "instance_id"
     t.string   "key_name"
-    t.string   "encrypted_key_data"
-    t.string   "encrypted_key_data_salt"
-    t.string   "encrypted_key_data_iv"
     t.string   "status"
+    t.text     "encrypted_public_key"
+    t.string   "encrypted_public_key_salt"
+    t.string   "encrypted_public_key_iv"
+    t.text     "encrypted_private_key"
+    t.string   "encrypted_private_key_salt"
+    t.string   "encrypted_private_key_iv"
+    t.string   "ssh_user"
   end
 
   add_index "deployments", ["provider_type"], name: "index_deployments_on_provider_type", using: :btree

@@ -21,8 +21,8 @@ class DeploymentStatusService
     broadcast(:deployment_network_saved, @deployment.id)
   end
 
-  def save_key(key_name, key_data)
-    @deployment.update_attributes(key_name: key_name, key_data: key_data)
+  def save_key(key_data)
+    @deployment.update_attributes(key_data)
     broadcast(:deployment_key_saved, @deployment.id)
   end
 

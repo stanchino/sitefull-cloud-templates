@@ -4,6 +4,7 @@ rvm: 2.3.0
 before_script:
   - psql -c 'create database sitefull_deploy_test;' -U postgres
   - bundle exec rake db:test:prepare
+bundler_args: --without production --path vendor/gems
 addons:
   postgresql: '9.4'
   code_climate:
