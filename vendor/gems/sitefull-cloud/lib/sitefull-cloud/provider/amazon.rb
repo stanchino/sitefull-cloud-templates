@@ -42,7 +42,7 @@ module Sitefull
       end
 
       def create_key(name)
-        connection.import_key_pair(key_name: name, public_key_material: key_data[:public_key])
+        connection.import_key_pair(key_name: name, public_key_material: "ssh-rsa #{key_data[:public_key]}")
         OpenStruct.new(key_data.merge(ssh_user: SSH_USER))
       end
 

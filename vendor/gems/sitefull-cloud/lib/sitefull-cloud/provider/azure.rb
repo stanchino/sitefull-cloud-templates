@@ -32,7 +32,7 @@ module Sitefull
       SECURITY_GROUP = 'sitefull'.freeze
       PUBLIC_IP_NAME = 'sitefull'.freeze
 
-      SSH_USER = 'root'.freeze
+      SSH_USER = 'sitefull'.freeze
 
       def connection
         return @connection unless @connection.nil?
@@ -80,13 +80,14 @@ module Sitefull
         OpenStruct.new(key_data.merge(ssh_user: SSH_USER))
       end
 
-      def create_instance(name, machine_type, image, network_id, _key)
+      def create_instance(name, machine_type, image, network_id, key)
         subnet = connection.network.subnets.get(resource_group_name, NETWORK_NAME, network_id).value!.body
         security_group = connection.network.network_security_groups.get(resource_group_name, SECURITY_GROUP).value!.body
         public_ip = public_ip_setup(name).value!.body
         network_interface = network_interface_setup(subnet, security_group, public_ip, name).value!.body
         storage = storage_setup(name)
-        instance_setup(storage, network_interface, machine_type, image, name).value!.body.name
+        instance_data = {machine_type: machine_type, image: image, name: name, key: key}
+        instance_setup(storage, network_interface, instance_data).value!.body.name
       end
 
       def valid?

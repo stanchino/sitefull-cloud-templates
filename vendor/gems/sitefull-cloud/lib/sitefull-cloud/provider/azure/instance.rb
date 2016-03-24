@@ -65,31 +65,37 @@ module Sitefull
           connection.storage.storage_accounts.create(resource_group_name, storage_account_name(name), params).value!.body
         end
 
-        def instance_setup(storage, network_interface, machine_type, image, name)
+        def instance_setup(storage, network_interface, instance_data)
           # Create a model for new virtual machine
           props = VirtualMachineProperties.new
 
           #windows_config = WindowsConfiguration.new
           #windows_config.provision_vmagent = true
           #windows_config.enable_automatic_updates = true
+
+          ssh_key = SshPublicKey.new
+          ssh_key.path = "/home/#{instance_data[:key].ssh_user}/.ssh/authorized_keys"
+          ssh_key.key_data = "ssh-rsa #{instance_data[:key].public_key} #{key.ssh_user}"
+
+          ssh_config = SshConfiguration.new
+          ssh_config.public_keys = [ssh_key]
+
           linux_config = LinuxConfiguration.new
-          linux_config.disable_password_authentication = false
+          linux_config.ssh = ssh_config
+          linux_config.disable_password_authentication = true
 
           os_profile = OSProfile.new
-          os_profile.computer_name = name
-          os_profile.admin_username = 'sitefull'
-          os_profile.admin_password = 'P@ssword1'
+          os_profile.computer_name = instance_data[:name]
+          os_profile.admin_username = key.ssh_user
           os_profile.linux_configuration = linux_config
-          # os_profile.custom_data = Base64.strict_encode64("#!/bin/sh\necho \"Hello World!\"").encode('utf-8')
 
-          os_profile.secrets = []
           props.os_profile = os_profile
 
           hardware_profile = HardwareProfile.new
-          hardware_profile.vm_size = machine_type
+          hardware_profile.vm_size = instance_data[:machine_type]
           props.hardware_profile = hardware_profile
 
-          props.storage_profile = create_storage_profile(image, storage.name)
+          props.storage_profile = create_storage_profile(instance_data[:image], storage.name)
 
           network_profile = NetworkProfile.new
           network_profile.network_interfaces = [network_interface]
@@ -100,7 +106,7 @@ module Sitefull
           params.properties = props
           params.location = options[:region]
 
-          connection.compute.virtual_machines.create_or_update(resource_group_name, name, params)
+          connection.compute.virtual_machines.create_or_update(resource_group_name, instance_data[:name], params)
         end
 
         def create_storage_profile(image, name)

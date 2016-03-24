@@ -1,5 +1,10 @@
+require_relative 'instance'
+require_relative 'deployment'
+
 class DeploymentService
   include Wisper::Publisher
+  include Services::Instance
+  include Services::Deployment
 
   attr_accessor :deployment, :provider
 

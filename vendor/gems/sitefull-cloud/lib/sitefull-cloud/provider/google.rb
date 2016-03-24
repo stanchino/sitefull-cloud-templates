@@ -46,7 +46,7 @@ module Sitefull
       end
 
       def create_key(_)
-        OpenStruct.new(ssh_user: SSH_USER, private_key: '', public_key: 'AAAAB3NzaC1yc2EAAAABIwAAAQEA5MPo246Yx/62kTd4omlEj2TiJ2qUV23lE3Y7Ny6j8x0vwqnpjq6njhAcwrW1vSA4P2T7Z9d+UyFvg8RX61JDTw1GSePeeyKDumJUYgVl74BoZnGly1Fe1lzIQZbChSfhNcnzTmdEIoSr89WxAVcHr4XA1RuKjOXSbfmQoH5tKVdfY81XYp1EdGe8mqzDA1QnWBMzlLNkv0MiiQ06U8WA7iyxqWydsoXvRnoGPahOVS4SvSc1BuJ3nuIoJRa/FmCczkHsAAEyodcpzDmqDTJsyusLLuduScXFzmmcLtGU3vH1VucPvEpNaW1VLqb2Or2l1eXnpa71cIbmoUeaZ12+jw==')
+        OpenStruct.new(key_data.merge(ssh_user: SSH_USER))
       end
 
       def create_instance(name, machine_type, image, network_id, key)
