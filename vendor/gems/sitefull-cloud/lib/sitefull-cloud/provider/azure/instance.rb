@@ -75,7 +75,7 @@ module Sitefull
 
           ssh_key = SshPublicKey.new
           ssh_key.path = "/home/#{instance_data[:key].ssh_user}/.ssh/authorized_keys"
-          ssh_key.key_data = "ssh-rsa #{instance_data[:key].public_key} #{key.ssh_user}"
+          ssh_key.key_data = "ssh-rsa #{instance_data[:key].public_key} #{instance_data[:key].ssh_user}"
 
           ssh_config = SshConfiguration.new
           ssh_config.public_keys = [ssh_key]
@@ -86,7 +86,7 @@ module Sitefull
 
           os_profile = OSProfile.new
           os_profile.computer_name = instance_data[:name]
-          os_profile.admin_username = key.ssh_user
+          os_profile.admin_username = instance_data[:key].ssh_user
           os_profile.linux_configuration = linux_config
 
           props.os_profile = os_profile
