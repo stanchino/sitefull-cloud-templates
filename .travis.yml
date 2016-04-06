@@ -13,4 +13,4 @@ services:
   - postgresql
   - redis-server
 env:
-  - ENC_KEY='5aa7c2bf4ffb3cf3866b3fbea953421e12a23fabcf9410e4bff1d2fb0bdbfacb08d4d83d486be3203012d5a4be4a95c781ab32d6b4065af7020992730fbcbd42'
+  - ENC_KEY='5aa7c2bf4ffb3cf3866b3fbea953421e12a23fabcf9410e4bff1d2fb0bdbfacb08d4d83d486be3203012d5a4be4a95c781ab32d6b4065af7020992730fbcbd42' AWS_REGION="us-east-1"

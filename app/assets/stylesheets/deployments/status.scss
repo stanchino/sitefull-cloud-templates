@@ -83,7 +83,7 @@ $script-output-bg-color:  #333;
 
   .panel-body {
     background-color: $script-output-bg-color;
-    color: $script-output-color;
+    color: $script-output-text-color;
     font-size: 80%;
 
     pre {
