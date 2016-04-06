@@ -5,7 +5,7 @@
 @import 'bootstrap/type';
 
 $script-output-text-color: #f1f1f1;
-$script-output-bg-color:  #333333;
+$script-output-bg-color:  #333;
 
 .panel {
   @include panel-variant($panel-default-border, $panel-default-text, $panel-default-heading-bg, $panel-default-border);
