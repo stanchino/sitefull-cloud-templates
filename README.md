@@ -222,6 +222,7 @@ The full list of modules added to the `Gemfile` is:
   * [jbuilder](https://github.com/rails/jbuilder) Building JSON responses in a more efficient way.
   * [jquery-rails](https://github.com/rails/jquery-rails) Adds jQuery to the application.
   * [letter_opener](https://github.com/ryanb/letter_opener) To avoid sending email messages when running in `development` mode.
+  * [net-ssh](https://github.com/net-ssh/net-ssh) Used for connecting to the instances and executing the script.
   * [pg](https://bitbucket.org/ged/ruby-pg/wiki/Home) For database connections.
   * [poltergeist](https://github.com/teampoltergeist/poltergeist) Use Poltergeist for feature tests.
   * [pry-rails](https://github.com/rweng/pry-rails) Use [Pry](http://pryrepl.org/) as an alternative to the standard IRB Ruby shell. 

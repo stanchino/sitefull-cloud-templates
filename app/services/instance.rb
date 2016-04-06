@@ -1,5 +1,7 @@
 module Services
   module Instance
+    SSH_USER = 'sitefull'.freeze
+
     def create_network
       notify_progress 'Creating Network', :network_setup, :running
       network_id = provider.create_network
@@ -18,7 +20,7 @@ module Services
       notify_progress 'Creating Access Keys', :access_setup, :running
       name = "deployment_#{deployment.id}"
       key = provider.create_key(name)
-      broadcast(:key_created, deployment.id, name, key.ssh_user, key.public_key, key.private_key)
+      broadcast(:key_created, deployment.id, name, ssh_user, key.public_key, key.private_key)
     end
 
     def create_instance
@@ -28,11 +30,26 @@ module Services
       broadcast(:instance_created, deployment.id, instance_id)
     end
 
-    def finish_deployment
+    def execute_script
       notify_progress 'Instance Created', :instance_setup, :completed
+      notify_progress 'Starting the script', :script_execution, :running
+      run_script
+      broadcast(:script_executed, deployment.id)
+    end
+
+    def finish_deployment
+      notify_progress 'Script Created', :script_execution, :completed
       deployment.update_attributes(status: :completed)
       notify_status 'completed'
     end
+
+    def public_ip
+      @public_ip ||= provider.instance_data(deployment.instance_id).public_ip
+    end
+
+    # def public_dns
+    #  @public_dns ||= Resolv.getname(public_ip)
+    # end
 
     private
 
@@ -42,6 +59,10 @@ module Services
 
     def notify_status(status)
       WebsocketRails[:deployments].trigger :status, id: deployment.id, status: status
+    end
+
+    def notify_output(message)
+      WebsocketRails[:deployments].trigger :output, id: deployment.id, message: message
     end
 
     def create_instance_result
@@ -54,6 +75,27 @@ module Services
 
     def key_data
       OpenStruct.new(name: deployment.key_name, ssh_user: deployment.ssh_user, public_key: deployment.public_key)
+    end
+
+    def ssh_user
+      if deployment.provider_type.to_s == 'amazon'
+        amazon_ssh_user
+      else
+        SSH_USER
+      end
+    end
+
+    def amazon_ssh_user
+      case deployment.os
+      when 'centos'
+        'centos'
+      when 'debian'
+        'admin'
+      when 'ubuntu'
+        'ubuntu'
+      else
+        'ec2-user'
+      end
     end
   end
 end

@@ -14,7 +14,7 @@ class Deployment < ActiveRecord::Base
 
   validates_with ProviderOptionsValidator
 
-  delegate :os, to: :template
+  delegate :os, :script, to: :template
 
   def on?(provider)
     provider_type.present? && provider_type.to_s == provider.to_s

@@ -29,6 +29,10 @@ class DeploymentsListener
     end
 
     def deployment_instance_saved(id)
+      deployment_service(id).execute_script
+    end
+
+    def script_executed(id)
       deployment_service(id).finish_deployment
     end
 

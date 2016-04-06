@@ -75,6 +75,23 @@
   }
 }
 
+.script-output {
+  display: none;
+
+  .panel-body {
+    background-color: #333333;
+    color: #f1f1f1;
+    font-size: 80%;
+
+    pre {
+      line-height: 1.2em;
+      margin-bottom: 0;
+      margin-top: 0;
+      min-height: 1em;
+    }
+  }
+}
+
 @keyframes spin {
   0% {
     transform: rotate(0deg);

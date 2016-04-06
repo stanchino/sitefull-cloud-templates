@@ -80,6 +80,9 @@ gem 'faye-websocket', '0.10.0'
 gem 'websocket-rails', git: 'https://github.com/websocket-rails/websocket-rails.git', branch: 'threadsocket-rails-sync'
 gem 'websocket-rails-js'
 
+# Connect to remote hosts using SSH
+gem 'net-ssh'
+
 group :development do
   # Access an IRB console on exception pages or by using <%= console %> in views
   gem 'web-console'

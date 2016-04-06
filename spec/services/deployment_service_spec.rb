@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe DeploymentService, type: :service do
-  let(:template) { stub_model(Template, os: 'debian') }
-  let(:deployment) { stub_model(Deployment, template: template, provider_type: 'amazon', role_arn: 'role', session_name: 'session_id') }
+  let(:template) { FactoryGirl.create(:template, os: 'debian') }
+  let(:deployment) { FactoryGirl.create(:deployment, template: template, provider_type: 'amazon', role_arn: 'role', session_name: 'session_id') }
   subject { DeploymentService.new(deployment) }
 
   describe 'delegates' do
@@ -13,5 +13,15 @@ RSpec.describe DeploymentService, type: :service do
 
   describe 'images' do
     it { expect(subject.images).to match_array Sitefull::Cloud::Provider.new(:amazon).images(deployment.os) }
+  end
+
+  describe 'ssh_user' do
+    Template::OPERATING_SYSTEMS.each do |os, _|
+      context "for #{os}" do
+        let(:template) { FactoryGirl.create(:template, os: os) }
+        it { expect(subject.send(:ssh_user)).not_to be_empty }
+        it { expect(subject.send(:ssh_user)).not_to eq 'sitefull' }
+      end
+    end
   end
 end

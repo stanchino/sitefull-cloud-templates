@@ -1,5 +1,32 @@
 require 'shared_examples/controllers'
 
+RSpec.shared_examples 'successfull deployment' do
+  it 'creates a new Deployment' do
+    expect do
+      post :create, { deployment: valid_attributes, template_id: template.to_param }, valid_session
+    end.to change(Deployment, :count).by(1)
+  end
+
+  it 'assigns a newly created deployment as @deployment' do
+    post :create, { deployment: valid_attributes, template_id: template.to_param }, valid_session
+    expect(assigns(:deployment)).to be_a(Deployment)
+    expect(assigns(:deployment)).to be_persisted
+  end
+
+  it 'redirects to the created deployment' do
+    post :create, { deployment: valid_attributes, template_id: template.to_param }, valid_session
+    expect(response).to redirect_to(Deployment.last)
+  end
+
+  context 'with new internet gateway' do
+    it 'publish the event' do
+      expect do
+        post :create, { deployment: valid_attributes, template_id: template.to_param }, valid_session
+      end.to broadcast(:deployment_saved)
+    end
+  end
+end
+
 RSpec.shared_examples 'deployment controller' do |provider|
   setup_access(provider)
   let(:deployment) { FactoryGirl.create(:deployment, provider, template: template) }
@@ -42,29 +69,40 @@ RSpec.shared_examples 'deployment controller' do |provider|
 
   describe 'POST #create' do
     context 'with valid params' do
-      it 'creates a new Deployment' do
-        expect do
-          post :create, { deployment: valid_attributes, template_id: template.to_param }, valid_session
-        end.to change(Deployment, :count).by(1)
+      let(:session) { double }
+      let(:channel) { double }
+      let(:ch) { double }
+      before do
+        expect(Net::SSH).to receive(:start).and_yield(session)
+        expect(session).to receive(:open_channel).and_yield(channel).and_return(double(wait: true))
+        expect(channel).to receive(:request_pty)
       end
 
-      it 'assigns a newly created deployment as @deployment' do
-        post :create, { deployment: valid_attributes, template_id: template.to_param }, valid_session
-        expect(assigns(:deployment)).to be_a(Deployment)
-        expect(assigns(:deployment)).to be_persisted
-      end
-
-      it 'redirects to the created deployment' do
-        post :create, { deployment: valid_attributes, template_id: template.to_param }, valid_session
-        expect(response).to redirect_to(Deployment.last)
-      end
-
-      context 'with new internet gateway' do
-        it 'publish the event' do
-          expect do
-            post :create, { deployment: valid_attributes, template_id: template.to_param }, valid_session
-          end.to broadcast(:deployment_saved)
+      context 'when the script is executed successfully' do
+        before do
+          expect(ch).to receive(:on_data).and_yield(any_args, :output)
+          expect(ch).to receive(:on_extended_data).and_yield(any_args, any_args, :output)
+          expect(channel).to receive(:exec).and_yield(ch, true)
         end
+        it_behaves_like 'successfull deployment'
+      end
+
+      context 'when the ssh connection cannot be established' do
+        before do
+          expect(ch).not_to receive(:on_data)
+          expect(ch).not_to receive(:on_extended_data)
+          expect(channel).to receive(:exec).and_raise(StandardError)
+        end
+        it_behaves_like 'successfull deployment'
+      end
+
+      context 'when the script execution fails' do
+        before do
+          expect(ch).not_to receive(:on_data)
+          expect(ch).not_to receive(:on_extended_data)
+          expect(channel).to receive(:exec).and_yield(ch, false)
+        end
+        it_behaves_like 'successfull deployment'
       end
     end
 

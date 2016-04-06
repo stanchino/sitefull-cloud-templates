@@ -3,7 +3,7 @@ module Services
     def save
       WebsocketRails[:deployments].trigger :status, id: deployment.id, status: 'started'
       deployment.status = :running
-      success = @deployment.save
+      success = deployment.save
       if success
         WebsocketRails[:deployments].trigger :status, id: deployment.id, status: 'running'
         broadcast(:deployment_saved, deployment.id)

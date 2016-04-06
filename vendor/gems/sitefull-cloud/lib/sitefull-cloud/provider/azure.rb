@@ -32,7 +32,8 @@ module Sitefull
       SECURITY_GROUP = 'sitefull'.freeze
       PUBLIC_IP_NAME = 'sitefull'.freeze
 
-      SSH_USER = 'sitefull'.freeze
+      WAIT = 2.freeze
+      SUCCESS_PROVISIONING_STATE = 'Succeeded'.freeze
 
       def connection
         return @connection unless @connection.nil?
@@ -77,7 +78,7 @@ module Sitefull
       end
 
       def create_key(_)
-        OpenStruct.new(key_data.merge(ssh_user: SSH_USER))
+        OpenStruct.new(key_data)
       end
 
       def create_instance(name, machine_type, image, network_id, key)
@@ -85,9 +86,19 @@ module Sitefull
         security_group = connection.network.network_security_groups.get(resource_group_name, SECURITY_GROUP).value!.body
         public_ip = public_ip_setup(name).value!.body
         network_interface = network_interface_setup(subnet, security_group, public_ip, name).value!.body
-        storage = storage_setup(name)
+
+        storage_setup(name)
+        sleep WAIT unless storage_account(name).properties.provisioning_state == SUCCESS_PROVISIONING_STATE
+        storage = storage_account(name)
+
         instance_data = {machine_type: machine_type, image: image, name: name, key: key}
-        instance_setup(storage, network_interface, instance_data).value!.body.name
+        instance_id = instance_setup(storage, network_interface, instance_data).value!.body.name
+        sleep WAIT unless instance(instance_id).properties.provisioning_state == SUCCESS_PROVISIONING_STATE
+        instance_id
+      end
+
+      def instance_data(instance_id)
+        OpenStruct.new(id: instance_id, public_ip: public_ip(instance_id))
       end
 
       def valid?
