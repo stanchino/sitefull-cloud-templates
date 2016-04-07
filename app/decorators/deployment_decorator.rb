@@ -55,7 +55,7 @@ class DeploymentDecorator
   end
 
   def provider_options
-    (deployment.credentials || {}).merge(token: access.token)
+    (deployment.credentials || {}).merge(token: access.try(:token))
   end
 
   def access

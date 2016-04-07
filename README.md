@@ -207,6 +207,7 @@ And some thrid party tools which are useful for creating a good looking user exp
 The full list of modules added to the `Gemfile` is:
   * [acts-as-taggable-on](https://github.com/mbleigh/acts-as-taggable-on) In order to use tags for deployment templates.
   * [attr_encrypted](https://github.com/attr-encrypted/attr_encrypted) Encrypt attributes when saving cloud provider credentials, etc.
+  * [aws-sdk](https://github.com/aws/aws-sdk-ruby) The Amazon SDK for Ruby module.
   * [database_cleaner](https://github.com/DatabaseCleaner/database_cleaner) Cleans up the database when running the tests.
   * [bootstrap-sass](https://github.com/twbs/bootstrap-sass) Allows for integrating the [Bootstrap](http://getbootstrap.com) framework.
   * [cancancan](https://github.com/CanCanCommunity/cancancan) A very good authorization module.
@@ -222,6 +223,7 @@ The full list of modules added to the `Gemfile` is:
   * [jbuilder](https://github.com/rails/jbuilder) Building JSON responses in a more efficient way.
   * [jquery-rails](https://github.com/rails/jquery-rails) Adds jQuery to the application.
   * [letter_opener](https://github.com/ryanb/letter_opener) To avoid sending email messages when running in `development` mode.
+  * [net-ssh](https://github.com/net-ssh/net-ssh) Used for connecting to the instances and executing the script.
   * [pg](https://bitbucket.org/ged/ruby-pg/wiki/Home) For database connections.
   * [poltergeist](https://github.com/teampoltergeist/poltergeist) Use Poltergeist for feature tests.
   * [pry-rails](https://github.com/rweng/pry-rails) Use [Pry](http://pryrepl.org/) as an alternative to the standard IRB Ruby shell. 
