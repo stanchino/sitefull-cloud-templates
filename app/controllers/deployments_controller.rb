@@ -33,7 +33,7 @@ class DeploymentsController < ApplicationController
   # POST /templates/1/deployments
   # POST /templates/1/deployments.json
   def create
-    if DeploymentStatusService.new(@deployment).save
+    if DeploymentService.new(@deployment).save
       handle_save_success @deployment, :created, 'Deployment was successfully created.'
     else
       handle_save_error @deployment.errors, :new

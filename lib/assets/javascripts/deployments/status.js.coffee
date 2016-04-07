@@ -26,6 +26,25 @@ class SiteFull.Deployments.Status
         $element.text(data.message)
         $element.prop('class', data.status)
 
+    @channel.bind 'output', (data) =>
+      if data.id == @deployment_id
+        @next_wrap ||= true
+        $container = $('.script-output')
+        $container.show() unless $container.is(':visible')
+
+        if /\r\n$/.exec(data.message)
+          $('.panel-body', $container).append($('<pre/>').html(data.message))
+        else
+          wrapper = $('.panel-body pre:last-child', $container)
+          if wrapper.length > 0
+            last.html(data.message)
+          else
+            $('.panel-body', $container).append($('<pre/>').html(data.message))
+
+        $('html, body').animate({
+          scrollTop: $('.panel-body pre:last-child', $container).offset().top
+        }, 100)
+
     @channel.bind 'status', (data) =>
       if data.id == @deployment_id
         @$deployment_container ||= $('#deployment-information')
