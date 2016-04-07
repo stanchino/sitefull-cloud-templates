@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160320103728) do
+ActiveRecord::Schema.define(version: 20160324163740) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -30,28 +30,26 @@ ActiveRecord::Schema.define(version: 20160320103728) do
   add_index "accesses", ["provider_id"], name: "index_accesses_on_provider_id", using: :btree
   add_index "accesses", ["user_id"], name: "index_accesses_on_user_id", using: :btree
 
-  create_table "ar_internal_metadata", primary_key: "key", force: :cascade do |t|
-    t.string   "value"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "deployments", force: :cascade do |t|
     t.integer  "template_id"
     t.hstore   "credentials"
-    t.string   "provider_type",                        null: false
-    t.string   "region",                  default: "", null: false
-    t.string   "machine_type",            default: "", null: false
-    t.datetime "created_at",                           null: false
-    t.datetime "updated_at",                           null: false
-    t.string   "image",                   default: "", null: false
+    t.string   "provider_type",                           null: false
+    t.string   "region",                     default: "", null: false
+    t.string   "machine_type",               default: "", null: false
+    t.datetime "created_at",                              null: false
+    t.datetime "updated_at",                              null: false
+    t.string   "image",                      default: "", null: false
     t.string   "network_id"
     t.string   "instance_id"
     t.string   "key_name"
-    t.string   "encrypted_key_data"
-    t.string   "encrypted_key_data_salt"
-    t.string   "encrypted_key_data_iv"
     t.string   "status"
+    t.text     "encrypted_public_key"
+    t.string   "encrypted_public_key_salt"
+    t.string   "encrypted_public_key_iv"
+    t.text     "encrypted_private_key"
+    t.string   "encrypted_private_key_salt"
+    t.string   "encrypted_private_key_iv"
+    t.string   "ssh_user"
   end
 
   add_index "deployments", ["provider_type"], name: "index_deployments_on_provider_type", using: :btree
@@ -86,15 +84,8 @@ ActiveRecord::Schema.define(version: 20160320103728) do
     t.datetime "created_at"
   end
 
-  add_index "taggings", ["context"], name: "index_taggings_on_context", using: :btree
   add_index "taggings", ["tag_id", "taggable_id", "taggable_type", "context", "tagger_id", "tagger_type"], name: "taggings_idx", unique: true, using: :btree
-  add_index "taggings", ["tag_id"], name: "index_taggings_on_tag_id", using: :btree
   add_index "taggings", ["taggable_id", "taggable_type", "context"], name: "index_taggings_on_taggable_id_and_taggable_type_and_context", using: :btree
-  add_index "taggings", ["taggable_id", "taggable_type", "tagger_id", "context"], name: "taggings_idy", using: :btree
-  add_index "taggings", ["taggable_id"], name: "index_taggings_on_taggable_id", using: :btree
-  add_index "taggings", ["taggable_type"], name: "index_taggings_on_taggable_type", using: :btree
-  add_index "taggings", ["tagger_id", "tagger_type"], name: "index_taggings_on_tagger_id_and_tagger_type", using: :btree
-  add_index "taggings", ["tagger_id"], name: "index_taggings_on_tagger_id", using: :btree
 
   create_table "tags", force: :cascade do |t|
     t.string  "name"

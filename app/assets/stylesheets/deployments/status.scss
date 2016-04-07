@@ -4,6 +4,9 @@
 @import 'bootstrap/panels';
 @import 'bootstrap/type';
 
+$script-output-text-color: #f1f1f1;
+$script-output-bg-color:  #333;
+
 .panel {
   @include panel-variant($panel-default-border, $panel-default-text, $panel-default-heading-bg, $panel-default-border);
 
@@ -71,6 +74,23 @@
     .completed:before {
       color: $state-success-text;
       content: '\f058';
+    }
+  }
+}
+
+.script-output {
+  display: none;
+
+  .panel-body {
+    background-color: $script-output-bg-color;
+    color: $script-output-text-color;
+    font-size: 80%;
+
+    pre {
+      line-height: 1.2em;
+      margin-bottom: 0;
+      margin-top: 0;
+      min-height: 1em;
     }
   }
 }

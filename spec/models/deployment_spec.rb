@@ -15,5 +15,6 @@ RSpec.describe Deployment, type: :model do
 
   describe 'delegates' do
     it { is_expected.to delegate_method(:os).to(:template) }
+    it { is_expected.to delegate_method(:script).to(:template) }
   end
 end
