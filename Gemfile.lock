@@ -431,6 +431,7 @@ PLATFORMS
 DEPENDENCIES
   acts-as-taggable-on
   attr_encrypted
+  aws-sdk
   bootstrap-sass
   cancancan
   capybara

@@ -76,6 +76,9 @@ gem 'wisper-sidekiq'
 # The module that will perform cloud operations
 gem 'sitefull-cloud', path: 'vendor/gems'
 
+# Required for storing the template script in S3
+gem 'aws-sdk'
+
 gem 'faye-websocket', '0.10.0'
 gem 'websocket-rails', git: 'https://github.com/websocket-rails/websocket-rails.git', branch: 'threadsocket-rails-sync'
 gem 'websocket-rails-js'
