@@ -3,7 +3,7 @@
 
 .section
   .content
-    = link_to 'New Template', new_template_path, class: 'pull-right btn add-link fa-plus'
+    = link_to t('templates.new'), new_template_path, class: 'pull-right btn add-link fa-plus'
 .section
   .content
     - @templates.each do |template|
@@ -14,7 +14,7 @@
             '&nbsp;
             = link_to t('actions.edit'), edit_template_path(template), class: 'icon fa-pencil'
             '&nbsp;
-            = link_to t('actions.destroy'), template, data: {confirm: 'Are you sure?'}, class: 'icon fa-trash', method: :delete
+            = link_to t('actions.destroy'), template, data: { disable_with: t('actions.wait'), confirm: t('templates.confirm') }, class: 'icon fa-trash', method: :delete
           h2.panel-title style="word-wrap:break-word" = template.name
         .panel-body
           = link_to 'Deploy', new_template_deployment_url(template), class: 'btn deploy fa-cloud-upload'

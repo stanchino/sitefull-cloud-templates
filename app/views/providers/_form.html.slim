@@ -1,0 +1,16 @@
+- content_for(:stylesheet_links_content) do
+  = stylesheet_link_tag 'providers/form', media: 'all', 'data-turbolinks-track' => true
+
+= simple_form_for(@provider) do |f|
+  = f.error_notification
+
+  .form-inputs
+    = f.input :textkey, collection: Sitefull::Cloud::Provider::PROVIDERS - Provider.pluck(:textkey), prompt: :translate, wrapper_html: { class: 'textkey' } unless @provider.persisted?
+    = f.input :name, wrapper_html: { class: 'name' }
+  - if @provider.persisted?
+    == render 'settings', form_builder: f
+  .form-actions
+    button.btn.save type="submit"
+      span.fa-floppy-o
+      = t('actions.save')
+    = link_to 'Cancel', providers_url, class: 'btn cancel fa-times'
