@@ -28,7 +28,7 @@ class TemplatesController < ApplicationController
   def create
     @template.user = current_user
     if @template.save
-      handle_save_success @template, :created, 'Template was successfully created.'
+      handle_save_success @template, :created, t('templates.create_success')
     else
       handle_save_error @template.errors, :new
     end
@@ -38,7 +38,7 @@ class TemplatesController < ApplicationController
   # PATCH/PUT /templates/1.json
   def update
     if @template.update(template_params)
-      handle_save_success @template, :ok, 'Template was successfully updated.'
+      handle_save_success @template, :ok, t('templates.update_success')
     else
       handle_save_error @template.errors, :edit
     end
@@ -47,7 +47,7 @@ class TemplatesController < ApplicationController
   # DELETE /templates/1
   # DELETE /templates/1.json
   def destroy
-    destroy_resource @template, templates_url, 'Template was successfully deleted.'
+    destroy_resource @template, templates_url, t('templates.delete_success')
   end
 
   private

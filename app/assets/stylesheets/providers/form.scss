@@ -1,0 +1,16 @@
+@import 'variables';
+@import 'dashboard/forms';
+
+.textkey {
+  @include make-xs-column(12);
+  @include make-sm-column(3);
+}
+
+.name {
+  @include make-xs-column(12);
+  @include make-sm-column(9);
+}
+
+.setting {
+  @include make-xs-column(12);
+}
