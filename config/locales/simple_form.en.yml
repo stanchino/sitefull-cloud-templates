@@ -43,6 +43,11 @@ en:
         flavor: "Instance Type"
         access_key_id: "AWS Access Key ID"
         secret_access_key: "AWS Secret Access Key"
+      provider:
+        name: 'Provider Name'
+        textkey: 'Provider'
     prompts:
       template:
         os: 'Operating System (required)'
+      provider:
+        textkey: '-- Select --'

@@ -1,0 +1,34 @@
+@import 'variables';
+@import 'mixins';
+@import 'dashboard';
+@import 'bootstrap/mixins';
+@import 'bootstrap/tables';
+
+.provider-name {
+  @include make-xs-column(10);
+  @include make-sm-column(8);
+  @include make-md-column(10);
+}
+
+.provider-actions {
+  @include make-xs-column(1);
+  @include make-sm-column(2);
+  @include make-md-column(1);
+}
+
+.provider-name,
+.provider-actions {
+  display: table-cell;
+  float: none;
+  position: static;
+}
+
+.add-link {
+  @include center-block;
+  margin-bottom: $line-height-computed;
+}
+
+.btn {
+  @include icon;
+  @include button-variant($btn-default-color, $btn-default-bg, $btn-default-border);
+}

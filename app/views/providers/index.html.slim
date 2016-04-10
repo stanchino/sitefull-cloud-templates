@@ -1,0 +1,19 @@
+- content_for(:stylesheet_links_content) do
+  = stylesheet_link_tag 'providers/list', media: 'all', 'data-turbolinks-track' => true
+
+- if @providers.any?
+  .table-responsive
+    table.table.table-bordered.table-condensed.table-hover
+      tbody
+        - @providers.each do |provider|
+          tr
+            td.provider-name = provider.name
+            td.provider-actions
+              = link_to t('actions.edit'), edit_provider_path(provider), class: 'icon fa-pencil'
+            td.provider-actions
+              = link_to t('actions.delete'), provider, method: :delete, class: 'icon fa-trash', data: { disable_with: t('actions.wait'), confirm: t('providers.confirm') }
+- else
+  p = t('providers.no_providers')
+.section
+  .content
+    = link_to t('providers.new'), new_provider_path, class: 'pull-left btn add-link fa-plus'
