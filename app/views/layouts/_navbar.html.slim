@@ -12,7 +12,14 @@ nav.navbar.navbar-inverse.navbar-static-top
         li class="#{(params[:controller] == 'templates') ? 'active' : ''}" = link_to t('navigation.templates'), templates_url
         li class="#{(params[:controller] == 'deployments') ? 'active' : ''}" = link_to t('navigation.deployments'), deployments_url
       ul.nav.navbar-nav.navbar-right
-        li.dropdown
+        - if current_user.admin?
+          li.dropdown class="#{%w(providers).include?(params[:controller]) ? 'active' : ''}"
+            a href='#' class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"
+              = fa_icon 'cog', text: 'Admin'
+              span.caret
+            ul.dropdown-menu
+              li class="#{(params[:controller] == 'providers') ? 'active' : ''}" = link_to t('navigation.providers'), providers_url
+        li.dropdown class="#{%w(help contacts).include?(params[:controller]) ? 'active' : ''}"
           a href='#' class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"
             = fa_icon 'user', text: current_user.email.html_safe
             span.caret

@@ -29,12 +29,14 @@ en:
     contacts: "Contact Us"
     templates: "Gallery"
     deployments: "Deployments"
+    providers: 'Providers'
     profile: 'My Profile'
   actions:
     details: 'Details'
     edit: 'Edit'
     destroy: 'Delete'
     save: 'Save'
+    wait: 'Wait...'
   home_page_title: "sitefull"
   main_page_name: "SiteFull"
   user_page_name: "Dashboard"
@@ -49,6 +51,15 @@ en:
     amazon: "Amazon"
     google: "Google"
     azure: "Azure"
+    no_providers: 'There are no providers yet.'
+    new: 'Add Provider'
+    client_id: 'Client ID'
+    client_secret: 'Client Secret'
+    tenant_id: 'Tenant ID'
+    confirm: 'Are you sure you that want to delete this provider?'
+    update_success: 'Provider was successfully updated.'
+    create_success: 'Provider was successfully created.'
+    delete_success: 'Provider was successfully deleted.'
   deployments:
     provider:
       title: 'Cloud Provider'
@@ -60,3 +71,9 @@ en:
     jobs:
       errors:
         invalid_service: 'Invalid service.'
+  templates:
+    new: 'New Template'
+    confirm: 'Are you sure you that want to delete this template?'
+    update_success: 'Template was successfully updated.'
+    create_success: 'Template was successfully created.'
+    delete_success: 'Template was successfully deleted.'
