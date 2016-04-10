@@ -84,18 +84,6 @@ RSpec.describe ProvidersController, type: :controller do
             expect(response).to render_template('new', layout: 'dashboard')
           end
         end
-
-        context 'for JSON requests' do
-          it 'sets the correct HTTP header' do
-            post :create, { provider: invalid_attributes, format: :json }, valid_session
-            expect(response).to have_http_status(:unprocessable_entity)
-          end
-
-          it 'generates an error' do
-            post :create, { provider: invalid_attributes, format: :json }, valid_session
-            expect(response.body).to eq assigns(:provider).errors.to_json
-          end
-        end
       end
     end
 
@@ -127,18 +115,6 @@ RSpec.describe ProvidersController, type: :controller do
           it "re-renders the 'edit' provider" do
             put :update, { id: provider.to_param, provider: invalid_attributes }, valid_session
             expect(response).to render_template('edit')
-          end
-        end
-
-        context 'for JSON requests' do
-          it 'sets the correct HTTP header' do
-            put :update, { id: provider.to_param, provider: invalid_attributes, format: :json }, valid_session
-            expect(response).to have_http_status(:unprocessable_entity)
-          end
-
-          it 'generates an error' do
-            put :update, { id: provider.to_param, provider: invalid_attributes, format: :json }, valid_session
-            expect(response.body).to eq assigns(:provider).errors.to_json
           end
         end
       end

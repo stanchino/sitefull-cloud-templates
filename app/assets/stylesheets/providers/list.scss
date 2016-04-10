@@ -16,7 +16,8 @@
   @include make-md-column(1);
 }
 
-.provider-name, .provider-actions {
+.provider-name,
+.provider-actions {
   display: table-cell;
   float: none;
   position: static;
