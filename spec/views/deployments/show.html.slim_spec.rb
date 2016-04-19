@@ -1,12 +1,21 @@
 require 'rails_helper'
 
-RSpec.shared_examples 'page with progress states' do |state_messages, state_css|
-  state_messages.each do |state|
-    it { expect(rendered).to match(/#{I18n.t("deployment_states.#{state}")}/) }
-  end
-  state_css.each do |state|
-    it { assert_select "pre##{state}" }
-  end
+RSpec.shared_examples 'page with progress state messages' do |states|
+  it { expect(rendered).to match(/#{I18n.t("deployment_states.creating_network.#{states[:creating_network]}")}/) }
+  it { expect(rendered).to match(/#{I18n.t("deployment_states.creating_firewall_rules.#{states[:creating_firewall_rules]}")}/) }
+  it { expect(rendered).to match(/#{I18n.t("deployment_states.creating_access_key.#{states[:creating_access_key]}")}/) }
+  it { expect(rendered).to match(/#{I18n.t("deployment_states.creating_instance.#{states[:creating_instance]}")}/) }
+  it { expect(rendered).to match(/#{I18n.t("deployment_states.starting_instance.#{states[:starting_instance]}")}/) }
+  it { expect(rendered).to match(/#{I18n.t("deployment_states.executing_script.#{states[:executing_script]}")}/) }
+end
+
+RSpec.shared_examples 'page with progress state blocks' do |states|
+  it { assert_select "pre#network_setup.#{states[:creating_network]}" }
+  it { assert_select "pre#firewall_setup.#{states[:creating_firewall_rules]}" }
+  it { assert_select "pre#access_setup.#{states[:creating_access_key]}" }
+  it { assert_select "pre#instance_setup.#{states[:creating_instance]}" }
+  it { assert_select "pre#instance_state.#{states[:starting_instance]}" }
+  it { assert_select "pre#script_execution.#{states[:executing_script]}" }
 end
 
 RSpec.describe 'deployments/show', type: :view do
@@ -34,24 +43,21 @@ RSpec.describe 'deployments/show', type: :view do
 
     context 'for completed deployment' do
       let(:state) { :completed }
-      it_behaves_like 'page with progress states',
-                      %w(creating_network.after creating_firewall_rules.after creating_access_key.after creating_instance.after starting_instance.after executing_script.after),
-                      %w(network_setup.completed firewall_setup.completed access_setup.completed instance_setup.completed instance_state.completed script_execution.completed)
+      it_behaves_like 'page with progress state messages', creating_network: :after, creating_firewall_rules: :after, creating_access_key: :after, creating_instance: :after, starting_instance: :after, executing_script: :after
+      it_behaves_like 'page with progress state blocks', creating_network: :completed, creating_firewall_rules: :completed, creating_access_key: :completed, creating_instance: :completed, starting_instance: :completed, executing_script: :completed
     end
 
     context 'for running deployment' do
       let(:state) { :creating_instance }
-      it_behaves_like 'page with progress states',
-                      %w(creating_network.after creating_firewall_rules.after creating_access_key.after creating_instance.before starting_instance.before executing_script.before),
-                      %w(network_setup.completed firewall_setup.completed access_setup.completed instance_setup.running instance_state.hidden script_execution.hidden)
+      it_behaves_like 'page with progress state messages', creating_network: :after, creating_firewall_rules: :after, creating_access_key: :after, creating_instance: :before, starting_instance: :before, executing_script: :before
+      it_behaves_like 'page with progress state blocks', creating_network: :completed, creating_firewall_rules: :completed, creating_access_key: :completed, creating_instance: :running, starting_instance: :hidden, executing_script: :hidden
     end
 
     context 'for failed deployment' do
       let(:state) { :failed }
       let(:failed_state) { :creating_instance }
-      it_behaves_like 'page with progress states',
-                      %w(creating_network.after creating_firewall_rules.after creating_access_key.after creating_instance.failed starting_instance.before executing_script.before),
-                      %w(network_setup.completed firewall_setup.completed access_setup.completed instance_setup.failed instance_state.hidden script_execution.hidden)
+      it_behaves_like 'page with progress state messages', creating_network: :after, creating_firewall_rules: :after, creating_access_key: :after, creating_instance: :failed, starting_instance: :before, executing_script: :before
+      it_behaves_like 'page with progress state blocks', creating_network: :completed, creating_firewall_rules: :completed, creating_access_key: :completed, creating_instance: :failed, starting_instance: :hidden, executing_script: :hidden
     end
   end
 end
