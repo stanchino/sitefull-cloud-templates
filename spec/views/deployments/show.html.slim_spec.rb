@@ -48,9 +48,9 @@ RSpec.describe 'deployments/show', type: :view do
     end
 
     context 'for running deployment' do
-      let(:state) { :creating_instance }
-      it_behaves_like 'page with progress state messages', [:after, :after, :after, :before, :before, :before]
-      it_behaves_like 'page with progress state blocks', [:completed, :completed, :completed, :running, :hidden, :hidden]
+      let(:state) { :creating_access_key }
+      it_behaves_like 'page with progress state messages', [:after, :after, :before, :before, :before, :before]
+      it_behaves_like 'page with progress state blocks', [:completed, :completed, :running, :hidden, :hidden, :hidden]
     end
 
     context 'for failed deployment' do
