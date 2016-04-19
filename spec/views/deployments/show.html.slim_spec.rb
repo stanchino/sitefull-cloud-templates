@@ -1,21 +1,21 @@
 require 'rails_helper'
 
 RSpec.shared_examples 'page with progress state messages' do |states|
-  it { expect(rendered).to match(/#{I18n.t("deployment_states.creating_network.#{states[:creating_network]}")}/) }
-  it { expect(rendered).to match(/#{I18n.t("deployment_states.creating_firewall_rules.#{states[:creating_firewall_rules]}")}/) }
-  it { expect(rendered).to match(/#{I18n.t("deployment_states.creating_access_key.#{states[:creating_access_key]}")}/) }
-  it { expect(rendered).to match(/#{I18n.t("deployment_states.creating_instance.#{states[:creating_instance]}")}/) }
-  it { expect(rendered).to match(/#{I18n.t("deployment_states.starting_instance.#{states[:starting_instance]}")}/) }
-  it { expect(rendered).to match(/#{I18n.t("deployment_states.executing_script.#{states[:executing_script]}")}/) }
+  it { expect(rendered).to match(/#{I18n.t("deployment_states.creating_network.#{states[0]}")}/) }
+  it { expect(rendered).to match(/#{I18n.t("deployment_states.creating_firewall_rules.#{states[1]}")}/) }
+  it { expect(rendered).to match(/#{I18n.t("deployment_states.creating_access_key.#{states[2]}")}/) }
+  it { expect(rendered).to match(/#{I18n.t("deployment_states.creating_instance.#{states[3]}")}/) }
+  it { expect(rendered).to match(/#{I18n.t("deployment_states.starting_instance.#{states[4]}")}/) }
+  it { expect(rendered).to match(/#{I18n.t("deployment_states.executing_script.#{states[5]}")}/) }
 end
 
 RSpec.shared_examples 'page with progress state blocks' do |states|
-  it { assert_select "pre#network_setup.#{states[:creating_network]}" }
-  it { assert_select "pre#firewall_setup.#{states[:creating_firewall_rules]}" }
-  it { assert_select "pre#access_setup.#{states[:creating_access_key]}" }
-  it { assert_select "pre#instance_setup.#{states[:creating_instance]}" }
-  it { assert_select "pre#instance_state.#{states[:starting_instance]}" }
-  it { assert_select "pre#script_execution.#{states[:executing_script]}" }
+  it { assert_select "pre#network_setup.#{states[0]}" }
+  it { assert_select "pre#firewall_setup.#{states[1]}" }
+  it { assert_select "pre#access_setup.#{states[2]}" }
+  it { assert_select "pre#instance_setup.#{states[3]}" }
+  it { assert_select "pre#instance_state.#{states[4]}" }
+  it { assert_select "pre#script_execution.#{states[5]}" }
 end
 
 RSpec.describe 'deployments/show', type: :view do
@@ -43,21 +43,21 @@ RSpec.describe 'deployments/show', type: :view do
 
     context 'for completed deployment' do
       let(:state) { :completed }
-      it_behaves_like 'page with progress state messages', creating_network: :after, creating_firewall_rules: :after, creating_access_key: :after, creating_instance: :after, starting_instance: :after, executing_script: :after
-      it_behaves_like 'page with progress state blocks', creating_network: :completed, creating_firewall_rules: :completed, creating_access_key: :completed, creating_instance: :completed, starting_instance: :completed, executing_script: :completed
+      it_behaves_like 'page with progress state messages', [:after, :after, :after, :after, :after, :after]
+      it_behaves_like 'page with progress state blocks', [:completed, :completed, :completed, :completed, :completed, :completed]
     end
 
     context 'for running deployment' do
       let(:state) { :creating_instance }
-      it_behaves_like 'page with progress state messages', creating_network: :after, creating_firewall_rules: :after, creating_access_key: :after, creating_instance: :before, starting_instance: :before, executing_script: :before
-      it_behaves_like 'page with progress state blocks', creating_network: :completed, creating_firewall_rules: :completed, creating_access_key: :completed, creating_instance: :running, starting_instance: :hidden, executing_script: :hidden
+      it_behaves_like 'page with progress state messages', [:after, :after, :after, :before, :before, :before]
+      it_behaves_like 'page with progress state blocks', [:completed, :completed, :completed, :running, :hidden, :hidden]
     end
 
     context 'for failed deployment' do
       let(:state) { :failed }
       let(:failed_state) { :creating_instance }
-      it_behaves_like 'page with progress state messages', creating_network: :after, creating_firewall_rules: :after, creating_access_key: :after, creating_instance: :failed, starting_instance: :before, executing_script: :before
-      it_behaves_like 'page with progress state blocks', creating_network: :completed, creating_firewall_rules: :completed, creating_access_key: :completed, creating_instance: :failed, starting_instance: :hidden, executing_script: :hidden
+      it_behaves_like 'page with progress state messages', [:after, :after, :after, :failed, :before, :before]
+      it_behaves_like 'page with progress state blocks', [:completed, :completed, :completed, :failed, :hidden, :hidden]
     end
   end
 end
