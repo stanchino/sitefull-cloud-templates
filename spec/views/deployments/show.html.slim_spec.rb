@@ -41,23 +41,17 @@ RSpec.describe 'deployments/show', type: :view do
     let(:deployment) { stub_model(Deployment, template: template, state: state, failed_state: failed_state, image: 'image', key_name: 'key_name', instance_id: 'instance_id') }
     before { render }
 
-    context 'for completed deployment' do
-      let(:state) { :completed }
-      it_behaves_like 'page with progress state messages', [:after, :after, :after, :after, :after, :after]
-      it_behaves_like 'page with progress state blocks', [:completed, :completed, :completed, :completed, :completed, :completed]
-    end
-
-    context 'for running deployment' do
-      let(:state) { :creating_access_key }
-      it_behaves_like 'page with progress state messages', [:after, :after, :before, :before, :before, :before]
-      it_behaves_like 'page with progress state blocks', [:completed, :completed, :running, :hidden, :hidden, :hidden]
-    end
-
-    context 'for failed deployment' do
-      let(:state) { :failed }
-      let(:failed_state) { :creating_instance }
-      it_behaves_like 'page with progress state messages', [:after, :after, :after, :failed, :before, :before]
-      it_behaves_like 'page with progress state blocks', [:completed, :completed, :completed, :failed, :hidden, :hidden]
+    [
+      [:completed, nil, [:after, :after, :after, :after, :after, :after], [:completed, :completed, :completed, :completed, :completed, :completed]],
+      [:creating_access_key, nil, [:after, :after, :before, :before, :before, :before], [:completed, :completed, :running, :hidden, :hidden, :hidden]],
+      [:failed, :creating_instance, [:after, :after, :after, :failed, :before, :before], [:completed, :completed, :completed, :failed, :hidden, :hidden]]
+    ].each do |state, failed_state, messages, blocks|
+      context "for #{state} deployment" do
+        let(:state) { state }
+        let(:failed_state) { failed_state }
+        it_behaves_like 'page with progress state messages', messages
+        it_behaves_like 'page with progress state blocks', blocks
+      end
     end
   end
 end
