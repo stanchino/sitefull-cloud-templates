@@ -22,53 +22,36 @@ RSpec.describe 'deployments/show', type: :view do
     let(:failed_state) { nil }
     let(:deployment) { stub_model(Deployment, template: template, state: state, failed_state: failed_state, image: 'image', key_name: 'key_name', instance_id: 'instance_id') }
     before { render }
+
     context 'for completed deployment' do
       let(:state) { :completed }
-      it { expect(rendered).to match(/#{I18n.t('deployment_states.creating_network.after')}/) }
-      it { expect(rendered).to match(/#{I18n.t('deployment_states.creating_firewall_rules.after')}/) }
-      it { expect(rendered).to match(/#{I18n.t('deployment_states.creating_access_key.after')}/) }
-      it { expect(rendered).to match(/#{I18n.t('deployment_states.creating_instance.after')}/) }
-      it { expect(rendered).to match(/#{I18n.t('deployment_states.starting_instance.after')}/) }
-      it { expect(rendered).to match(/#{I18n.t('deployment_states.executing_script.after')}/) }
-      it { assert_select 'pre#network_setup.completed' }
-      it { assert_select 'pre#firewall_setup.completed' }
-      it { assert_select 'pre#access_setup.completed' }
-      it { assert_select 'pre#instance_setup.completed' }
-      it { assert_select 'pre#instance_state.completed' }
-      it { assert_select 'pre#script_execution.completed' }
+      %w(creating_network.after creating_firewall_rules.after creating_access_key.after creating_instance.after starting_instance.after executing_script.after).each do |state|
+        it { expect(rendered).to match(/#{I18n.t("deployment_states.#{state}")}/) }
+      end
+      %w(network_setup.completed firewall_setup.completed access_setup.completed instance_setup.completed instance_state.completed script_execution.completed).each do |state|
+        it { assert_select "pre##{state}" }
+      end
     end
 
     context 'for running deployment' do
       let(:state) { :creating_instance }
-      it { expect(rendered).to match(/#{I18n.t('deployment_states.creating_network.after')}/) }
-      it { expect(rendered).to match(/#{I18n.t('deployment_states.creating_firewall_rules.after')}/) }
-      it { expect(rendered).to match(/#{I18n.t('deployment_states.creating_access_key.after')}/) }
-      it { expect(rendered).to match(/#{I18n.t('deployment_states.creating_instance.before')}/) }
-      it { expect(rendered).to match(/#{I18n.t('deployment_states.starting_instance.before')}/) }
-      it { expect(rendered).to match(/#{I18n.t('deployment_states.executing_script.before')}/) }
-      it { assert_select 'pre#network_setup.completed' }
-      it { assert_select 'pre#firewall_setup.completed' }
-      it { assert_select 'pre#access_setup.completed' }
-      it { assert_select 'pre#instance_setup.running' }
-      it { assert_select 'pre#instance_state.hidden' }
-      it { assert_select 'pre#script_execution.hidden' }
+      %w(creating_network.after creating_firewall_rules.after creating_access_key.after creating_instance.before starting_instance.before executing_script.before).each do |state|
+        it { expect(rendered).to match(/#{I18n.t("deployment_states.#{state}")}/) }
+      end
+      %w(network_setup.completed firewall_setup.completed access_setup.completed instance_setup.running instance_state.hidden script_execution.hidden).each do |state|
+        it { assert_select "pre##{state}" }
+      end
     end
 
     context 'for failed deployment' do
       let(:state) { :failed }
       let(:failed_state) { :creating_instance }
-      it { expect(rendered).to match(/#{I18n.t('deployment_states.creating_network.after')}/) }
-      it { expect(rendered).to match(/#{I18n.t('deployment_states.creating_firewall_rules.after')}/) }
-      it { expect(rendered).to match(/#{I18n.t('deployment_states.creating_access_key.after')}/) }
-      it { expect(rendered).to match(/#{I18n.t('deployment_states.creating_instance.failed')}/) }
-      it { expect(rendered).to match(/#{I18n.t('deployment_states.starting_instance.before')}/) }
-      it { expect(rendered).to match(/#{I18n.t('deployment_states.executing_script.before')}/) }
-      it { assert_select 'pre#network_setup.completed' }
-      it { assert_select 'pre#firewall_setup.completed' }
-      it { assert_select 'pre#access_setup.completed' }
-      it { assert_select 'pre#instance_setup.failed' }
-      it { assert_select 'pre#instance_state.hidden' }
-      it { assert_select 'pre#script_execution.hidden' }
+      %w(creating_network.after creating_firewall_rules.after creating_access_key.after creating_instance.failed starting_instance.before executing_script.before).each do |state|
+        it { expect(rendered).to match(/#{I18n.t("deployment_states.#{state}")}/) }
+      end
+      %w(network_setup.completed firewall_setup.completed access_setup.completed instance_setup.failed instance_state.hidden script_execution.hidden).each do |state|
+        it { assert_select "pre##{state}" }
+      end
     end
   end
 end
