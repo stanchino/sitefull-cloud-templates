@@ -14,12 +14,33 @@ class SiteFull.Deployments.Status
     @deployment_id = parseInt(options.deployment_id)
     @dispatcher = new WebSocketRails("#{host}:#{port}/websocket")
     @channel = @dispatcher.subscribe channel
+    @restart_button = '.restart'
 
-  init: ->
+  trigger: ->
+    @dispatcher.trigger 'deployments.created', deployment_id: @deployment_id
+
+  init: (trigger) ->
+    @trigger() if trigger
+
+    $(document).on 'click', @restart_button, (e) =>
+      e.preventDefault()
+      e.stopPropagation()
+      $('#deployment-information')
+        .removeClass('running')
+        .removeClass('failed')
+        .removeClass('completed')
+        .removeClass('instance_missing')
+        .addClass('running')
+        .find('.restart')
+        .addClass('hidden')
+      $('.status').find('pre').addClass('hidden')
+      @trigger()
+
     @channel.bind 'progress', (data) =>
       if data.id == @deployment_id
         @$container ||= $('.status .panel-body')
         $element = @$container.find("##{data.key}")
+        $element.removeClass('hidden')
         if $element.length == 0
           $element = $('<pre/>').prop('id', data.key)
           @$container.append $element
@@ -49,6 +70,13 @@ class SiteFull.Deployments.Status
       if data.id == @deployment_id
         @$deployment_container ||= $('#deployment-information')
         @$deployment_container
-          .removeClass('running', 'failed', 'completed')
+          .removeClass('running')
+          .removeClass('failed')
+          .removeClass('completed')
+          .removeClass('instance_missing')
           .addClass(data.status)
+        if data.status == 'completed' || data.status == 'running'
+          $(@restart_button).addClass('hidden')
+        else
+          $(@restart_button).removeClass('hidden')
 

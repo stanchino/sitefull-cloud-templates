@@ -1,51 +1,69 @@
 - content_for(:stylesheet_links_content) do
   = stylesheet_link_tag 'deployments/status', media: 'all', 'data-turbolinks-track' => true
 
-javascript:
-  (function($) {
-    var deployment_status;
+- unless instance_state == 'completed'
+  javascript:
+    (function($) {
+      var deployment_status;
 
-    deployment_status = new SiteFull.Deployments.Status({host: "#{request.host}", port: "#{request.port}", channel: 'deployments', deployment_id: "#{@deployment.id}" });
+      deployment_status = new SiteFull.Deployments.Status({host: "#{request.host}", port: "#{request.port}", channel: 'deployments', deployment_id: "#{@deployment.id}" });
 
-    $(document).on('ready', function() {
-      deployment_status.init();
-    })
-  }(jQuery));
+      $(document).on('ready', function() {
+        deployment_status.init(#{@deployment.state == 'running'});
+      })
+    }(jQuery));
 
 - content_for(:js_manifest) do
   = javascript_include_tag 'deployments/show', 'data-turbolinks-track' => true
 
-#deployment-information.panel*{class: @deployment.status}
-  .panel-heading
-    strong Deployment Information
+#deployment-information.panel*{class: instance_state}
+  .panel-heading.clearfix
+    - if @deployment.failed? || instance_state == :instance_missing
+      = link_to t('deployments.buttons.restart'), '#', class: 'btn restart', data: { restart: true }
+    strong.panel-title = t('deployments.information.title')
   .panel-body
     .deployment-information
       .attributes
         .attribute
-          span.label Status:
+          span.label = t('deployments.information.labels.status')
           | &nbsp;
-          = @deployment.status
+          = instance_state.to_s.humanize.titleize
         .attribute
-          span.label Cloud Provider:
+          span.label = t('deployments.information.labels.provider')
           | &nbsp;
           = t("providers.#{@deployment.provider_type}")
         .attribute
-          span.label Region:
+          span.label = t('deployments.information.labels.region')
           | &nbsp;
           = @deployment.region
         .attribute
-          span.label Machine Type:
+          span.label = t('deployments.information.labels.os')
           | &nbsp;
-          = @deployment.machine_type
+          = @deployment.os.titleize
         .attribute
-          span.label Image:
+          span.label = t('deployments.information.labels.machine_type')
           | &nbsp;
-          = "#{@deployment.image} (#{@deployment.os})"
-      - unless [:completed, :failed].include? @deployment.status.to_s.to_sym
-        .status
-          p Provisioning Logs
+          = @deployment.machine_type.split('/').last
+        .attribute
+          span.label = t('deployments.information.labels.image')
+          | &nbsp;
+          = @deployment.image.split('/').last
+        .attribute
+          span.label = t('deployments.information.labels.public_ip')
+          | &nbsp;
+          - if @decorator.public_ip.present?
+            = link_to @decorator.public_ip, @decorator.public_ip
+          - else
+            | n/a
+      .status
+        .panel
+          .panel-body
+            - Deployment::RUNNING_STATES.each do |state, section|
+              - css_class, text = deployment_progress state
+              pre*{class: css_class, id: section} = text
+        .error-placeholder*{class: (@deployment.failed? ? '' : 'hidden')}
           .panel
-            .panel-body
+            .panel-body.error = "<strong>#{t('deployments.information.labels.error')}</strong> #{@deployment.error}".html_safe
 
 .panel.script-output.hide
   .panel-heading
