@@ -21,7 +21,7 @@ module DeploymentsHelper
     elsif @deployment.send("#{state}?")
       ['running', I18n.t("deployment_states.#{state}.before")]
     else
-      ['hidden', I18n.t("deployment_states.#{state}.after")]
+      ['hidden', I18n.t("deployment_states.#{state}.before")]
     end
   end
 
@@ -41,7 +41,7 @@ module DeploymentsHelper
     elsif state == @deployment.failed_state.to_sym
       ['failed', I18n.t("deployment_states.#{state}.failed")]
     else
-      ['hidden', I18n.t("deployment_states.#{state}.after")]
+      ['hidden', I18n.t("deployment_states.#{state}.before")]
     end
   end
 

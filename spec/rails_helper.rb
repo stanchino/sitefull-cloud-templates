@@ -28,6 +28,7 @@ require 'codeclimate-test-reporter'
 require 'devise'
 require 'sidekiq/testing'
 require 'wisper/rspec/matchers'
+require 'websocket_rails/spec_helpers'
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are

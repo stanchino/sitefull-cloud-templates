@@ -34,27 +34,6 @@ class ConnectionDecorator
     false
   end
 
-  def key_data
-    @key_data ||= OpenStruct.new(name: deployment.key_name, ssh_user: deployment.ssh_user, public_key: deployment.public_key)
-  end
-
-  def key_name
-    @key_name ||= "deployment_#{deployment.id}"
-  end
-
-  def ssh_user
-    deployment.provider_type.to_s == 'amazon' ? amazon_ssh_user : SSH_USER
-  end
-
-  def amazon_ssh_user
-    case deployment.os
-    when 'centos' then 'centos'
-    when 'debian' then 'admin'
-    when 'ubuntu' then 'ubuntu'
-    else 'ec2-user'
-    end
-  end
-
   def ssh_session
     Net::SSH.start(decorator.public_ip, deployment.ssh_user, timeout: 30.seconds, user_known_hosts_file: Tempfile.new.path, keys: [], key_data: [deployment.private_key], keys_only: true) { |session| yield(session) }
   end
