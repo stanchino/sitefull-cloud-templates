@@ -6,7 +6,7 @@ class DeploymentsController < ApplicationController
   load_and_authorize_resource only: [:all, :show]
 
   before_action :set_provider_type, only: [:new, :create]
-  before_action :setup_decorator, only: [:new, :create, :validate, :options]
+  before_action :setup_decorator, only: [:new, :create, :show, :validate, :options]
 
   layout 'dashboard'
 
@@ -33,7 +33,7 @@ class DeploymentsController < ApplicationController
   # POST /templates/1/deployments
   # POST /templates/1/deployments.json
   def create
-    if DeploymentService.new(@deployment).save
+    if @deployment.save
       handle_save_success @deployment, :created, 'Deployment was successfully created.'
     else
       handle_save_error @deployment.errors, :new

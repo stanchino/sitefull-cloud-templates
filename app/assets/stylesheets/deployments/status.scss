@@ -7,6 +7,10 @@
 $script-output-text-color: #f1f1f1;
 $script-output-bg-color:  #333;
 
+.hidden {
+  display: none;
+}
+
 .panel {
   @include panel-variant($panel-default-border, $panel-default-text, $panel-default-heading-bg, $panel-default-border);
 
@@ -19,12 +23,24 @@ $script-output-bg-color:  #333;
     }
   }
 
-  &.failed {
+  &.failed,
+  &.instance-missing {
     @include panel-variant($panel-danger-border, $panel-danger-text, $panel-danger-heading-bg, $panel-danger-border);
   }
 
   &.completed {
     @include panel-variant($panel-success-border, $panel-success-text, $panel-success-heading-bg, $panel-success-border);
+  }
+}
+
+.restart {
+  @include icon;
+  @include button-variant($btn-default-color, $btn-default-bg, $btn-default-border);
+  @include button-size($padding-small-vertical, $padding-small-horizontal, $font-size-small, $line-height-small, $btn-border-radius-small);
+  float: right;
+
+  &:before {
+    content: '\f021';
   }
 }
 
