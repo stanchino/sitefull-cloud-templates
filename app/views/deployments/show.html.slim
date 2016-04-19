@@ -18,7 +18,7 @@
 
 #deployment-information.panel*{class: instance_state}
   .panel-heading.clearfix
-    - if @deployment.failed? || instance_state == :instance_missing
+    - if @deployment.failed? || instance_state == 'instance-missing'
       = link_to t('deployments.buttons.restart'), '#', class: 'btn restart', data: { restart: true }
     strong.panel-title = t('deployments.information.title')
   .panel-body

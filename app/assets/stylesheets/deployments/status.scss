@@ -24,7 +24,7 @@ $script-output-bg-color:  #333;
   }
 
   &.failed,
-  &.instance_missing {
+  &.instance-missing {
     @include panel-variant($panel-danger-border, $panel-danger-text, $panel-danger-heading-bg, $panel-danger-border);
   }
 

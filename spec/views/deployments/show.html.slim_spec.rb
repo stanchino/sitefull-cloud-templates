@@ -19,9 +19,11 @@ RSpec.describe 'deployments/show', type: :view do
   end
 
   describe 'deployment progress' do
+    let(:failed_state) { nil }
+    let(:deployment) { stub_model(Deployment, template: template, state: state, failed_state: failed_state, image: 'image', key_name: 'key_name', instance_id: 'instance_id') }
     before { render }
     context 'for completed deployment' do
-      let(:deployment) { stub_model(Deployment, template: template, state: :completed, image: 'image', key_name: 'key_name', instance_id: 'instance_id') }
+      let(:state) { :completed }
       it { expect(rendered).to match(/#{I18n.t('deployment_states.creating_network.after')}/) }
       it { expect(rendered).to match(/#{I18n.t('deployment_states.creating_firewall_rules.after')}/) }
       it { expect(rendered).to match(/#{I18n.t('deployment_states.creating_access_key.after')}/) }
@@ -37,7 +39,7 @@ RSpec.describe 'deployments/show', type: :view do
     end
 
     context 'for running deployment' do
-      let(:deployment) { stub_model(Deployment, template: template, state: :creating_instance, image: 'image', key_name: 'key_name', instance_id: 'instance_id') }
+      let(:state) { :creating_instance }
       it { expect(rendered).to match(/#{I18n.t('deployment_states.creating_network.after')}/) }
       it { expect(rendered).to match(/#{I18n.t('deployment_states.creating_firewall_rules.after')}/) }
       it { expect(rendered).to match(/#{I18n.t('deployment_states.creating_access_key.after')}/) }
@@ -51,8 +53,10 @@ RSpec.describe 'deployments/show', type: :view do
       it { assert_select 'pre#instance_state.hidden' }
       it { assert_select 'pre#script_execution.hidden' }
     end
+
     context 'for failed deployment' do
-      let(:deployment) { stub_model(Deployment, template: template, state: :failed, failed_state: :creating_instance, image: 'image', key_name: 'key_name', instance_id: 'instance_id') }
+      let(:state) { :failed }
+      let(:failed_state) { :creating_instance }
       it { expect(rendered).to match(/#{I18n.t('deployment_states.creating_network.after')}/) }
       it { expect(rendered).to match(/#{I18n.t('deployment_states.creating_firewall_rules.after')}/) }
       it { expect(rendered).to match(/#{I18n.t('deployment_states.creating_access_key.after')}/) }

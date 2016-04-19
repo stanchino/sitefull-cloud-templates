@@ -26,7 +26,7 @@ module DeploymentsHelper
   end
 
   def instance_state
-    @instance_state ||= @decorator.instance_data.present? ? @deployment.state : :instance_missing
+    @instance_state ||= @decorator.instance_data.present? ? @deployment.state : 'instance-missing'
   end
 
   private
