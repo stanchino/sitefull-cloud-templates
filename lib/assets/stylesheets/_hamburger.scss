@@ -103,12 +103,12 @@ $bar-color: #000;
       background: none;
     }
 
-    span:after {
+    span::after {
       bottom: 0;
       transform: rotate(-45deg);
     }
 
-    span:before {
+    span::before {
       top: 0;
       transform: rotate(45deg);
     }

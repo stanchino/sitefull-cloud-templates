@@ -16,7 +16,7 @@ $script-output-bg-color:  #333;
 
   &.running {
     @include panel-variant($panel-info-border, $panel-info-text, $panel-info-heading-bg, $panel-info-border);
-    .panel-heading:after {
+    .panel-heading::after {
       @include spinner;
 
       content: '';
@@ -39,7 +39,7 @@ $script-output-bg-color:  #333;
   @include button-size($padding-small-vertical, $padding-small-horizontal, $font-size-small, $line-height-small, $btn-border-radius-small);
   float: right;
 
-  &:before {
+  &::before {
     content: '\f021';
   }
 }
@@ -77,17 +77,17 @@ $script-output-bg-color:  #333;
       @include icon;
     }
 
-    .running:before {
+    .running::before {
       animation: spin 2s infinite linear;
       content: '\f110';
     }
 
-    .failed:before {
+    .failed::before {
       color: $state-danger-text;
       content: '\f071';
     }
 
-    .completed:before {
+    .completed::before {
       color: $state-success-text;
       content: '\f058';
     }

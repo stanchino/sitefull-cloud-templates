@@ -32,20 +32,20 @@
     text-align: center;
     vertical-align: middle;
 
-    &:before {
+    &::before {
       font-size: $font-size-h3;
     }
   }
 
-  .amazon:before {
+  .amazon::before {
     content: '\f270';
   }
 
-  .google:before {
+  .google::before {
     content: '\f1a0';
   }
 
-  .azure:before {
+  .azure::before {
     content: '\f17a';
   }
 }
