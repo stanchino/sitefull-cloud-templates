@@ -1,7 +1,7 @@
 - content_for(:stylesheet_links_content) do
   = stylesheet_link_tag 'deployments/status', media: 'all', 'data-turbolinks-track' => true
 
-- unless instance_state == 'completed'
+- unless deployment_state == 'completed'
   javascript:
     (function($) {
       var deployment_status;
@@ -16,9 +16,9 @@
 - content_for(:js_manifest) do
   = javascript_include_tag 'deployments/show', 'data-turbolinks-track' => true
 
-#deployment-information.panel*{class: instance_state}
+#deployment-information.panel*{class: deployment_state}
   .panel-heading.clearfix
-    - if @deployment.failed? || instance_state == 'instance-missing'
+    - if deployment_failed?
       = link_to t('deployments.buttons.restart'), '#', class: 'btn restart', data: { restart: true }
     strong.panel-title = t('deployments.information.title')
   .panel-body
@@ -27,7 +27,7 @@
         .attribute
           span.label = t('deployments.information.labels.status')
           | &nbsp;
-          = instance_state.to_s.humanize.titleize
+          span*{class: ('error' if deployment_failed?)} = deployment_state.to_s.humanize.titleize
         .attribute
           span.label = t('deployments.information.labels.provider')
           | &nbsp;
@@ -52,7 +52,7 @@
           span.label = t('deployments.information.labels.public_ip')
           | &nbsp;
           - if @decorator.public_ip.present?
-            = link_to @decorator.public_ip, @decorator.public_ip
+            = link_to @decorator.public_ip, "http://#{@decorator.public_ip}"
           - else
             | n/a
       .status

@@ -29,7 +29,7 @@ class SiteFull.Deployments.Status
         .removeClass('running')
         .removeClass('failed')
         .removeClass('completed')
-        .removeClass('instance_missing')
+        .removeClass('instance-missing')
         .addClass('running')
         .find('.restart')
         .addClass('hidden')
@@ -73,7 +73,7 @@ class SiteFull.Deployments.Status
           .removeClass('running')
           .removeClass('failed')
           .removeClass('completed')
-          .removeClass('instance_missing')
+          .removeClass('instance-missing')
           .addClass(data.status)
         if data.status == 'completed' || data.status == 'running'
           $(@restart_button).addClass('hidden')

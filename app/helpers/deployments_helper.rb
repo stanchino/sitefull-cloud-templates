@@ -25,8 +25,16 @@ module DeploymentsHelper
     end
   end
 
-  def instance_state
-    @instance_state ||= @decorator.instance_data.present? ? @deployment.state : 'instance-missing'
+  def deployment_state
+    @deployment_state ||= if @deployment.completed?
+                            @decorator.instance_data.present? ? 'completed' : 'instance-missing'
+                          else
+                            @deployment.failed? ? 'failed' : 'running'
+                          end
+  end
+
+  def deployment_failed?
+    @deployment.failed? || deployment_state == 'instance-missing'
   end
 
   private
