@@ -99,5 +99,8 @@ class SiteFull.Deployments.Status
     @$deployment_container.find('.error-placeholder').addClass('hidden')
 
   _show_errors: (error) ->
-    @$deployment_container.find('.error-placeholder').removeClass('hidden').find('.error .message').text(error)
+    @$deployment_container.find('.error-placeholder')
+      .removeClass('hidden')
+      .find('.error .message')
+      .text(error)
 
