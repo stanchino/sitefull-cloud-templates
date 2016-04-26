@@ -1,23 +1,31 @@
-h1 Listing deployments
+- content_for(:stylesheet_links_content) do
+  = stylesheet_link_tag 'deployments/list', media: 'all', 'data-turbolinks-track' => true
 
-table
-  thead
-    tr
-      th Provider
-      th Region
-      th Flavor
-      th
-      th
-      th
+h1 = t('deployments.listing.title')
 
-  tbody
-    - @deployments.each do |deployment|
+.table-responsive
+  table.table.table-striped.table-condensed
+    thead
       tr
-        td = t("providers.#{deployment.provider_type}")
-        td = deployment.region
-        td = deployment.machine_type
-        td = link_to 'Show', deployment
-        td = link_to 'Destroy', deployment, data: {:confirm => 'Are you sure?'}, :method => :delete
+        th = t('deployments.information.labels.template')
+        th = t('deployments.information.labels.os')
+        th = t('deployments.information.labels.provider')
+        th = t('deployments.information.labels.region')
+        th = t('deployments.information.labels.machine_type')
+        th
+
+    tbody
+      - @deployments.each do |deployment|
+        tr
+          td = link_to deployment.template.name, deployment.template
+          td = deployment.os
+          td = t("providers.#{deployment.provider_type}")
+          td = deployment.region
+          td = deployment.machine_type.split('/').last
+          td.text-right
+            = link_to 'Show', deployment, class: 'icon fa-eye'
+            '&nbsp;&nbsp;
+            = link_to 'Destroy', template_deployment_url(deployment.template, deployment), class: 'icon fa-trash', data: {:confirm => 'Are you sure?'}, method: :delete
 
 br
 

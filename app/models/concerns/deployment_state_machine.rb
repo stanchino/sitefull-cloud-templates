@@ -52,7 +52,7 @@ module DeploymentStateMachine
 
     def notify_failed_event
       update_attributes(failed_state: state)
-      notify_progress :failed, :failed
+      notify_progress :failed, :failed, error: error
     end
 
     def notify_output(message)
@@ -61,8 +61,8 @@ module DeploymentStateMachine
 
     private
 
-    def notify_progress(progress, status)
-      WebsocketRails[:deployments].trigger :progress, id: id, message: I18n.t("deployment_states.#{state}.#{progress}"), key: RUNNING_STATES.to_h[state.to_sym], status: status
+    def notify_progress(progress, status, data = {})
+      WebsocketRails[:deployments].trigger :progress, { id: id, message: I18n.t("deployment_states.#{state}.#{progress}"), key: RUNNING_STATES.to_h[state.to_sym], status: status }.merge(data)
     end
 
     def notify_status

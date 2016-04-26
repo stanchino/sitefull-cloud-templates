@@ -25,31 +25,31 @@
     .deployment-information
       .attributes
         .attribute
-          span.label = t('deployments.information.labels.status')
+          span.label = "#{t('deployments.information.labels.status')}:"
           | &nbsp;
-          span*{class: ('error' if deployment_failed?)} = deployment_state.to_s.humanize.titleize
+          span.state = deployment_state.to_s
         .attribute
-          span.label = t('deployments.information.labels.provider')
+          span.label = "#{t('deployments.information.labels.provider')}:"
           | &nbsp;
           = t("providers.#{@deployment.provider_type}")
         .attribute
-          span.label = t('deployments.information.labels.region')
+          span.label = "#{t('deployments.information.labels.region')}:"
           | &nbsp;
           = @deployment.region
         .attribute
-          span.label = t('deployments.information.labels.os')
+          span.label = "#{t('deployments.information.labels.os')}:"
           | &nbsp;
           = @deployment.os.titleize
         .attribute
-          span.label = t('deployments.information.labels.machine_type')
+          span.label = "#{t('deployments.information.labels.machine_type')}:"
           | &nbsp;
           = @deployment.machine_type.split('/').last
         .attribute
-          span.label = t('deployments.information.labels.image')
+          span.label = "#{t('deployments.information.labels.image')}:"
           | &nbsp;
           = @deployment.image.split('/').last
         .attribute
-          span.label = t('deployments.information.labels.public_ip')
+          span.label = "#{t('deployments.information.labels.public_ip')}:"
           | &nbsp;
           - if @decorator.public_ip.present?
             = link_to @decorator.public_ip, "http://#{@decorator.public_ip}"
@@ -63,7 +63,10 @@
               pre*{class: css_class, id: section} = text
         .error-placeholder*{class: (@deployment.failed? ? '' : 'hidden')}
           .panel
-            .panel-body.error = "<strong>#{t('deployments.information.labels.error')}</strong> #{@deployment.error}".html_safe
+            .panel-body.error
+              strong = "#{t('deployments.information.labels.error')}:"
+              | &nbsp;
+              span.message = @deployment.error
 
 .panel.script-output.hide
   .panel-heading

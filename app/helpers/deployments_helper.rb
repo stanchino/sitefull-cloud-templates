@@ -44,13 +44,21 @@ module DeploymentsHelper
   end
 
   def failed_progress(state)
-    if states.index(state) < states.index(@deployment.failed_state.to_sym)
+    if state_not_failed?(state)
       ['completed', I18n.t("deployment_states.#{state}.after")]
-    elsif state == @deployment.failed_state.to_sym
+    elsif state_failed?(state)
       ['failed', I18n.t("deployment_states.#{state}.failed")]
     else
       ['hidden', I18n.t("deployment_states.#{state}.before")]
     end
+  end
+
+  def state_not_failed?(state)
+    @deployment.failed_state.present? && states.index(state) < states.index(@deployment.failed_state.to_sym)
+  end
+
+  def state_failed?(state)
+    @deployment.failed_state.nil? || state == @deployment.failed_state.to_sym
   end
 
   def state_success?(state)

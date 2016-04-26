@@ -73,17 +73,20 @@ en:
         invalid_service: 'Invalid service.'
     buttons:
       restart: 'Restart'
+    listing:
+      title: 'Deployments'
     information:
       title: 'Deployment Information'
       labels:
-        status: 'Status:'
-        provider: 'Provider:'
-        region: 'Region:'
-        os: 'OS:'
-        machine_type: 'Machine Type:'
-        image: 'Image:'
-        public_ip: 'Public IP:'
-        error: 'Error Message:'
+        template: 'Template'
+        status: 'Status'
+        provider: 'Provider'
+        region: 'Region'
+        os: 'OS'
+        machine_type: 'Machine Type'
+        image: 'Image'
+        public_ip: 'Public IP'
+        error: 'Error Message'
   templates:
     new: 'New Template'
     confirm: 'Are you sure you that want to delete this template?'
