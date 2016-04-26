@@ -29,8 +29,9 @@ class ConnectionDecorator
   private
 
   def instance_running?
-    ssh_session(&:open_channel)
-  rescue Net::SSH::ConnectionTimeout, Errno::ECONNREFUSED
+    true if ssh_session(&:open_channel)
+  rescue Net::SSH::ConnectionTimeout, Errno::ECONNREFUSED => e
+    Rails.logger.error e.message
     false
   end
 
