@@ -1,4 +1,6 @@
 class Deployment < ActiveRecord::Base
+  include DeploymentStateMachine
+
   store_accessor :credentials, Sitefull::Cloud::Provider.all_required_options
 
   attr_encrypted :public_key, mode: :per_attribute_iv_and_salt, key: ENV['ENC_KEY'] || Rails.application.secrets.encryption_key

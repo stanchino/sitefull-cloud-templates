@@ -40,6 +40,16 @@ class DeploymentDecorator
     valid? ? provider_images.sort_by(&:name) : []
   end
 
+  def public_ip
+    @public_ip ||= instance_data.try(:public_ip)
+  end
+
+  def instance_data
+    @instance_data ||= provider.instance_data(deployment.instance_id)
+  rescue
+    nil
+  end
+
   private
 
   def provider_regions

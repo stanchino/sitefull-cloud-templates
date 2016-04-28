@@ -86,6 +86,9 @@ gem 'websocket-rails-js'
 # Connect to remote hosts using SSH
 gem 'net-ssh'
 
+# State Machine implementation for ActiveRecord
+gem 'state_machines-activerecord'
+
 group :development do
   # Access an IRB console on exception pages or by using <%= console %> in views
   gem 'web-console'

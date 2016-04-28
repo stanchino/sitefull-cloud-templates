@@ -71,9 +71,50 @@ en:
     jobs:
       errors:
         invalid_service: 'Invalid service.'
+    buttons:
+      restart: 'Restart'
+    listing:
+      title: 'Deployments'
+    information:
+      title: 'Deployment Information'
+      labels:
+        template: 'Template'
+        status: 'Status'
+        provider: 'Provider'
+        region: 'Region'
+        os: 'OS'
+        machine_type: 'Machine Type'
+        image: 'Image'
+        public_ip: 'Public IP'
+        error: 'Error Message'
   templates:
     new: 'New Template'
     confirm: 'Are you sure you that want to delete this template?'
     update_success: 'Template was successfully updated.'
     create_success: 'Template was successfully created.'
     delete_success: 'Template was successfully deleted.'
+  deployment_states:
+    creating_network:
+      before: 'Creating Network'
+      after: 'Network Setup'
+      failed: 'Creating Network Failed'
+    creating_firewall_rules:
+      before: 'Creating Firewall Rules'
+      after: 'Firewall Setup'
+      failed: 'Creating Firewall Rules Failed'
+    creating_access_key:
+      before: 'Creating Access Key'
+      after: 'Access Key Setup'
+      failed: 'Creating Access Key Failed'
+    creating_instance:
+      before: 'Creating Instance'
+      after: 'Instance Created'
+      failed: 'Creating Instance Failed'
+    starting_instance:
+      before: 'Starting Instance'
+      after: 'Instance Started'
+      failed: 'Starting Instance Failed'
+    executing_script:
+      before: 'Executing the script'
+      after: 'Script Executed'
+      failed: 'Script Execution Failed'

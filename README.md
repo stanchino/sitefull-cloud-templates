@@ -11,6 +11,12 @@ Coverage](https://codeclimate.com/github/stanchino/sitefull-cloud-deploy/badges/
 
 A [Ruby on Rails](http://rubyonrails.com) application for automating your cloud deployments.
 
+Spin up your own instance
+=========================
+If you want to test the applicatiion you can deploy it to your [Heroku](https://www.heroku.com/) account using the [Deploy to Heroku](https://devcenter.heroku.com/articles/heroku-button) button below:
+
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
+
 Contributing
 ============
 If you want to contribute to the project please read the following sections carefully.
@@ -51,6 +57,15 @@ Project Set Up
 ```
 # bundle install
 ```
+ * Start the [Redis](http://redis.io) server
+```
+# redis-server &
+```
+or
+```
+# service redis start
+```
+depending on your local environment
  * Initialize the development and test databases:
 ```
 # rake db:create db:schema:load
@@ -64,6 +79,17 @@ Project Set Up
 ```
 # gem install foreman
 ```
+ * Create an encryption key and add it to your `.env` file
+```
+# echo "ENC_KEY=`rake secret`" >> .env
+```
+ * Setup a new [AWS user](https://console.aws.amazon.com/iam/home#users) and add the access key id, secret access key and the default region envionment variables to your `.env` file
+```
+# echo "AWS_ACCESS_KEY_ID={your-access-key-id}" >> .env
+# echo "AWS_SECRET_ACCESS_KEY={your-secret-access-key}" >> .env
+# echo "AWS_REGION={default-region}" >> .env
+```
+the AWS credentials are going to be used for uploading the template scripts to [Amazon S3](https://console.aws.amazon.com/s3/home) and the user will need to have access to your S3 account.
  * Start the server:
 ```
 # foreman start
@@ -175,10 +201,6 @@ Development Environment
 When a task is completed the pull request for the task implementation is merged to the `development` branch. When the [TravisCI](https:/travis-ci.org) and [CodeClimate](https://codeclimate.com) checks are passed the `development` branch is automatically deployed to [Heroku](https://heroku.com).
 
 A deployment of the `development` branch is available at [sitefull-dev.herokuapp.com](http://sitefull-dev.herokuapp.com).
-
-You can also spin up your own copy of the `development` branch using the [Deploy to Heroku](https://devcenter.heroku.com/articles/heroku-button) button below:
-
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
 
 Staging Environment
 -------------------
