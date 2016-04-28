@@ -4,9 +4,32 @@
   "repository": "https://github.com/stanchino/sitefull-cloud-deploy",
   "keywords": ["rails", "cloud", "deploy"],
   "addons": [
-      "heroku-postgresql:hobby-dev"
+      "heroku-postgresql:hobby-dev",
+      "heroku-redis:hobby-dev"
   ],
+  "env": {
+      "WEB_CONCURRENCY": {
+          "description": "The number of processes to run.",
+          "value": "3"
+      },
+      "ENC_KEY": {
+          "description": "A secret key for encrypting sensitive data.",
+          "generator": "secret"
+      },
+      "AWS_ACCESS_KEY_ID": {
+          "description": "Access key ID for accessing S3.",
+          "value": ""
+      },
+      "AWS_SECRET_ACCESS_KEY": {
+          "description": "Secret access key for accessing S3.",
+          "value": ""
+      },
+      "AWS_REGION": {
+          "description": "The S3 region that will be used for template scripts.",
+          "value": "us-east-1"
+      }
+  },
   "scripts": {
-      "postdeploy": "bundle exec rake db:migrate db:seed"
+    "postdeploy": "bundle exec rake db:migrate db:seed"
   }
 }
