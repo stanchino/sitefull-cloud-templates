@@ -13,7 +13,7 @@ A [Ruby on Rails](http://rubyonrails.com) application for automating your cloud 
 
 Spin up your own instance
 =========================
-If you want to test the applicatiion you can deploy the `development` branch to your own [Heroku](https://www.heroku.com/) account using the [Deploy to Heroku](https://devcenter.heroku.com/articles/heroku-button) button below:
+If you want to test the applicatiion you can deploy it to your [Heroku](https://www.heroku.com/) account using the [Deploy to Heroku](https://devcenter.heroku.com/articles/heroku-button) button below:
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
 
