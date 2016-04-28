@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160324163740) do
+ActiveRecord::Schema.define(version: 20160417071947) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -42,7 +42,6 @@ ActiveRecord::Schema.define(version: 20160324163740) do
     t.string   "network_id"
     t.string   "instance_id"
     t.string   "key_name"
-    t.string   "status"
     t.text     "encrypted_public_key"
     t.string   "encrypted_public_key_salt"
     t.string   "encrypted_public_key_iv"
@@ -50,6 +49,9 @@ ActiveRecord::Schema.define(version: 20160324163740) do
     t.string   "encrypted_private_key_salt"
     t.string   "encrypted_private_key_iv"
     t.string   "ssh_user"
+    t.string   "state"
+    t.text     "error"
+    t.string   "failed_state"
   end
 
   add_index "deployments", ["provider_type"], name: "index_deployments_on_provider_type", using: :btree

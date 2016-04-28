@@ -1,39 +1,27 @@
 class DeploymentsListener
   class << self
-    def deployment_saved(id)
-      deployment_service(id).create_network
+    def create_network(id)
+      deployment_service(id).provisioning_step :create_network
     end
 
-    def network_created(id, network_id)
-      deployment_service(id).create_firewall_rules(network_id)
+    def create_firewall_rules(id)
+      deployment_service(id).provisioning_step :create_firewall_rules
     end
 
-    def deployment_network_saved(id)
-      deployment_service(id).create_key
+    def create_access_key(id)
+      deployment_service(id).provisioning_step :create_access_key
     end
 
-    def firewall_rules_created(id, network_id)
-      deployment_service(id).save_network_id(network_id)
+    def create_instance(id)
+      deployment_service(id).provisioning_step :create_instance
     end
 
-    def key_created(id, key_name, ssh_user, public_key, private_key)
-      deployment_service(id).save_key(key_name: key_name, ssh_user: ssh_user, public_key: public_key, private_key: private_key)
+    def start_instance(id)
+      deployment_service(id).provisioning_step :start_instance
     end
 
-    def deployment_key_saved(id)
-      deployment_service(id).create_instance
-    end
-
-    def instance_created(id, instance_id)
-      deployment_service(id).save_instance_id(instance_id)
-    end
-
-    def deployment_instance_saved(id)
-      deployment_service(id).execute_script
-    end
-
-    def script_executed(id)
-      deployment_service(id).finish_deployment
+    def execute_script(id)
+      deployment_service(id).provisioning_step :execute_script
     end
 
     private

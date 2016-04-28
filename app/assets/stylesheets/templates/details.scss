@@ -1,3 +1,12 @@
+@import 'variables';
+@import 'bootstrap/mixins';
+@import 'mixins';
+
 .script {
   font-size: 65%;
+}
+
+.icon-btn {
+  @include icon;
+  @include button-variant($btn-default-color, $btn-default-bg, $btn-default-border);
 }
