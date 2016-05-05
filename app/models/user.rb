@@ -4,11 +4,11 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable,
          :confirmable, :lockable, :timeoutable
 
-  validates :first_name, presence: true
-  validates :last_name, presence: true
-
   has_many :templates
-  has_many :deployments, through: :templates
+  has_many :deployments
   has_many :accesses, dependent: :destroy
   has_many :providers, through: :accesses
+
+  validates :first_name, presence: true
+  validates :last_name, presence: true
 end

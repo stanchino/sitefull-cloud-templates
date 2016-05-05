@@ -95,6 +95,7 @@ class DeploymentsController < ApplicationController
 
   def setup_decorator
     @decorator = DeploymentDecorator.new(@deployment || @template.deployments.build(deployment_params))
+    @decorator.deployment.user = current_user unless @decorator.deployment.user.present?
     @decorator.deployment.session_name = request.session_options[:id]
   end
 end

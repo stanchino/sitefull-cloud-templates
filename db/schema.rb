@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160417071947) do
+ActiveRecord::Schema.define(version: 20160505173426) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -52,10 +52,18 @@ ActiveRecord::Schema.define(version: 20160417071947) do
     t.string   "state"
     t.text     "error"
     t.string   "failed_state"
+    t.integer  "user_id"
   end
 
   add_index "deployments", ["provider_type"], name: "index_deployments_on_provider_type", using: :btree
   add_index "deployments", ["template_id"], name: "index_deployments_on_template_id", using: :btree
+  add_index "deployments", ["user_id"], name: "index_deployments_on_user_id", using: :btree
+
+  create_table "organizations", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "provider_settings", force: :cascade do |t|
     t.string   "name"
@@ -72,9 +80,12 @@ ActiveRecord::Schema.define(version: 20160417071947) do
   create_table "providers", force: :cascade do |t|
     t.string   "name"
     t.string   "textkey"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+    t.integer  "organization_id"
   end
+
+  add_index "providers", ["organization_id"], name: "index_providers_on_organization_id", using: :btree
 
   create_table "taggings", force: :cascade do |t|
     t.integer  "tag_id"
@@ -141,6 +152,8 @@ ActiveRecord::Schema.define(version: 20160417071947) do
 
   add_foreign_key "accesses", "providers"
   add_foreign_key "accesses", "users"
+  add_foreign_key "deployments", "users"
   add_foreign_key "provider_settings", "providers"
+  add_foreign_key "providers", "organizations"
   add_foreign_key "templates", "users"
 end

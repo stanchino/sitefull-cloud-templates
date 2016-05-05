@@ -21,8 +21,8 @@ end
 
 RSpec.shared_examples 'deployment controller' do |provider|
   setup_access(provider)
-  let(:deployment) { FactoryGirl.create(:deployment, provider, template: template) }
-  let(:valid_attributes) { FactoryGirl.attributes_for(:deployment, provider, template: template) }
+  let(:deployment) { FactoryGirl.create(:deployment, provider, template: template, user: template.user) }
+  let(:valid_attributes) { FactoryGirl.attributes_for(:deployment, provider, template: template, user: template.user) }
 
   describe 'GET #all' do
     it 'assigns all deployments as @deployments' do

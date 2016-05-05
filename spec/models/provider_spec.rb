@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Provider, type: :model do
   describe 'relations' do
+    it { is_expected.to belong_to(:organization) }
     it { is_expected.to have_many(:accesses).dependent(:destroy) }
     it { is_expected.to have_many(:settings).class_name('ProviderSetting').dependent(:destroy) }
     it { is_expected.to have_many(:users).through(:accesses) }
@@ -11,7 +12,7 @@ RSpec.describe Provider, type: :model do
   describe 'validations' do
     it { is_expected.to validate_presence_of(:name) }
     it { is_expected.to validate_presence_of(:textkey) }
-    it { is_expected.to validate_uniqueness_of(:name) }
+    it { is_expected.to validate_uniqueness_of(:name).scoped_to(:organization_id) }
     it { is_expected.to validate_uniqueness_of(:textkey) }
     Sitefull::Cloud::Provider::PROVIDERS.each do |textkey|
       context "when textkey #{textkey} is included in the list" do
