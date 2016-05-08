@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160505173426) do
+ActiveRecord::Schema.define(version: 20160508055203) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -19,16 +19,33 @@ ActiveRecord::Schema.define(version: 20160505173426) do
 
   create_table "accesses", force: :cascade do |t|
     t.integer  "provider_id"
-    t.integer  "user_id"
     t.string   "encrypted_token"
     t.string   "encrypted_token_salt"
     t.string   "encrypted_token_iv"
     t.datetime "created_at",           null: false
     t.datetime "updated_at",           null: false
+    t.integer  "account_id"
   end
 
+  add_index "accesses", ["account_id"], name: "index_accesses_on_account_id", using: :btree
   add_index "accesses", ["provider_id"], name: "index_accesses_on_provider_id", using: :btree
-  add_index "accesses", ["user_id"], name: "index_accesses_on_user_id", using: :btree
+
+  create_table "accounts", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "organization_id"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
+
+  add_index "accounts", ["organization_id"], name: "index_accounts_on_organization_id", using: :btree
+
+  create_table "accounts_users", force: :cascade do |t|
+    t.integer "account_id"
+    t.integer "user_id"
+  end
+
+  add_index "accounts_users", ["account_id"], name: "index_accounts_users_on_account_id", using: :btree
+  add_index "accounts_users", ["user_id"], name: "index_accounts_users_on_user_id", using: :btree
 
   create_table "deployments", force: :cascade do |t|
     t.integer  "template_id"
@@ -52,12 +69,12 @@ ActiveRecord::Schema.define(version: 20160505173426) do
     t.string   "state"
     t.text     "error"
     t.string   "failed_state"
-    t.integer  "user_id"
+    t.integer  "accounts_user_id"
   end
 
+  add_index "deployments", ["accounts_user_id"], name: "index_deployments_on_accounts_user_id", using: :btree
   add_index "deployments", ["provider_type"], name: "index_deployments_on_provider_type", using: :btree
   add_index "deployments", ["template_id"], name: "index_deployments_on_template_id", using: :btree
-  add_index "deployments", ["user_id"], name: "index_deployments_on_user_id", using: :btree
 
   create_table "organizations", force: :cascade do |t|
     t.string   "name"
@@ -80,9 +97,10 @@ ActiveRecord::Schema.define(version: 20160505173426) do
   create_table "providers", force: :cascade do |t|
     t.string   "name"
     t.string   "textkey"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
     t.integer  "organization_id"
+    t.boolean  "configured",      default: false
   end
 
   add_index "providers", ["organization_id"], name: "index_providers_on_organization_id", using: :btree
@@ -143,16 +161,21 @@ ActiveRecord::Schema.define(version: 20160505173426) do
     t.datetime "created_at",                             null: false
     t.datetime "updated_at",                             null: false
     t.boolean  "admin",                  default: false, null: false
+    t.integer  "current_account_id"
   end
 
   add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree
+  add_index "users", ["current_account_id"], name: "index_users_on_current_account_id", using: :btree
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   add_index "users", ["unlock_token"], name: "index_users_on_unlock_token", unique: true, using: :btree
 
+  add_foreign_key "accesses", "accounts"
   add_foreign_key "accesses", "providers"
-  add_foreign_key "accesses", "users"
-  add_foreign_key "deployments", "users"
+  add_foreign_key "accounts", "organizations"
+  add_foreign_key "accounts_users", "accounts"
+  add_foreign_key "accounts_users", "users"
+  add_foreign_key "deployments", "accounts_users"
   add_foreign_key "provider_settings", "providers"
   add_foreign_key "providers", "organizations"
   add_foreign_key "templates", "users"

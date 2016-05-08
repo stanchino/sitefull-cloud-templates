@@ -7,7 +7,8 @@ RSpec.shared_examples 'deployment with state' do |state|
 end
 
 RSpec.shared_examples 'controller that runs the deployment' do |provider|
-  let(:deployment) { FactoryGirl.create(:deployment, provider, state: :running, template: template, user: template.user) }
+  let(:accounts_user) { AccountsUser.where(user: template.user, account: template.user.current_account).first }
+  let(:deployment) { FactoryGirl.create(:deployment, provider, state: :running, template: template, accounts_user: accounts_user) }
 
   context 'executing the flow' do
     let(:session) { double }

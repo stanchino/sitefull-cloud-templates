@@ -6,6 +6,7 @@ RSpec.describe 'deployments/edit', type: :view do
     assign(:template, template)
     assign(:deployment, deployment)
     assign(:decorator, DeploymentDecorator.new(deployment))
+    assign(:provider_types, Sitefull::Cloud::Provider::PROVIDERS)
   end
 
   # Deployment::PROVIDERS.each do |provider_type|

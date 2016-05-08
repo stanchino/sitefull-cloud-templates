@@ -4,6 +4,7 @@ FactoryGirl.define do
     region 'region-id-1'
     machine_type 'machine-type-id-1'
     image 'image-id-1'
+    accounts_user
 
     trait :amazon do
       provider_type 'amazon'

@@ -4,6 +4,9 @@ RSpec.describe Deployment, type: :model do
   before { subject.template = stub_model(Template) }
   describe 'relationships' do
     it { is_expected.to belong_to(:template) }
+    it { is_expected.to belong_to(:accounts_user) }
+    it { is_expected.to have_one(:account).through(:accounts_user) }
+    it { is_expected.to have_one(:user).through(:accounts_user) }
   end
 
   describe 'validations' do

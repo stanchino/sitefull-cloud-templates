@@ -69,6 +69,9 @@ class DeploymentDecorator
   end
 
   def access
-    @access ||= Access.joins(:provider).where(Provider.arel_table[:textkey].eq(deployment.provider_type), user_id: deployment.user.id).first
+    @access ||= Access.joins(:provider)
+                      .where(account: deployment.account)
+                      .where(Provider.arel_table[:textkey].eq(deployment.provider_type))
+                      .first
   end
 end

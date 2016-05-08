@@ -5,7 +5,7 @@ RSpec.describe Provider, type: :model do
     it { is_expected.to belong_to(:organization) }
     it { is_expected.to have_many(:accesses).dependent(:destroy) }
     it { is_expected.to have_many(:settings).class_name('ProviderSetting').dependent(:destroy) }
-    it { is_expected.to have_many(:users).through(:accesses) }
+    it { is_expected.to have_many(:accounts).through(:accesses) }
     it { is_expected.to accept_nested_attributes_for(:settings) }
   end
 
@@ -13,7 +13,7 @@ RSpec.describe Provider, type: :model do
     it { is_expected.to validate_presence_of(:name) }
     it { is_expected.to validate_presence_of(:textkey) }
     it { is_expected.to validate_uniqueness_of(:name).scoped_to(:organization_id) }
-    it { is_expected.to validate_uniqueness_of(:textkey) }
+    it { is_expected.to validate_uniqueness_of(:textkey).scoped_to(:organization_id) }
     Sitefull::Cloud::Provider::PROVIDERS.each do |textkey|
       context "when textkey #{textkey} is included in the list" do
         subject { Provider.where(textkey: textkey).first_or_initialize }

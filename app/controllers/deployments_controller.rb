@@ -5,6 +5,7 @@ class DeploymentsController < ApplicationController
   load_and_authorize_resource through: :template, only: [:index, :new, :create, :destroy, :validate, :options]
   load_and_authorize_resource only: [:all, :show]
 
+  before_action :load_user_deployments, only: [:all, :show]
   before_action :set_provider_type, only: [:new, :create]
   before_action :setup_decorator, only: [:new, :create, :show, :validate, :options]
 
@@ -28,6 +29,8 @@ class DeploymentsController < ApplicationController
 
   # GET /templates/1/deployments/new
   def new
+    @provider_types = Provider.where(configured: true).pluck(:textkey)
+    redirect_to @deployment.template, alert: I18n.t('deployments.no_providers_configured') unless @provider_types.any?
   end
 
   # POST /templates/1/deployments
@@ -82,7 +85,9 @@ class DeploymentsController < ApplicationController
   end
 
   def deployment_params
-    params.require(:deployment).permit(:provider_type, :region, :image, :machine_type, Sitefull::Cloud::Provider.all_required_options)
+    params.require(:deployment)
+          .permit(:provider_type, :region, :image, :machine_type, Sitefull::Cloud::Provider.all_required_options)
+          .merge(accounts_user: accounts_user, session_name: request.session_options[:id])
   end
 
   def options_params
@@ -95,7 +100,13 @@ class DeploymentsController < ApplicationController
 
   def setup_decorator
     @decorator = DeploymentDecorator.new(@deployment || @template.deployments.build(deployment_params))
-    @decorator.deployment.user = current_user unless @decorator.deployment.user.present?
-    @decorator.deployment.session_name = request.session_options[:id]
+  end
+
+  def load_user_deployments
+    @deployments = Deployment.where(accounts_user_id: accounts_user.id)
+  end
+
+  def accounts_user
+    AccountsUser.where(user_id: current_user.id, account_id: current_user.current_account_id).first
   end
 end

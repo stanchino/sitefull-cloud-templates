@@ -7,7 +7,9 @@ class Deployment < ActiveRecord::Base
   attr_encrypted :private_key, mode: :per_attribute_iv_and_salt, key: ENV['ENC_KEY'] || Rails.application.secrets.encryption_key
 
   belongs_to :template
-  belongs_to :user
+  belongs_to :accounts_user
+  has_one :user, through: :accounts_user
+  has_one :account, through: :accounts_user
 
   validates :provider_type, presence: true, inclusion: { in: Sitefull::Cloud::Provider::PROVIDERS }
   validates :region, presence: true, deployment: true

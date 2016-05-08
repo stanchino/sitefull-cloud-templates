@@ -10,6 +10,6 @@ module ControllerHelpers
   end
 
   def setup_access(provider_type)
-    before(:each) { FactoryGirl.create(:access, user: user, provider: Provider.find_by_textkey(provider_type)) }
+    before(:each) { FactoryGirl.create(:access, account: user.current_account, provider: Provider.find_by_textkey(provider_type)) }
   end
 end

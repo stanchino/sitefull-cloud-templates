@@ -21,10 +21,11 @@ end
 
 RSpec.shared_examples 'deployment controller' do |provider|
   setup_access(provider)
-  let(:deployment) { FactoryGirl.create(:deployment, provider, template: template, user: template.user) }
-  let(:valid_attributes) { FactoryGirl.attributes_for(:deployment, provider, template: template, user: template.user) }
+  let(:accounts_user) { AccountsUser.where(user: user, account: user.current_account).first }
+  let(:deployment) { FactoryGirl.create(:deployment, provider, template: template, accounts_user: accounts_user) }
+  let(:valid_attributes) { FactoryGirl.attributes_for(:deployment, provider, template_id: template.id) }
 
-  describe 'GET #all' do
+  describe 'GET #all', all: true do
     it 'assigns all deployments as @deployments' do
       get :all, {}, valid_session
       expect(assigns(:deployments)).to eq([deployment])

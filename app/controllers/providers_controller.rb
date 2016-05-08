@@ -17,7 +17,7 @@ class ProvidersController < ApplicationController
   end
 
   def update
-    if @provider.update(provider_params)
+    if @provider.update provider_params.merge(configured: true)
       handle_save_success providers_url, :ok, t('providers.update_success')
     else
       handle_save_error @provider.errors, :edit
@@ -30,7 +30,7 @@ class ProvidersController < ApplicationController
 
   def oauth
     @provider_decorator.authorize!(oauth_params[:code])
-    access = @provider.accesses.where(user_id: current_user.id).first_or_initialize
+    access = @provider.accesses.where(account_id: current_user.current_account_id).first_or_initialize
     access.update_attributes(token: @provider_decorator.token.to_json)
     redirect_to oauth_params[:state]
   end

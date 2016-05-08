@@ -61,6 +61,7 @@ en:
     create_success: 'Provider was successfully created.'
     delete_success: 'Provider was successfully deleted.'
   deployments:
+    no_providers_configured: 'No providers are configured for the current organization.'
     provider:
       title: 'Cloud Provider'
       settings:
