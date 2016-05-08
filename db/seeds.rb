@@ -3,7 +3,7 @@
 
 def create_user(organization, user_params)
   User.where(user_params).first_or_initialize.tap do |user|
-    account = Account.create(name: user.email)
+    account = Account.create(name: user.email, organization: organization)
     user.password = user.password_confirmation = 'asdfasdf'
     user.skip_confirmation!
     user.current_account = account

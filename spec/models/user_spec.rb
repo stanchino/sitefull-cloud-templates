@@ -20,6 +20,10 @@ describe User, type: :model do
     it { is_expected.to have_many(:accounts).through(:accounts_users) }
   end
 
+  describe 'delegates' do
+    it { is_expected.to delegate_method(:organization).to(:current_account) }
+  end
+
   describe 'abilities' do
     let(:user) { FactoryGirl.create(:user) }
     subject(:ability) { Ability.new(user) }
