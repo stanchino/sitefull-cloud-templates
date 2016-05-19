@@ -16,7 +16,11 @@ class ApplicationController < ActionController::Base
   end
 
   def current_organization
-    current_user.current_account.organization if current_user.present?
+    @current_organization ||= current_user.current_account.organization if current_user.present?
+  end
+
+  def current_accounts_user
+    @current_accounts_user ||= current_user.current_account.accounts_users.first! if current_user.present? && current_user.current_account.present?
   end
   #   def azure_auth_callback
   #     code = params[:code]

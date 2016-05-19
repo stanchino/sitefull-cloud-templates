@@ -3,12 +3,20 @@ class ProviderOptionsValidator < ActiveModel::Validator
     return unless record.provider.present?
     error = valid?(record)
     required_options_for(record.provider.textkey).each do |option|
-      record.errors[option] << (options[:message] || 'is required') unless record.send(option).present?
-      record.errors[option] << error if error.is_a? String
+      validate_presence_of record, option
+      validate_provider_settings record, option, error
     end
   end
 
   private
+
+  def validate_presence_of(record, option)
+    record.errors[option] << (options[:message] || 'is required') unless record.send(option).present?
+  end
+
+  def validate_provider_settings(record, option, error)
+    record.errors[option] << error if error.is_a? String
+  end
 
   def required_options_for(textkey)
     Sitefull::Cloud::Provider.required_options_for(textkey)

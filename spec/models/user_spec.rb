@@ -18,6 +18,7 @@ describe User, type: :model do
     it { is_expected.to have_many(:templates) }
     it { is_expected.to have_many(:accounts_users).dependent(:destroy) }
     it { is_expected.to have_many(:accounts).through(:accounts_users) }
+    it { is_expected.to have_many(:deployments).through(:accounts_users) }
   end
 
   describe 'delegates' do

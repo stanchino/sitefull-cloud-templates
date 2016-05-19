@@ -63,11 +63,7 @@ class CredentialsController < ApplicationController
   end
 
   def setup_credential
-    @credential ||= Credential.joins(:provider)
-                              .where(provider_id: @provider.id)
-                              .where(account_id: current_user.current_account_id)
-                              .first_or_initialize
-    @credential.assign_attributes credentials_params
+    @credential ||= @provider.credentials.where(account_id: current_user.current_account_id).first_or_initialize credentials_params
   end
 
   def setup_provider

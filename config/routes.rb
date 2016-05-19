@@ -7,7 +7,7 @@ Rails.application.routes.draw do
     root to: 'dashboard#user', as: :user_root
     match '/oauth/:provider_textkey/callback', to: 'credentials#auth', via: [:get, :post]
 
-    resources :providers, param: :textkey do
+    resources :providers, only: [], param: :textkey do
       resources :credentials, only: [:new, :create, :edit, :update]
     end
   end

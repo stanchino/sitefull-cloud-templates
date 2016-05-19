@@ -7,6 +7,7 @@ class User < ActiveRecord::Base
   has_many :templates
   has_many :accounts_users, dependent: :destroy
   has_many :accounts, through: :accounts_users
+  has_many :deployments, through: :accounts_users
   belongs_to :current_account, class_name: 'Account'
 
   validates :first_name, presence: true

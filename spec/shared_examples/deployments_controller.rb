@@ -22,21 +22,21 @@ end
 RSpec.shared_examples 'deployment controller' do |provider|
   setup_credentials(provider)
   let!(:provider_object) { FactoryGirl.create(:provider, provider, organization: user.current_account.organization) }
-  let!(:accounts_user) { FactoryGirl.create(:accounts_user, user: user, account: user.current_account) }
+  let!(:accounts_user) { AccountsUser.where(user_id: user.id, account_id: user.current_account_id).first_or_create }
   let(:deployment) { FactoryGirl.create(:deployment, provider, template: template, accounts_user: accounts_user, provider: provider_object) }
   let(:valid_attributes) { FactoryGirl.attributes_for(:deployment, provider, template_id: template.id, accounts_user: accounts_user).merge(provider: provider) }
 
   describe 'GET #all', all: true do
     it 'assigns all deployments as @deployments' do
       get :all, {}, valid_session
-      expect(assigns(:deployments)).to eq([deployment])
+      expect(assigns(:deployments)).to match_array [deployment]
     end
   end
 
   describe 'GET #index' do
     it 'assigns all deployments as @deployments' do
       get :index, { template_id: template.id }, valid_session
-      expect(assigns(:deployments)).to eq([deployment])
+      expect(assigns(:deployments)).to match_array [deployment]
     end
   end
 

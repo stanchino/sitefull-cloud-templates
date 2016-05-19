@@ -2,16 +2,14 @@ class DeploymentsController < ApplicationController
   include GenericActions
 
   load_and_authorize_resource :template, only: [:index, :new, :edit, :create, :destroy, :validate, :options]
-  load_and_authorize_resource through: :template, only: [:edit, :new, :destroy, :validate]
-  load_and_authorize_resource only: [:all, :show]
+  load_and_authorize_resource through: :template, only: [:destroy]
+  load_and_authorize_resource through: :current_accounts_user, only: [:all, :show]
 
   before_action :load_provider_types, only: [:new, :create]
-  before_action :load_user_deployments, only: :index
-  before_action :load_deployment, except: [:index, :all, :destroy, :edit, :show, :new]
-  # before_action :set_provider, only: [:new, :create, :options]
-  # before_action :set_accounts_user, only: [:new, :create]
+  before_action :load_deployments, only: :index
+  before_action :new_deployment, only: [:new, :create, :options, :validate]
   before_action :setup_decorator, only: [:new, :create, :show, :validate, :options]
-  authorize_resource
+  authorize_resource except: [:index, :all, :destroy, :edit, :show]
 
   layout 'dashboard'
 
@@ -98,26 +96,14 @@ class DeploymentsController < ApplicationController
     redirect_to @deployment.template, alert: I18n.t('deployments.no_providers_configured') unless @providers.any?
   end
 
-  def load_deployment
-    provider = Provider.where(organization_id: current_organization.id, textkey: params[:provider]).first! if params[:provider].present?
-    @deployment ||= Deployment
-                    .where(template_id: @template.id)
-                    .where(accounts_user_id: current_user.accounts_users.where(account_id: current_user.current_account_id).first!.id)
-                    .where(provider_id: provider.id)
-                    .first_or_initialize
-    @deployment.assign_attributes deployment_params
+  def new_deployment
+    attributes = deployment_params.merge(accounts_user: current_accounts_user)
+    attributes[:provider] = current_organization.providers.find_by_textkey(params[:provider]) if params[:provider].present?
+    @deployment ||= @template.deployments.build attributes
   end
 
-  def set_provider
-    @deployment.provider_id = Provider.where(organization_id: current_organization.id, textkey: new_params[:provider] || deployment_params[:provider_type]).first!.id
-  end
-
-  def set_accounts_user
-    @deployment.accounts_user_id = AccountsUser.where(user_id: current_user.id, account_id: current_user.current_account_id).first!.id
-  end
-
-  def load_user_deployments
-    @deployments = Deployment.joins(:accounts_user).where(AccountsUser.arel_table[:account_id].eq(current_user.current_account_id))
+  def load_deployments
+    @deployments = current_user.deployments.where(AccountsUser.arel_table[:account_id].eq(current_user.current_account_id))
   end
 
   def setup_decorator
