@@ -70,7 +70,6 @@ ActiveRecord::Schema.define(version: 20160515045836) do
     t.text     "error"
     t.string   "failed_state"
     t.integer  "accounts_user_id"
-    t.hstore   "credentials"
     t.integer  "provider_id"
   end
 
