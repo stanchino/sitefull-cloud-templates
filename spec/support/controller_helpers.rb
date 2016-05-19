@@ -9,7 +9,7 @@ module ControllerHelpers
     before(:each) { sign_in user }
   end
 
-  def setup_access(provider_type)
-    before(:each) { FactoryGirl.create(:access, account: user.current_account, provider: Provider.find_by_textkey(provider_type)) }
+  def setup_credentials(provider_type)
+    before(:each) { FactoryGirl.create(:credential, provider_type.to_sym, account: user.current_account, provider: Provider.find_by_textkey(provider_type)) }
   end
 end

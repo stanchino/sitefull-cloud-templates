@@ -3,9 +3,10 @@ require 'rails_helper'
 RSpec.describe Provider, type: :model do
   describe 'relations' do
     it { is_expected.to belong_to(:organization) }
-    it { is_expected.to have_many(:accesses).dependent(:destroy) }
+    it { is_expected.to have_many(:deployments).dependent(:destroy) }
+    it { is_expected.to have_many(:credentials).dependent(:destroy) }
     it { is_expected.to have_many(:settings).class_name('ProviderSetting').dependent(:destroy) }
-    it { is_expected.to have_many(:accounts).through(:accesses) }
+    it { is_expected.to have_many(:accounts).through(:credentials) }
     it { is_expected.to accept_nested_attributes_for(:settings) }
   end
 

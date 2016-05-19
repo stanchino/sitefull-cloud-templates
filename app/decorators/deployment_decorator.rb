@@ -1,19 +1,17 @@
 class DeploymentDecorator
-  attr_accessor :deployment
-
-  delegate :provider_type, to: :deployment
+  attr_reader :deployment, :credentials
 
   def initialize(deployment)
     @deployment = deployment
+    @credentials = CredentialsDecorator.new(credential)
   end
 
   def provider
-    @provider ||= ProviderDecorator.new(deployment.provider_type, provider_options).provider if deployment.provider_type.present?
+    @provider ||= ProviderDecorator.new(deployment.provider, credentials_options).provider if deployment.provider.present?
   end
 
   def valid?
-    return @valid unless @valid.nil?
-    @valid = provider.present? && provider.valid?
+    @valid ||= provider.try(:valid?)
   end
 
   def regions
@@ -52,26 +50,29 @@ class DeploymentDecorator
 
   private
 
+  def credential
+    @credential ||= Credential.where(provider_id: deployment.provider_id, account_id: deployment.accounts_user.try(:account_id)).first_or_initialize
+  end
+
+  def credentials_options
+    deployment.region.present? ? credentials.to_h.merge(region: deployment.region) : credentials.to_h
+  end
+
   def provider_regions
     @regions ||= provider.regions
+  rescue
+    []
   end
 
   def provider_images
     @images ||= provider.images(deployment.os)
+  rescue
+    []
   end
 
   def provider_machine_types
     @machine_types ||= provider.machine_types(deployment.region)
-  end
-
-  def provider_options
-    (deployment.credentials || {}).merge(token: access.try(:token))
-  end
-
-  def access
-    @access ||= Access.joins(:provider)
-                      .where(account: deployment.account)
-                      .where(Provider.arel_table[:textkey].eq(deployment.provider_type))
-                      .first
+  rescue
+    []
   end
 end

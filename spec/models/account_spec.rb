@@ -5,7 +5,7 @@ RSpec.describe Account, type: :model do
     it { is_expected.to belong_to :organization }
     it { is_expected.to have_many(:accounts_users).dependent(:destroy) }
     it { is_expected.to have_many(:users).through(:accounts_users) }
-    it { is_expected.to have_many(:accesses).dependent(:destroy) }
-    it { is_expected.to have_many(:providers).through(:accesses) }
+    it { is_expected.to have_many(:credentials).dependent(:destroy) }
+    it { is_expected.to have_many(:providers).through(:credentials) }
   end
 end

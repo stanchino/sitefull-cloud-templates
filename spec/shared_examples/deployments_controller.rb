@@ -20,10 +20,11 @@ RSpec.shared_examples 'successfull deployment' do
 end
 
 RSpec.shared_examples 'deployment controller' do |provider|
-  setup_access(provider)
-  let(:accounts_user) { AccountsUser.where(user: user, account: user.current_account).first }
-  let(:deployment) { FactoryGirl.create(:deployment, provider, template: template, accounts_user: accounts_user) }
-  let(:valid_attributes) { FactoryGirl.attributes_for(:deployment, provider, template_id: template.id) }
+  setup_credentials(provider)
+  let!(:provider_object) { FactoryGirl.create(:provider, provider, organization: user.current_account.organization) }
+  let!(:accounts_user) { FactoryGirl.create(:accounts_user, user: user, account: user.current_account) }
+  let(:deployment) { FactoryGirl.create(:deployment, provider, template: template, accounts_user: accounts_user, provider: provider_object) }
+  let(:valid_attributes) { FactoryGirl.attributes_for(:deployment, provider, template_id: template.id, accounts_user: accounts_user).merge(provider: provider) }
 
   describe 'GET #all', all: true do
     it 'assigns all deployments as @deployments' do
@@ -64,12 +65,12 @@ RSpec.shared_examples 'deployment controller' do |provider|
     context 'with valid params' do
       it 'creates a new Deployment' do
         expect do
-          post :create, { deployment: valid_attributes, template_id: template.to_param }, valid_session
+          post :create, { deployment: valid_attributes, template_id: template.to_param, provider: provider }, valid_session
         end.to change(Deployment, :count).by(1)
       end
 
       it 'assigns a newly created deployment as @deployment' do
-        post :create, { deployment: valid_attributes, template_id: template.to_param }, valid_session
+        post :create, { deployment: valid_attributes, template_id: template.to_param, provider: provider }, valid_session
         expect(assigns(:deployment)).to be_a(Deployment)
         expect(assigns(:deployment)).to be_persisted
         expect(assigns(:decorator)).to be_a DeploymentDecorator
@@ -78,12 +79,12 @@ RSpec.shared_examples 'deployment controller' do |provider|
 
     context 'with invalid params' do
       it 'assigns a newly created but unsaved deployment as @deployment' do
-        post :create, { deployment: invalid_attributes, template_id: template.to_param }, valid_session
+        post :create, { deployment: invalid_attributes, template_id: template.to_param, provider: provider }, valid_session
         expect(assigns(:deployment)).to be_a_new(Deployment)
       end
 
       it "re-renders the 'new' template" do
-        post :create, { deployment: invalid_attributes, template_id: template.to_param }, valid_session
+        post :create, { deployment: invalid_attributes, template_id: template.to_param, provider: provider }, valid_session
         expect(response).to render_template('new')
       end
     end

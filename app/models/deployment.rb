@@ -1,26 +1,25 @@
 class Deployment < ActiveRecord::Base
   include DeploymentStateMachine
 
-  store_accessor :credentials, Sitefull::Cloud::Provider.all_required_options
-
   attr_encrypted :public_key, mode: :per_attribute_iv_and_salt, key: ENV['ENC_KEY'] || Rails.application.secrets.encryption_key
   attr_encrypted :private_key, mode: :per_attribute_iv_and_salt, key: ENV['ENC_KEY'] || Rails.application.secrets.encryption_key
 
   belongs_to :template
   belongs_to :accounts_user
+  belongs_to :provider
   has_one :user, through: :accounts_user
   has_one :account, through: :accounts_user
 
-  validates :provider_type, presence: true, inclusion: { in: Sitefull::Cloud::Provider::PROVIDERS }
+  validates :provider, presence: true
+  validates :accounts_user, presence: true
   validates :region, presence: true, deployment: true
   validates :image, presence: true, deployment: true
   validates :machine_type, presence: true, deployment: true
 
-  validates_with ProviderOptionsValidator
-
   delegate :os, :script, to: :template
+  delegate :textkey, to: :provider, prefix: :provider, allow_nil: true
 
-  def on?(provider)
-    provider_type.present? && provider_type.to_s == provider.to_s
+  def on?(provider_type)
+    provider_textkey.present? && provider_textkey.to_s == provider_type.to_s
   end
 end

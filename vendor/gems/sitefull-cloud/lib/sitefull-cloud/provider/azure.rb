@@ -11,7 +11,7 @@ module Sitefull
       include Networking
       include Instance
 
-      REQUIRED_OPTIONS = %w(region subscription_id).freeze
+      REQUIRED_OPTIONS = %w(subscription_id).freeze
 
       IMAGES = {
         debian: { publisher: 'Credativ', offer: 'Debian' },
@@ -102,9 +102,9 @@ module Sitefull
       end
 
       def valid?
-        !options[:subscription_id].empty? && !connection.empty?
-      rescue StandardError
-        false
+        !options[:subscription_id].empty? && !connection.empty? && !regions.empty?
+      rescue MsRestAzure::AzureOperationError => e
+        raise StandardError.new JSON.parse(e.response.body)['error']['message']
       end
 
       private

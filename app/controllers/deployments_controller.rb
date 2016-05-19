@@ -1,13 +1,17 @@
 class DeploymentsController < ApplicationController
   include GenericActions
 
-  load_and_authorize_resource :template, only: [:index, :new, :create, :destroy, :validate, :options]
-  load_and_authorize_resource through: :template, only: [:index, :new, :create, :destroy, :validate, :options]
+  load_and_authorize_resource :template, only: [:index, :new, :edit, :create, :destroy, :validate, :options]
+  load_and_authorize_resource through: :template, only: [:edit, :new, :destroy, :validate]
   load_and_authorize_resource only: [:all, :show]
 
-  before_action :load_user_deployments, only: [:all, :show]
-  before_action :set_provider_type, only: [:new, :create]
+  before_action :load_provider_types, only: [:new, :create]
+  before_action :load_user_deployments, only: :index
+  before_action :load_deployment, except: [:index, :all, :destroy, :edit, :show, :new]
+  # before_action :set_provider, only: [:new, :create, :options]
+  # before_action :set_accounts_user, only: [:new, :create]
   before_action :setup_decorator, only: [:new, :create, :show, :validate, :options]
+  authorize_resource
 
   layout 'dashboard'
 
@@ -29,8 +33,6 @@ class DeploymentsController < ApplicationController
 
   # GET /templates/1/deployments/new
   def new
-    @provider_types = Provider.where(configured: true).pluck(:textkey)
-    redirect_to @deployment.template, alert: I18n.t('deployments.no_providers_configured') unless @provider_types.any?
   end
 
   # POST /templates/1/deployments
@@ -79,34 +81,46 @@ class DeploymentsController < ApplicationController
 
   private
 
-  # Never trust parameters from the scary internet, only allow the white list through.
   def new_params
-    params.permit(:provider)
+    params.permit(:provider, :template_id)
   end
 
   def deployment_params
-    params.require(:deployment)
-          .permit(:provider_type, :region, :image, :machine_type, Sitefull::Cloud::Provider.all_required_options)
-          .merge(accounts_user: accounts_user, session_name: request.session_options[:id])
+    params.fetch(:deployment, {}).permit(:provider_id, :region, :image, :machine_type)
   end
 
   def options_params
     params.permit(:type)
   end
 
-  def set_provider_type
-    @deployment.provider_type = new_params[:provider] if new_params[:provider].present?
+  def load_provider_types
+    @providers = Provider.where(configured: true)
+    redirect_to @deployment.template, alert: I18n.t('deployments.no_providers_configured') unless @providers.any?
   end
 
-  def setup_decorator
-    @decorator = DeploymentDecorator.new(@deployment || @template.deployments.build(deployment_params))
+  def load_deployment
+    provider = Provider.where(organization_id: current_organization.id, textkey: params[:provider]).first! if params[:provider].present?
+    @deployment ||= Deployment
+                    .where(template_id: @template.id)
+                    .where(accounts_user_id: current_user.accounts_users.where(account_id: current_user.current_account_id).first!.id)
+                    .where(provider_id: provider.id)
+                    .first_or_initialize
+    @deployment.assign_attributes deployment_params
+  end
+
+  def set_provider
+    @deployment.provider_id = Provider.where(organization_id: current_organization.id, textkey: new_params[:provider] || deployment_params[:provider_type]).first!.id
+  end
+
+  def set_accounts_user
+    @deployment.accounts_user_id = AccountsUser.where(user_id: current_user.id, account_id: current_user.current_account_id).first!.id
   end
 
   def load_user_deployments
-    @deployments = Deployment.where(accounts_user_id: accounts_user.id)
+    @deployments = Deployment.joins(:accounts_user).where(AccountsUser.arel_table[:account_id].eq(current_user.current_account_id))
   end
 
-  def accounts_user
-    AccountsUser.where(user_id: current_user.id, account_id: current_user.current_account_id).first
+  def setup_decorator
+    @decorator = DeploymentDecorator.new(@deployment)
   end
 end

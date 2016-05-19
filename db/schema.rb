@@ -11,24 +11,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160508055203) do
+ActiveRecord::Schema.define(version: 20160515045836) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "hstore"
-
-  create_table "accesses", force: :cascade do |t|
-    t.integer  "provider_id"
-    t.string   "encrypted_token"
-    t.string   "encrypted_token_salt"
-    t.string   "encrypted_token_iv"
-    t.datetime "created_at",           null: false
-    t.datetime "updated_at",           null: false
-    t.integer  "account_id"
-  end
-
-  add_index "accesses", ["account_id"], name: "index_accesses_on_account_id", using: :btree
-  add_index "accesses", ["provider_id"], name: "index_accesses_on_provider_id", using: :btree
 
   create_table "accounts", force: :cascade do |t|
     t.string   "name"
@@ -47,10 +34,23 @@ ActiveRecord::Schema.define(version: 20160508055203) do
   add_index "accounts_users", ["account_id"], name: "index_accounts_users_on_account_id", using: :btree
   add_index "accounts_users", ["user_id"], name: "index_accounts_users_on_user_id", using: :btree
 
+  create_table "credentials", force: :cascade do |t|
+    t.integer  "provider_id"
+    t.string   "encrypted_token"
+    t.string   "encrypted_token_salt"
+    t.string   "encrypted_token_iv"
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
+    t.integer  "account_id"
+    t.hstore   "data"
+  end
+
+  add_index "credentials", ["account_id"], name: "index_credentials_on_account_id", using: :btree
+  add_index "credentials", ["data"], name: "index_credentials_on_data", using: :gin
+  add_index "credentials", ["provider_id"], name: "index_credentials_on_provider_id", using: :btree
+
   create_table "deployments", force: :cascade do |t|
     t.integer  "template_id"
-    t.hstore   "credentials"
-    t.string   "provider_type",                           null: false
     t.string   "region",                     default: "", null: false
     t.string   "machine_type",               default: "", null: false
     t.datetime "created_at",                              null: false
@@ -70,10 +70,12 @@ ActiveRecord::Schema.define(version: 20160508055203) do
     t.text     "error"
     t.string   "failed_state"
     t.integer  "accounts_user_id"
+    t.hstore   "credentials"
+    t.integer  "provider_id"
   end
 
   add_index "deployments", ["accounts_user_id"], name: "index_deployments_on_accounts_user_id", using: :btree
-  add_index "deployments", ["provider_type"], name: "index_deployments_on_provider_type", using: :btree
+  add_index "deployments", ["provider_id"], name: "index_deployments_on_provider_id", using: :btree
   add_index "deployments", ["template_id"], name: "index_deployments_on_template_id", using: :btree
 
   create_table "organizations", force: :cascade do |t|
@@ -170,12 +172,13 @@ ActiveRecord::Schema.define(version: 20160508055203) do
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   add_index "users", ["unlock_token"], name: "index_users_on_unlock_token", unique: true, using: :btree
 
-  add_foreign_key "accesses", "accounts"
-  add_foreign_key "accesses", "providers"
   add_foreign_key "accounts", "organizations"
   add_foreign_key "accounts_users", "accounts"
   add_foreign_key "accounts_users", "users"
+  add_foreign_key "credentials", "accounts"
+  add_foreign_key "credentials", "providers"
   add_foreign_key "deployments", "accounts_users"
+  add_foreign_key "deployments", "providers"
   add_foreign_key "provider_settings", "providers"
   add_foreign_key "providers", "organizations"
   add_foreign_key "templates", "users"

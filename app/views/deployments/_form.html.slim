@@ -9,14 +9,14 @@
   .provider
     h2 = t('deployments.provider.title')
     .form-inputs
-      - @provider_types.each do |provider_type|
+      - @providers.each do |provider|
         .form-group
           .input-group
             span.input-group-addon
-              = f.radio_button :provider_type, provider_type, options_for_selection(provider_type)
-            label.form-control class=provider_type for="deployment_provider_type_#{provider_type}"
-              = t("providers.#{provider_type}")
-  .provider-settings
+              = f.radio_button :provider_id, provider.id, options_for_selection(provider.textkey)
+            label.form-control class=provider.textkey for="deployment_provider_type_#{provider.textkey}"
+              = provider.name
+  /.provider-settings
     h2 = t('deployments.provider.settings.title')
     .section.description*{class: ('hidden' unless provider_blank?)}
       .content

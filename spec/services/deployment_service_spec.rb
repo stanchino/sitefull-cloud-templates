@@ -1,9 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe DeploymentService, type: :service do
-  let(:template) { FactoryGirl.create(:template, os: 'debian') }
-  let(:accounts_user) { AccountsUser.where(user: template.user, account: template.user.current_account).first }
-  let(:deployment) { FactoryGirl.create(:deployment, template: template, accounts_user: accounts_user, provider_type: 'amazon', role_arn: 'role', session_name: 'session_id') }
+  let(:deployment) { FactoryGirl.create(:deployment, :amazon) }
   subject { DeploymentService.new(deployment) }
 
   describe 'ssh_user' do

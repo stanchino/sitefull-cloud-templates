@@ -1,6 +1,6 @@
 - Sitefull::Cloud::Auth.new(@provider.textkey, {validate: false}).required_settings.each do |setting|
   .form-inputs
-    - entry = @provider.settings.first { |name| name == setting.to_s }
+    - entry = @provider.settings.to_a.find { |name| name == setting.to_s }
     = form_builder.simple_fields_for :settings, entry || @provider.settings.where(name: setting).first_or_initialize do |s|
       = s.input_field :name, as: :hidden, value: setting
       = s.input :value, label: t("providers.#{setting}"), wrapper_html: { class: 'setting' }
