@@ -16,7 +16,7 @@ GIT
 PATH
   remote: vendor/gems
   specs:
-    sitefull-cloud (0.0.7)
+    sitefull-cloud (0.0.8)
       activesupport
       aws-sdk
       azure
