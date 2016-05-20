@@ -1,16 +1,14 @@
 module DeploymentsHelper
   def provider_blank?
-    @deployment.provider_type.blank?
+    @deployment.provider.blank?
   end
 
   def provider_options_urls
-    Hash[[:regions, :images, :machine_types].map { |item| ["#{item}-url", options_template_deployments_url(@template, type: item)] }]
+    Hash[[:regions, :images, :machine_types].map { |item| ["#{item}-url", options_template_deployments_url(@template, type: item, provider: @deployment.provider.try(:textkey))] }]
   end
 
   def options_for_selection(provider_type)
-    options = { checked: @deployment.provider_type == provider_type }
-
-    options.merge(data: { 'oauth-url' => ProviderDecorator.new(provider_type, oauth_url_options(provider_type)).authorization_url })
+    { checked: @deployment.provider_textkey == provider_type, data: { 'provider-textkey' => provider_type, 'auth-url' => new_provider_credential_path(provider_type, state: @deployment.template_id) } }
   end
 
   def deployment_progress(state)
@@ -63,9 +61,5 @@ module DeploymentsHelper
 
   def state_success?(state)
     states.include?(@deployment.state.to_sym) && states.index(state) < states.index(@deployment.state.to_sym)
-  end
-
-  def oauth_url_options(provider_type)
-    { base_uri: request.base_url, state: new_template_deployment_path(@deployment.template, provider: provider_type) }
   end
 end

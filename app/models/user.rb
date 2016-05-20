@@ -4,11 +4,15 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable,
          :confirmable, :lockable, :timeoutable
 
+  has_many :templates
+  has_many :accounts_users, dependent: :destroy
+  has_many :accounts, through: :accounts_users
+  has_many :deployments, through: :accounts_users
+  belongs_to :current_account, class_name: 'Account'
+
   validates :first_name, presence: true
   validates :last_name, presence: true
+  validates :email, uniqueness: true
 
-  has_many :templates
-  has_many :deployments, through: :templates
-  has_many :accesses, dependent: :destroy
-  has_many :providers, through: :accesses
+  delegate :organization, to: :current_account
 end

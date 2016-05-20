@@ -24,18 +24,9 @@ class SiteFull.Deployments.ProviderSelection
   bind_provider_change: ->
     $(@wrapper).on 'change', "input[type='radio']", (event) =>
       $target = $(event.target)
-      oauth_url = $target.data?('oauth-url')
-      if oauth_url
-        window.location.href = oauth_url
-      else
-        provider = $target.val()
-        @render_settings(provider)
-        @provider_settings.init(provider)
-
-  render_settings: (provider) ->
-    @hide_settings_description() &&
-      @hide_all_settings_sections() &&
-      @show_settings_section_for(provider)
+      auth_url = $target.data?('auth-url')
+      if auth_url
+        window.location.href = auth_url
 
   hide_settings_description: ->
     $(@description, @settings_wrapper).hide()
@@ -52,4 +43,4 @@ class SiteFull.Deployments.ProviderSelection
       .prop(disabled: false)
 
   provider_selection: ->
-    $(@provider_selector).val()
+    $(@provider_selector).data?('provider-textkey')

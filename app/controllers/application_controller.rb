@@ -15,6 +15,13 @@ class ApplicationController < ActionController::Base
     devise_parameter_sanitizer.permit(:sign_up) { |u| u.permit(:first_name, :last_name, :email, :password) }
   end
 
+  def current_organization
+    @current_organization ||= current_user.current_account.organization if current_user.present?
+  end
+
+  def current_accounts_user
+    @current_accounts_user ||= current_user.current_account.accounts_users.first! if current_user.present? && current_user.current_account.present?
+  end
   #   def azure_auth_callback
   #     code = params[:code]
   #     conn = Faraday.new(url: 'https://login.microsoftonline.com/') do |faraday|
