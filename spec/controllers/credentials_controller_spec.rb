@@ -76,8 +76,6 @@ RSpec.describe CredentialsController, type: :controller do
 
           it 'assigns a newly created credential as @credential' do
             post :create, provider_textkey: provider_type, credential: valid_attributes, state: template.id
-            expect(assigns(:provider_decorator)).to be_a ProviderDecorator
-            expect(assigns(:credential)).to be_a Credential
             expect(assigns(:credential)).to be_persisted
           end
 
@@ -92,8 +90,6 @@ RSpec.describe CredentialsController, type: :controller do
         context 'with invalid params' do
           it 'assigns a newly created but unsaved credential as @credential' do
             post :create, provider_textkey: provider_type, credential: invalid_attributes, state: template.id
-            expect(assigns(:provider_decorator)).to be_a ProviderDecorator
-            expect(assigns(:credential)).to be_a_new Credential
             expect(assigns(:credential)).not_to be_persisted
           end
 
