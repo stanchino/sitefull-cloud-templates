@@ -18,8 +18,4 @@ class Deployment < ActiveRecord::Base
 
   delegate :os, :script, to: :template
   delegate :textkey, to: :provider, prefix: :provider, allow_nil: true
-
-  def on?(provider_type)
-    provider_textkey.present? && provider_textkey.to_s == provider_type.to_s
-  end
 end

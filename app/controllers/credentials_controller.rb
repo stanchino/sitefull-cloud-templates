@@ -36,7 +36,7 @@ class CredentialsController < ApplicationController
   end
 
   def update
-    if @credential.save
+    if @credential.valid? && @credential.save!
       handle_save_success new_template_deployment_path(@template_id, provider: @provider_textkey), :ok
     else
       handle_save_error @credential.errors, :edit
@@ -63,11 +63,12 @@ class CredentialsController < ApplicationController
   end
 
   def setup_credential
-    @credential ||= @provider.credentials.where(account_id: current_user.current_account_id).first_or_initialize credentials_params
+    @credential = @provider.credentials.where(account_id: current_user.current_account_id).first_or_initialize
+    @credential.assign_attributes credentials_params
   end
 
   def setup_provider
-    @provider ||= current_organization.providers.where(textkey: @provider_textkey).first!
+    @provider ||= current_organization.providers.find_by_textkey! @provider_textkey
   end
 
   def credentials_decorator

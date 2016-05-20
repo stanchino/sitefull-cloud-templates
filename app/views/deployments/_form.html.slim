@@ -4,7 +4,6 @@
 - content_for(:js_manifest) do
   = javascript_include_tag 'deployments/create', 'data-turbolinks-track' => true
 
-= @deployment.inspect
 = simple_form_for [@template, @deployment] do |f|
   = f.error_notification
   .provider
@@ -17,14 +16,6 @@
               = f.radio_button :provider_id, provider.id, options_for_selection(provider.textkey)
             label.form-control class=provider.textkey for="deployment_provider_id_#{provider.id}"
               = provider.name
-  /.provider-settings
-    h2 = t('deployments.provider.settings.title')
-    .section.description*{class: ('hidden' unless provider_blank?)}
-      .content
-        p = t('deployments.provider.settings.description')
-    - @provider_types.each do |provider_type|
-      .form-inputs*{class: ('hidden' unless @deployment.on?(provider_type))} data-provider-settings=provider_type data-validate-url=validate_template_deployments_url(@template)
-        = render "deployments/provider_settings/#{provider_type}", form_builder: f
   .options*{data: provider_options_urls}
     h2 = t('deployments.options.title')
     .form-inputs
