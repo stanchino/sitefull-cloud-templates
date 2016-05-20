@@ -21,7 +21,6 @@ class SiteFull.Deployments.ProviderOptions.Base
       .prop(disabled: false)
 
   disable_instance_inputs: =>
-    console.log @instance_wrapper
     $(':input:visible:not(:disabled)', @instance_wrapper)
       .val('')
       .prop(disabled: true)

@@ -9,21 +9,13 @@
   .provider
     h2 = t('deployments.provider.title')
     .form-inputs
-      - Provider.pluck(:textkey).each do |provider_type|
+      - @providers.each do |provider|
         .form-group
           .input-group
             span.input-group-addon
-              = f.radio_button :provider_type, provider_type, options_for_selection(provider_type)
-            label.form-control class=provider_type for="deployment_provider_type_#{provider_type}"
-              = t("providers.#{provider_type}")
-  .provider-settings
-    h2 = t('deployments.provider.settings.title')
-    .section.description*{class: ('hidden' unless provider_blank?)}
-      .content
-        p = t('deployments.provider.settings.description')
-    - Provider.pluck(:textkey).each do |provider_type|
-      .form-inputs*{class: ('hidden' unless @deployment.on?(provider_type))} data-provider-settings=provider_type data-validate-url=validate_template_deployments_url(@template)
-        = render "deployments/provider_settings/#{provider_type}", form_builder: f
+              = f.radio_button :provider_id, provider.id, options_for_selection(provider.textkey)
+            label.form-control class=provider.textkey for="deployment_provider_id_#{provider.id}"
+              = provider.name
   .options*{data: provider_options_urls}
     h2 = t('deployments.options.title')
     .form-inputs

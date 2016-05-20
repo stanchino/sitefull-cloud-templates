@@ -16,7 +16,7 @@ engines:
         javascript:
           mass_threshold: 40
         ruby:
-          mass_threshold: 23
+          mass_threshold: 25
   rubocop:
     enabled: true
 ratings:

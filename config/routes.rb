@@ -5,12 +5,17 @@ Rails.application.routes.draw do
 
   authenticated :user do
     root to: 'dashboard#user', as: :user_root
-    match '/oauth/:id/callback', to: 'providers#oauth', via: [:get, :post]
+    match '/oauth/:provider_textkey/callback', to: 'credentials#auth', via: [:get, :post]
+
+    resources :providers, only: [], param: :textkey do
+      resources :credentials, only: [:new, :create, :edit, :update]
+    end
   end
 
   unauthenticated do
     root to: 'home#index'
   end
+
   resources :templates do
     resources :deployments, only: [:index, :new, :edit, :create, :destroy] do
       collection do
@@ -19,6 +24,8 @@ Rails.application.routes.draw do
       end
     end
   end
+
+  # TODO: Probably obsolete URLs
   resources :deployments, only: :show
   get '/deployments', to: 'deployments#all'
 

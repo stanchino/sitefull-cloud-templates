@@ -14,8 +14,9 @@ class SiteFull.Deployments.ProviderSettings
 
   init: (provider) ->
     @provider_options = @provider_options_factory.provider_options_for(provider)
-    @toggle_fields_visibility()
-    @bind_credentials_change()
+    @provider_options.init()
+    #@toggle_fields_visibility()
+    #@bind_credentials_change()
 
   # private methods
   bind_credentials_change: ->

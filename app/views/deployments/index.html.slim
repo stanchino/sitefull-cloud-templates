@@ -19,7 +19,7 @@ h1 = t('deployments.listing.title')
         tr
           td = link_to deployment.template.name, deployment.template
           td = deployment.os
-          td = t("providers.#{deployment.provider_type}")
+          td = t("providers.#{deployment.provider_textkey}")
           td = deployment.region
           td = deployment.machine_type.split('/').last
           td.text-right

@@ -74,7 +74,7 @@ class DeploymentService
   end
 
   def ssh_user
-    deployment.provider_type.to_s == 'amazon' ? amazon_ssh_user : SSH_USER
+    deployment.provider_textkey.to_s == 'amazon' ? amazon_ssh_user : SSH_USER
   end
 
   def amazon_ssh_user

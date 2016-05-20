@@ -19,8 +19,7 @@ RSpec.shared_examples 'page with progress state blocks' do |states|
 end
 
 RSpec.describe 'deployments/show', type: :view do
-  let(:template) { stub_model(Template, os: 'debian') }
-  let(:deployment) { stub_model(Deployment, template: template, image: 'image', key_name: 'key_name', instance_id: 'instance_id') }
+  let(:deployment) { FactoryGirl.create(:deployment, image: 'image-id-1', key_name: 'key_name', instance_id: 'instance_id') }
   let(:decorator) { DeploymentDecorator.new(deployment) }
   before do
     assign(:deployment, deployment)
@@ -29,7 +28,7 @@ RSpec.describe 'deployments/show', type: :view do
 
   it 'renders attributes' do
     render
-    expect(rendered).to match(/#{deployment.provider_type}/)
+    expect(rendered).to match(/#{I18n.t("providers.#{deployment.provider_textkey}")}/)
     expect(rendered).to match(/#{deployment.region}/)
     expect(rendered).to match(/#{deployment.machine_type}/)
     expect(rendered).to match(/#{deployment.image}/)
@@ -38,7 +37,7 @@ RSpec.describe 'deployments/show', type: :view do
 
   describe 'deployment progress' do
     let(:failed_state) { nil }
-    let(:deployment) { stub_model(Deployment, template: template, state: state, failed_state: failed_state, image: 'image', key_name: 'key_name', instance_id: 'instance_id') }
+    let(:deployment) { FactoryGirl.create(:deployment, state: state, failed_state: failed_state, image: 'image-id-1', key_name: 'key_name', instance_id: 'instance_id') }
     before { render }
 
     [

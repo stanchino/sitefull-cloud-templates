@@ -11,7 +11,7 @@ module GenericActions
     end
   end
 
-  def handle_save_success(redirect_url, json_status, message)
+  def handle_save_success(redirect_url, json_status, message = nil)
     respond_to do |format|
       format.html { redirect_to redirect_url, notice: message }
       format.json { render :show, status: json_status, location: redirect_url }
@@ -20,7 +20,10 @@ module GenericActions
 
   def handle_save_error(errors, action)
     respond_to do |format|
-      format.html { render action }
+      format.html do
+        flash.now[:alert] = errors.full_messages.join(', ')
+        render action
+      end
       format.json { render json: errors, status: :unprocessable_entity }
     end
   end

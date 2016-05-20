@@ -1,25 +1,25 @@
 require 'rails_helper'
 
 RSpec.describe 'deployments/edit', type: :view do
-  let(:template) { stub_model(Template, os: 'debian') }
+  let(:providers) { deployment.user.organization.providers }
   before do
-    assign(:template, template)
+    assign(:template, deployment.template)
     assign(:deployment, deployment)
     assign(:decorator, DeploymentDecorator.new(deployment))
+    assign(:providers, providers)
   end
 
-  # Deployment::PROVIDERS.each do |provider_type|
-  [:amazon, :google].each do |provider_type|
-    let(:deployment) { stub_model(Deployment, template: template) }
+  Sitefull::Cloud::Provider::PROVIDERS.each do |provider_type|
+    let(:deployment) { FactoryGirl.create(:deployment, provider_type.to_sym) }
     it 'renders new deployment form' do
       render
 
-      assert_select 'form[action=?][method=?]', template_deployment_path(template, deployment), 'post' do
-        Sitefull::Cloud::Provider::PROVIDERS.each do |provider|
-          if provider == provider_type
-            assert_select "input#deployment_provider_type_#{provider}[name=?][checked=checked]", 'deployment[provider_type]'
+      assert_select 'form[action=?][method=?]', template_deployment_path(deployment.template, deployment), 'post' do
+        providers do |provider|
+          if provider.textkey == provider_type
+            assert_select "input#deployment_provider_id_#{provider.id}[name=?][checked=checked]", 'deployment[provider_id]'
           else
-            assert_select "input#deployment_provider_type_#{provider}[name=?]", 'deployment[provider_type]'
+            assert_select "input#deployment_provider_id_#{provider.id}[name=?]", 'deployment[provider_id]'
           end
         end
 
