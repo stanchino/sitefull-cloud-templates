@@ -1,12 +1,15 @@
 class DeploymentsController < ApplicationController
   include GenericActions
 
-  load_and_authorize_resource :template, only: [:index, :new, :create, :destroy, :validate, :options]
-  load_and_authorize_resource through: :template, only: [:index, :new, :create, :destroy, :validate, :options]
-  load_and_authorize_resource only: [:all, :show]
+  load_and_authorize_resource :template, only: [:index, :new, :edit, :create, :destroy, :validate, :options]
+  load_and_authorize_resource through: :template, only: [:destroy]
+  load_and_authorize_resource through: :current_accounts_user, only: [:all, :show]
 
-  before_action :set_provider_type, only: [:new, :create]
+  before_action :load_provider_types, only: [:new, :create]
+  before_action :load_deployments, only: :index
+  before_action :new_deployment, only: [:new, :create, :options, :validate]
   before_action :setup_decorator, only: [:new, :create, :show, :validate, :options]
+  authorize_resource except: [:index, :all, :destroy, :edit, :show]
 
   layout 'dashboard'
 
@@ -76,25 +79,34 @@ class DeploymentsController < ApplicationController
 
   private
 
-  # Never trust parameters from the scary internet, only allow the white list through.
   def new_params
-    params.permit(:provider)
+    params.permit(:provider, :template_id)
   end
 
   def deployment_params
-    params.require(:deployment).permit(:provider_type, :region, :image, :machine_type, Sitefull::Cloud::Provider.all_required_options)
+    params.fetch(:deployment, {}).permit(:provider_id, :region, :image, :machine_type)
   end
 
   def options_params
     params.permit(:type)
   end
 
-  def set_provider_type
-    @deployment.provider_type = new_params[:provider] if new_params[:provider].present?
+  def load_provider_types
+    @providers = Provider.where(configured: true)
+    redirect_to @deployment.template, alert: I18n.t('deployments.no_providers_configured') unless @providers.any?
+  end
+
+  def new_deployment
+    attributes = deployment_params.merge(accounts_user: current_accounts_user)
+    attributes[:provider] = current_organization.providers.find_by_textkey(params[:provider]) if params[:provider].present?
+    @deployment ||= @template.deployments.build attributes
+  end
+
+  def load_deployments
+    @deployments = current_user.deployments.where(AccountsUser.arel_table[:account_id].eq(current_user.current_account_id))
   end
 
   def setup_decorator
-    @decorator = DeploymentDecorator.new(@deployment || @template.deployments.build(deployment_params))
-    @decorator.deployment.session_name = request.session_options[:id]
+    @decorator = DeploymentDecorator.new(@deployment)
   end
 end

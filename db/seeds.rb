@@ -1,23 +1,26 @@
 # This file should contain all the record creation needed to seed the database with its default values.
 # The data can then be loaded with the rake db:seed (or created alongside the db with db:setup).
 
+def create_user(organization, user_params)
+  User.where(user_params).first_or_initialize.tap do |user|
+    account = Account.create(name: user.email, organization: organization)
+    user.password = user.password_confirmation = 'asdfasdf'
+    user.skip_confirmation!
+    user.current_account = account
+    user.save!
+    user.confirm
+    user.accounts << account
+  end
+end
+
+organization = Organization.create name: 'SiteFull'
+
 [%w(Amazon amazon), %w(Google google), %w(Azure azure)].each do |name, key|
-  Provider.where(name: name, textkey: key).first_or_create!
+  Provider.where(name: name, textkey: key, organization: organization).first_or_create!
 end
 
-User.where(first_name: 'Chuck', last_name: 'Norris', admin: true, email: 'admin@sitefull.com').first_or_initialize.tap do |user|
-  user.password = user.password_confirmation = 'asdfasdf'
-  user.skip_confirmation!
-  user.save!
-  user.confirm
-end
-
-johndoe = User.where(first_name: 'John', last_name: 'Doe', email: 'john.doe@sitefull.com').first_or_initialize.tap do |user|
-  user.password = user.password_confirmation = 'asdfasdf'
-  user.skip_confirmation!
-  user.save!
-  user.confirm
-end
+create_user(organization, first_name: 'Chuck', last_name: 'Norris', admin: true, email: 'admin@sitefull.com')
+johndoe = create_user(organization, first_name: 'John', last_name: 'Doe', email: 'john.doe@sitefull.com')
 
 johndoe.templates.create!(
   name: 'Hello World',

@@ -17,8 +17,8 @@ class Ability
   def setup_user_permissions(user)
     can :oauth, Provider
 
-    can :create, Access
-    can [:read, :update, :destroy], Access, user_id: user.id
+    can :create, Credential
+    can [:read, :update, :destroy], Credential, account: { accounts_user: { user_id: :user_id } }
 
     can [:read, :create], Template
     can [:update, :destroy], Template, user_id: user.id

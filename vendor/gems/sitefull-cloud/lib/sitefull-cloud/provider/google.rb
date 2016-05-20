@@ -4,7 +4,7 @@ Google::Apis::RequestOptions.default.retries = 5
 module Sitefull
   module Provider
     module Google
-      REQUIRED_OPTIONS = %w(project_name region).freeze
+      REQUIRED_OPTIONS = %w(project_name).freeze
 
       WAIT = 2.freeze
       INSTANCE_RUNNING_STATE = 'RUNNING'.freeze
@@ -68,8 +68,6 @@ module Sitefull
 
       def valid?
         regions.any?
-      rescue StandardError
-        false
       end
 
       private

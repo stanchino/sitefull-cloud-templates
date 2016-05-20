@@ -2,26 +2,6 @@ require 'rails_helper'
 require 'shared_examples/controllers'
 
 RSpec.describe ProvidersController, type: :controller do
-  describe 'oauth' do
-    login_user
-    before { expect_any_instance_of(Sitefull::Cloud::Auth).to receive(:authorize!).and_return(true) }
-
-    [:amazon, :azure, :google].each do |provider|
-      context "for #{provider}" do
-        it 'creates an access record' do
-          expect do
-            get :oauth, id: provider, code: 'code', state: 'state'
-          end.to change(Access, :count).by(1)
-        end
-
-        it 'redirects to the state url' do
-          get :oauth, id: provider, code: 'code', state: 'state'
-          expect(response).to redirect_to 'state'
-        end
-      end
-    end
-  end
-
   describe 'CRUD' do
     login_admin
     before { Provider.destroy_all }
@@ -31,7 +11,7 @@ RSpec.describe ProvidersController, type: :controller do
     let(:invalid_attributes) { { name: '', textkey: '' } }
 
     describe 'GET #index' do
-      let(:providers) { Array.new(3) { |i| Provider.where(textkey: Sitefull::Cloud::Provider::PROVIDERS[i]).first_or_create.tap { |p| p.update_attributes(name: "Provider #{i}") } } }
+      let(:providers) { Array.new(3) { |i| Provider.where(textkey: Sitefull::Cloud::Provider::PROVIDERS[i], organization_id: user.current_account.organization_id).first_or_create.tap { |p| p.update_attributes(name: "Provider #{i}") } } }
       it 'assigns all providers as @providers' do
         get :index, {}, valid_session
         expect(assigns(:providers)).to match_array providers
@@ -138,7 +118,7 @@ RSpec.describe ProvidersController, type: :controller do
 end
 
 def create_provider
-  Provider.where(textkey: Sitefull::Cloud::Provider::PROVIDERS.sample).first_or_create.tap do |provider|
+  Provider.where(textkey: Sitefull::Cloud::Provider::PROVIDERS.sample, organization_id: user.current_account.organization_id).first_or_create.tap do |provider|
     provider.name = 'Provider'
     provider.save!
   end

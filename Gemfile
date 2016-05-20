@@ -136,6 +136,7 @@ group :test do
   gem 'simplecov', require: false
   # Use shoulda matchers in specs
   gem 'shoulda-matchers', require: false
+  gem 'test_after_commit'
 end
 
 group :production do
