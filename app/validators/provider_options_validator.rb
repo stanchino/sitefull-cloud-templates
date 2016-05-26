@@ -15,7 +15,11 @@ class ProviderOptionsValidator < ActiveModel::Validator
   end
 
   def validate_provider_settings(record, option, error)
-    record.errors[option] << error if error.is_a? String
+    if error.is_a? String
+      record.errors[option] << error
+    elsif !error
+      record.errors[option] << 'invalid setting'
+    end
   end
 
   def required_options_for(textkey)
@@ -23,7 +27,7 @@ class ProviderOptionsValidator < ActiveModel::Validator
   end
 
   def valid?(record)
-    ProviderDecorator.new(record.provider, credentials_options(record)).provider.try(:valid?)
+    ProviderDecorator.new(record.provider, credentials_options(record)).valid?
   rescue StandardError => e
     e.message
   end

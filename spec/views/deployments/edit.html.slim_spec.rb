@@ -3,6 +3,9 @@ require 'rails_helper'
 RSpec.describe 'deployments/edit', type: :view do
   let(:providers) { deployment.user.organization.providers }
   before do
+    FactoryGirl.create(:provider, :amazon, organization: deployment.user.organization)
+    FactoryGirl.create(:provider, :azure, organization: deployment.user.organization)
+    FactoryGirl.create(:provider, :google, organization: deployment.user.organization)
     assign(:template, deployment.template)
     assign(:deployment, deployment)
     assign(:decorator, DeploymentDecorator.new(deployment))

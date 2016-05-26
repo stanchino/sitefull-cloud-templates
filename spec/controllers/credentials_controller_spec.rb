@@ -16,21 +16,58 @@ RSpec.describe CredentialsController, type: :controller do
       end
 
       describe 'GET #auth' do
-        before do
-          expect_any_instance_of(ProviderDecorator).to receive(:authorize!).with('code').and_return(true)
+        before { expect_any_instance_of(ProviderDecorator).to receive(:authorize!).with('code').and_return(true) }
+
+        it 'assigns the variables' do
           get :auth, provider_textkey: provider_type, code: 'code', state: template.id
+          expect(assigns(:template)).to eq template.to_param
+          expect(assigns(:provider)).to eq provider
+          expect(assigns(:credential)).to be_a Credential
         end
 
-        it 'assigns the decorator' do
-          expect(assigns(:provider_decorator)).to be_a ProviderDecorator
+        describe 'for existing credentials' do
+          before { FactoryGirl.create(:credential, provider_type.to_sym, provider: provider, account: user.current_account) }
+          context 'when credentials are not valid' do
+            before { expect_any_instance_of(ProviderDecorator).to receive(:valid?).and_return('error') }
+            it 'renders the auth view' do
+              get :auth, provider_textkey: provider_type, code: 'code', state: template.id
+              expect(response).to render_template('auth', layout: 'dashboard')
+            end
+          end
+
+          context 'when credentials validation raises an error' do
+            before { expect_any_instance_of(ProviderDecorator).to receive(:valid?).and_raise(StandardError) }
+            it 'renders the auth view' do
+              get :auth, provider_textkey: provider_type, code: 'code', state: template.id
+              expect(response).to render_template('auth', layout: 'dashboard')
+            end
+          end
+
+          context 'when credentials are valid' do
+            before { expect_any_instance_of(ProviderDecorator).to receive(:valid?).and_return(true) }
+            it 'redirects to the new deployment page' do
+              get :auth, provider_textkey: provider_type, code: 'code', state: template.id
+              expect(response).to redirect_to new_template_deployment_path(template.to_param, provider: provider_type)
+            end
+          end
         end
 
-        it 'assigns the credential object' do
-          expect(assigns(:credential)).to be_a_new Credential
-        end
+        describe 'for new credentials' do
+          context 'when credentials are not valid' do
+            before { expect_any_instance_of(ProviderDecorator).to receive(:valid?).and_return(false) }
+            it 'renders the auth view' do
+              get :auth, provider_textkey: provider_type, code: 'code', state: template.id
+              expect(response).to render_template('auth', layout: 'dashboard')
+            end
+          end
 
-        it 'renders the auth view' do
-          expect(response).to render_template('auth', layout: 'dashboard')
+          context 'when credentials are valid' do
+            before { expect_any_instance_of(ProviderDecorator).to receive(:valid?).and_return(true) }
+            it 'redirects to the new deployment page' do
+              get :auth, provider_textkey: provider_type, code: 'code', state: template.id
+              expect(response).to render_template('auth', layout: 'dashboard')
+            end
+          end
         end
       end
 
@@ -38,8 +75,11 @@ RSpec.describe CredentialsController, type: :controller do
         context 'without access token' do
           before { get :new, provider_textkey: provider_type, state: template.id }
 
-          it 'assigns the decorator' do
-            expect(assigns(:provider_decorator)).to be_a ProviderDecorator
+          it 'assigns the variables' do
+            expect(assigns(:template)).to eq template.to_param
+            expect(assigns(:provider)).to eq provider
+            expect(assigns(:credential)).to be_a Credential
+            expect(assigns(:credential)).not_to be_persisted
           end
 
           it 'redirects to the authorization URL' do
@@ -53,8 +93,11 @@ RSpec.describe CredentialsController, type: :controller do
             get :new, provider_textkey: provider_type, state: template.id
           end
 
-          it 'assigns the decorator' do
-            expect(assigns(:provider_decorator)).to be_a ProviderDecorator
+          it 'assigns the variables' do
+            expect(assigns(:template)).to eq template.to_param
+            expect(assigns(:provider)).to eq provider
+            expect(assigns(:credential)).to be_a Credential
+            expect(assigns(:credential)).not_to be_persisted
           end
 
           it 'redirects to the new deployment URL' do
@@ -76,6 +119,9 @@ RSpec.describe CredentialsController, type: :controller do
 
           it 'assigns a newly created credential as @credential' do
             post :create, provider_textkey: provider_type, credential: valid_attributes, state: template.id
+            expect(assigns(:template)).to eq template.to_param
+            expect(assigns(:provider)).to eq provider
+            expect(assigns(:credential)).to be_a Credential
             expect(assigns(:credential)).to be_persisted
           end
 
@@ -90,6 +136,9 @@ RSpec.describe CredentialsController, type: :controller do
         context 'with invalid params' do
           it 'assigns a newly created but unsaved credential as @credential' do
             post :create, provider_textkey: provider_type, credential: invalid_attributes, state: template.id
+            expect(assigns(:template)).to eq template.to_param
+            expect(assigns(:provider)).to eq provider
+            expect(assigns(:credential)).to be_a Credential
             expect(assigns(:credential)).not_to be_persisted
           end
 
@@ -110,9 +159,10 @@ RSpec.describe CredentialsController, type: :controller do
         context 'with valid attributes' do
           it 'assigns variables' do
             put :update, provider_textkey: provider_type, id: credential.id, credential: valid_attributes, state: template.id
-            expect(assigns(:provider_decorator)).to be_a ProviderDecorator
+            expect(assigns(:template)).to eq template.to_param
+            expect(assigns(:provider)).to eq provider
             expect(assigns(:credential)).to be_a Credential
-            expect(assigns(:credential).valid?).to be_truthy
+            expect(assigns(:credential)).to be_persisted
           end
 
           context 'with HTML format' do
@@ -127,8 +177,10 @@ RSpec.describe CredentialsController, type: :controller do
           before { expect_any_instance_of(Credential).to receive(:valid?).and_return(false) }
           it 'assigns variables' do
             put :update, provider_textkey: provider_type, id: credential.id, credential: invalid_attributes, state: template.id
-            expect(assigns(:provider_decorator)).to be_a ProviderDecorator
+            expect(assigns(:template)).to eq template.to_param
+            expect(assigns(:provider)).to eq provider
             expect(assigns(:credential)).to be_a Credential
+            expect(assigns(:credential)).to be_persisted
           end
 
           context 'for HTML requests' do

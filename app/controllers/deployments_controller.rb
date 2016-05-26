@@ -79,10 +79,6 @@ class DeploymentsController < ApplicationController
 
   private
 
-  def new_params
-    params.permit(:provider, :template_id)
-  end
-
   def deployment_params
     params.fetch(:deployment, {}).permit(:provider_id, :region, :image, :machine_type)
   end
