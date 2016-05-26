@@ -20,9 +20,7 @@ RSpec.describe CredentialsController, type: :controller do
 
         it 'assigns the variables' do
           get :auth, provider_textkey: provider_type, code: 'code', state: template.id
-          expect(assigns(:template)).to eq template.to_param
-          expect(assigns(:provider)).to eq provider
-          expect(assigns(:credential)).to be_a Credential
+          expect_assignments
         end
 
         describe 'for existing credentials' do
@@ -76,9 +74,7 @@ RSpec.describe CredentialsController, type: :controller do
           before { get :new, provider_textkey: provider_type, state: template.id }
 
           it 'assigns the variables' do
-            expect(assigns(:template)).to eq template.to_param
-            expect(assigns(:provider)).to eq provider
-            expect(assigns(:credential)).to be_a Credential
+            expect_assignments
             expect(assigns(:credential)).not_to be_persisted
           end
 
@@ -94,9 +90,7 @@ RSpec.describe CredentialsController, type: :controller do
           end
 
           it 'assigns the variables' do
-            expect(assigns(:template)).to eq template.to_param
-            expect(assigns(:provider)).to eq provider
-            expect(assigns(:credential)).to be_a Credential
+            expect_assignments
             expect(assigns(:credential)).not_to be_persisted
           end
 
@@ -119,9 +113,7 @@ RSpec.describe CredentialsController, type: :controller do
 
           it 'assigns a newly created credential as @credential' do
             post :create, provider_textkey: provider_type, credential: valid_attributes, state: template.id
-            expect(assigns(:template)).to eq template.to_param
-            expect(assigns(:provider)).to eq provider
-            expect(assigns(:credential)).to be_a Credential
+            expect_assignments
             expect(assigns(:credential)).to be_persisted
           end
 
@@ -136,9 +128,7 @@ RSpec.describe CredentialsController, type: :controller do
         context 'with invalid params' do
           it 'assigns a newly created but unsaved credential as @credential' do
             post :create, provider_textkey: provider_type, credential: invalid_attributes, state: template.id
-            expect(assigns(:template)).to eq template.to_param
-            expect(assigns(:provider)).to eq provider
-            expect(assigns(:credential)).to be_a Credential
+            expect_assignments
             expect(assigns(:credential)).not_to be_persisted
           end
 
@@ -159,9 +149,7 @@ RSpec.describe CredentialsController, type: :controller do
         context 'with valid attributes' do
           it 'assigns variables' do
             put :update, provider_textkey: provider_type, id: credential.id, credential: valid_attributes, state: template.id
-            expect(assigns(:template)).to eq template.to_param
-            expect(assigns(:provider)).to eq provider
-            expect(assigns(:credential)).to be_a Credential
+            expect_assignments
             expect(assigns(:credential)).to be_persisted
           end
 
@@ -177,9 +165,7 @@ RSpec.describe CredentialsController, type: :controller do
           before { expect_any_instance_of(Credential).to receive(:valid?).and_return(false) }
           it 'assigns variables' do
             put :update, provider_textkey: provider_type, id: credential.id, credential: invalid_attributes, state: template.id
-            expect(assigns(:template)).to eq template.to_param
-            expect(assigns(:provider)).to eq provider
-            expect(assigns(:credential)).to be_a Credential
+            expect_assignments
             expect(assigns(:credential)).to be_persisted
           end
 
@@ -193,4 +179,10 @@ RSpec.describe CredentialsController, type: :controller do
       end
     end
   end
+end
+
+def expect_assignments
+  expect(assigns(:template)).to eq template.to_param
+  expect(assigns(:provider)).to eq provider
+  expect(assigns(:credential)).to be_a Credential
 end
