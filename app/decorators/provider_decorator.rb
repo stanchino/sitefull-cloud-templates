@@ -1,8 +1,9 @@
 class ProviderDecorator
-  delegate :authorize!, to: :auth
+  delegate :authorize!, :token, to: :auth
+  delegate :valid?, to: :provider
 
-  def initialize(provider, options = {})
-    @object = provider
+  def initialize(provider_object, options = {})
+    @object = provider_object
     @options = options
   end
 

@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :credential do
-    token 'mytoken'
+    token '{"authorization_uri": "https://localhost/authorization_url", "redirect_uri": "http://localhost/redirect_uri"}'
     provider
     account
 

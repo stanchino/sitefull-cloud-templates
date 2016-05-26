@@ -12,6 +12,8 @@ class DeploymentDecorator
 
   def valid?
     @valid ||= provider.try(:valid?)
+  rescue
+    false
   end
 
   def regions
