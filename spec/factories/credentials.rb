@@ -5,15 +5,18 @@ FactoryGirl.define do
     account
 
     trait :amazon do
+      association :provider, factory: [:provider, :amazon]
       role_arn 'role'
       session_name 'session_id'
     end
 
     trait :google do
+      association :provider, factory: [:provider, :google]
       project_name 'project'
     end
 
     trait :azure do
+      association :provider, factory: [:provider, :azure]
       subscription_id 'subscription_id'
     end
   end

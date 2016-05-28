@@ -10,7 +10,6 @@ module Sitefull
         include ::Azure::ARM::Network::Models
         include ::Azure::ARM::Storage::Models
 
-        STORAGE_ACCOUNT_TYPE = 'Standard_LRS'.freeze
 
         private
 
@@ -53,7 +52,7 @@ module Sitefull
         end
 
         def public_ip(name)
-          connection.network.public_ipaddresses.get(resource_group_name, name).value!.body.properties.ip_address
+          connection.network.public_ipaddresses.get(resource_group_name, name).properties.ip_address
         end
 
         def storage_setup(name)
@@ -61,17 +60,22 @@ module Sitefull
           return storage_account unless storage_account.nil?
 
           properties = StorageAccountPropertiesCreateParameters.new
-          properties.account_type = STORAGE_ACCOUNT_TYPE
+
+          sku = Sku.new
+          sku.name = 'Standard_LRS'
+          sku.tier = 'Standard'
 
           params = StorageAccountCreateParameters.new
           params.properties = properties
+          params.sku = sku
+          params.kind = 'Storage'
           params.location = options[:region]
 
           connection.storage.storage_accounts.create(resource_group_name, storage_account_name(name), params).value!.body
         end
 
         def storage_account(name)
-          connection.storage.storage_accounts.list_by_resource_group(resource_group_name).value!.body.value.find { |sa| sa.name == storage_account_name(name) }
+          connection.storage.storage_accounts.list_by_resource_group(resource_group_name).value.find { |sa| sa.name == storage_account_name(name) }
         end
 
         def instance_setup(storage, network_interface, instance_data)
@@ -119,7 +123,7 @@ module Sitefull
         end
 
         def instance(instance_id)
-          connection.compute.virtual_machines.get(resource_group_name, instance_id).value!.body
+          connection.compute.virtual_machines.get(resource_group_name, instance_id)
         end
 
         def create_storage_profile(image, name)

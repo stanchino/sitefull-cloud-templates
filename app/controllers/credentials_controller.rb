@@ -18,7 +18,7 @@ class CredentialsController < ApplicationController
   end
 
   def new
-    if provider_decorator.token.access_token.blank? || !provider_decorator.valid?
+    if provider_decorator.token.access_token.blank? || !@credential.valid?
       redirect_to provider_decorator.authorization_url
     else
       redirect_to new_template_deployment_path(@template, provider: provider_textkey)

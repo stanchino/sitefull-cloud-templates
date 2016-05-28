@@ -84,18 +84,39 @@ RSpec.describe CredentialsController, type: :controller do
         end
 
         context 'with access token' do
-          before do
-            expect_any_instance_of(Sitefull::Cloud::Auth).to receive_message_chain(:token, :access_token).and_return(true)
-            get :new, provider_textkey: provider_type, state: template.id
+          context 'without a valid credential' do
+            let(:authorization_url) { 'http://example.com/auth' }
+            before do
+              expect_any_instance_of(Sitefull::Cloud::Auth).to receive(:authorization_url).and_return(authorization_url)
+              expect_any_instance_of(Sitefull::Cloud::Auth).to receive_message_chain(:token, :access_token).and_return(true)
+              get :new, provider_textkey: provider_type, state: template.id
+            end
+
+            it 'assigns the variables' do
+              expect_assignments
+              expect(assigns(:credential)).to be_a_new Credential
+            end
+
+            it 'redirects to the new deployment URL' do
+              expect(response).to redirect_to authorization_url
+            end
           end
 
-          it 'assigns the variables' do
-            expect_assignments
-            expect(assigns(:credential)).not_to be_persisted
-          end
+          context 'with a valid credential' do
+            let!(:credential) { FactoryGirl.create(:credential, provider_type, account: user.current_account, provider: provider) }
+            before do
+              expect_any_instance_of(Sitefull::Cloud::Auth).to receive_message_chain(:token, :access_token).and_return(true)
+              get :new, provider_textkey: provider_type, state: template.id
+            end
 
-          it 'redirects to the new deployment URL' do
-            expect(response).to redirect_to new_template_deployment_path(template.id, provider: provider_type)
+            it 'assigns the variables' do
+              expect_assignments
+              expect(assigns(:credential)).to eq credential
+            end
+
+            it 'redirects to the new deployment URL' do
+              expect(response).to redirect_to new_template_deployment_path(template.id, provider: provider_type)
+            end
           end
         end
       end
