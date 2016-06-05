@@ -80,7 +80,9 @@ class DeploymentsController < ApplicationController
   private
 
   def deployment_params
-    params.fetch(:deployment, {}).permit(:provider_id, :region, :image, :machine_type)
+    params.fetch(:deployment, {}).permit(:provider_id, :region, :image, :machine_type).tap do |whitelisted|
+      whitelisted[:arguments] = params[:deployment][:arguments] if params[:deployment].present? && params[:deployment][:arguments].present?
+    end
   end
 
   def options_params

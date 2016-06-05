@@ -1,6 +1,8 @@
 class Deployment < ActiveRecord::Base
   include DeploymentStateMachine
 
+  store_accessor :arguments
+
   attr_encrypted :public_key, mode: :per_attribute_iv_and_salt, key: ENV['ENC_KEY'] || Rails.application.secrets.encryption_key
   attr_encrypted :private_key, mode: :per_attribute_iv_and_salt, key: ENV['ENC_KEY'] || Rails.application.secrets.encryption_key
 

@@ -32,6 +32,7 @@ en:
     providers: 'Providers'
     profile: 'My Profile'
   actions:
+    apply: 'Use'
     details: 'Details'
     edit: 'Edit'
     destroy: 'Delete'
@@ -69,6 +70,8 @@ en:
         description: 'You will need to supply provider specific settings for the selected Cloud Provider in order to enable the available instance options and provision your deployment instance.'
     options:
       title: 'Instance Options'
+    arguments:
+      title: 'Template Arguments'
     jobs:
       errors:
         invalid_service: 'Invalid service.'
@@ -88,6 +91,11 @@ en:
         image: 'Image'
         public_ip: 'Public IP'
         error: 'Error Message'
+  template_arguments:
+    title: 'Template Arguments'
+    add: 'Add argument'
+    confirm: 'Are you sure you that want to delete this template argument?'
+    delete_success: 'Template argument was successfully deleted.'
   templates:
     new: 'New Template'
     confirm: 'Are you sure you that want to delete this template?'

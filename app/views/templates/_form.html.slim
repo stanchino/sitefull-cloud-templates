@@ -8,15 +8,32 @@
   = f.error_notification
 
   .form-inputs
-    = f.input :name, placeholder: :translate, label: false
+    = f.input :name, placeholder: :translate
   .form-inputs
-    = f.input :os, collection: ::Template::OPERATING_SYSTEMS, value_method: :first, label_method: :last, prompt: :translate, wrapper_html: { class: 'operating-system' }, label: false
-    = f.input :tag_list, as: :select, collection: @template.tag_list, wrapper_html: { class: 'tags-list' }, input_html: { multiple: true, style: 'width: 100%' }, label: false
+    = f.input :os, collection: ::Template::OPERATING_SYSTEMS, value_method: :first, label_method: :last, prompt: :translate, wrapper_html: { class: 'operating-system' }
+    = f.input :tag_list, as: :select, collection: @template.tag_list, wrapper_html: { class: 'tags-list' }, input_html: { multiple: true, style: 'width: 100%' }
   .form-inputs
-    = f.input :script, placeholder: :translate, wrapper_html: { class: 'script' }, label: false
+    .arguments
+      label.control-label = t('template_arguments.title')
+      .argument-controls
+        - @template.arguments.each_with_index do |arg, i|
+          == render 'argument_actions', argument: arg, argument_id: "argument-#{i}"
+      = link_to t('template_arguments.add'), @template.new_record? ? '#' : new_template_argument_path(@template), class: 'add btn', remote: true
+      .argument-fields
+        - @template.arguments.each_with_index do |arg, i|
+          .argument-field data-argument-id="argument-#{i}" data-existing-argument='true'
+            == render 'templates/arguments/form_fields', form_builder: f, argument: arg, child_index: i
+    = f.input :script, placeholder: :translate, wrapper_html: { class: 'script' }
 
   .form-actions
     button.btn.save type="submit"
       span.fa-floppy-o
       = t('actions.save')
     = link_to 'Cancel', templates_path, class: 'btn cancel fa-times'
+
+  script#new-argument-actions type="text/template"
+    == render 'argument_actions', argument: @template.arguments.build, argument_id: 'new_argument', hide_errors: true
+
+  script#new-argument-fields type="text/template"
+    .argument-field data-argument-id='argument-new_argument'
+      == render 'templates/arguments/form_fields', form_builder: f, argument: @template.arguments.build, child_index: 'new_argument'

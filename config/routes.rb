@@ -23,6 +23,7 @@ Rails.application.routes.draw do
         post 'options/:type', to: 'deployments#options', as: 'options'
       end
     end
+    resources :arguments, controller: 'templates/arguments', only: [:new, :edit, :destroy]
   end
 
   # TODO: Probably obsolete URLs

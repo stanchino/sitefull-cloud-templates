@@ -22,6 +22,11 @@
       = f.input :region, collection: @decorator.regions_for_select, prompt: :translate, wrapper_html: { class: 'regions' }, input_html: { value: @deployment.region }, disabled: provider_blank?
       = f.input :image, collection: @decorator.images_for_select, prompt: :translate, wrapper_html: { class: 'images' }, input_html: { value: @deployment.image }, disabled: provider_blank?
       = f.input :machine_type, collection: @decorator.machine_types_for_select, prompt: :translate, wrapper_html: { class: 'machine-types' }, input_html: { value: @deployment.machine_type }, disabled: provider_blank?
+  .arguments
+    h2 = t('deployments.arguments.title')
+    = f.simple_fields_for :arguments do |a|
+      - @template.arguments.each do |argument|
+        = a.input argument.textkey, label: argument.name, required: argument.required?, input_html: { value: @deployment.arguments.try(:[], argument.textkey) || argument.default }
   .form-actions
     = link_to 'Cancel', template_deployments_url(@template), class: 'btn btn-default'
     | &nbsp;

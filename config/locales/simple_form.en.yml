@@ -31,9 +31,12 @@ en:
     #     age: 'Select your age'
     placeholders:
       template:
-        name: 'Template Name (required)'
-        script: 'Deployment Script (required)'
-        tag_list: 'Template Tags'
+        name: 'Hello World Template'
+        tag_list: 'hello-world'
+        script: |
+          #!/bin/bash
+
+          echo 'Hello World!'
       deployment:
         access_key_id: "Required"
         secret_access_key: "Required"
@@ -46,8 +49,13 @@ en:
       provider:
         name: 'Provider Name'
         textkey: 'Provider'
+      template:
+        name: 'Template Name (required)'
+        os: 'Operating System (required)'
+        script: 'Deployment Script (required)'
+        tag_list: 'Template Tags'
     prompts:
       template:
-        os: 'Operating System (required)'
+        os: '-- Select --'
       provider:
         textkey: '-- Select --'

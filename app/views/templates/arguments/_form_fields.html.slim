@@ -1,0 +1,8 @@
+= form_builder.simple_fields_for :arguments, argument, child_index: child_index do |a|
+  = a.input :textkey
+  = a.input :name
+  = a.input :required
+  = a.input :default
+= form_builder.button :submit, 'Save'
+'&nbsp;
+button.btn.cancel Cancel

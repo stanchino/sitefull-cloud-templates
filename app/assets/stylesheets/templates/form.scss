@@ -1,5 +1,8 @@
 @import 'variables';
 @import 'dashboard/forms';
+@import 'bootstrap/mixins';
+@import 'mixins';
+@import 'bootstrap/input-groups';
 @import 'autocomplete';
 
 .operating-system {
@@ -10,7 +13,77 @@
   @include make-sm-column(9);
 }
 
+.arguments {
+  @include make-sm-column(3);
+  @include make-xs-column(12);
+
+  .add, .edit, .delete {
+    @include icon;
+  }
+
+  .actions {
+    font-size: $font-size-small;
+  }
+
+  .add {
+    @include button-variant($btn-default-color, $btn-default-bg, $btn-default-border);
+    &::before {
+      content: '\f0fe';
+    }
+  }
+
+  .delete::before {
+    content: '\f1f8';
+  }
+
+  .edit::before {
+    content: '\f040';
+  }
+
+  .errors {
+    font-size: $font-size-small;
+  }
+
+  .form-group {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .heading {
+    font-weight: normal;
+    word-wrap: break-word;
+  }
+}
+
+.argument-controls {
+  .input-group {
+    margin-bottom: $font-size-small;
+
+    .form-control {
+      text-align: left;
+    }
+  }
+
+  .error {
+    background: inherit;
+
+    .form-control {
+      @include button-variant($btn-danger-color, $btn-danger-bg, $btn-danger-border);
+    }
+  }
+}
+
+.argument-field {
+  display: none;
+
+  .btn.cancel {
+    @include button-variant($btn-danger-color, $btn-danger-bg, $btn-danger-border);
+  }
+}
+
 .script {
+  @include make-sm-column(9);
+  @include make-xs-column(12);
   textarea {
     &.form-control {
       height: 19 * $line-height-computed;

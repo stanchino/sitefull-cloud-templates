@@ -74,14 +74,14 @@ GEM
     arel (6.0.3)
     attr_encrypted (3.0.1)
       encryptor (~> 3.0.0)
-    autoprefixer-rails (6.3.6.1)
+    autoprefixer-rails (6.3.6.2)
       execjs
-    aws-sdk (2.3.9)
-      aws-sdk-resources (= 2.3.9)
-    aws-sdk-core (2.3.9)
+    aws-sdk (2.3.11)
+      aws-sdk-resources (= 2.3.11)
+    aws-sdk-core (2.3.11)
       jmespath (~> 1.0)
-    aws-sdk-resources (2.3.9)
-      aws-sdk-core (= 2.3.9)
+    aws-sdk-resources (2.3.11)
+      aws-sdk-core (= 2.3.11)
     azure (0.7.5)
       addressable (~> 2.3)
       azure-core (~> 0.1)
@@ -125,7 +125,7 @@ GEM
       capybara (>= 1.0, < 3)
       launchy
     cliver (0.3.2)
-    codeclimate-test-reporter (0.5.0)
+    codeclimate-test-reporter (0.5.1)
       simplecov (>= 0.7.1, < 1.0.0)
     coderay (1.1.1)
     coffee-rails (4.1.1)
@@ -202,7 +202,7 @@ GEM
     httpclient (2.8.0)
     hurley (0.2)
     i18n (0.7.0)
-    jbuilder (2.4.1)
+    jbuilder (2.5.0)
       activesupport (>= 3.0.0, < 5.1)
       multi_json (~> 1.2)
     jmespath (1.2.4)
@@ -402,7 +402,7 @@ GEM
       activerecord (>= 3.2)
     thor (0.19.1)
     thread_safe (0.3.5)
-    tilt (2.0.4)
+    tilt (2.0.5)
     timeliness (0.3.8)
     turbolinks (2.5.3)
       coffee-rails
@@ -498,5 +498,8 @@ DEPENDENCIES
   wisper-rspec
   wisper-sidekiq
 
+RUBY VERSION
+   ruby 2.3.0p0
+
 BUNDLED WITH
-   1.11.2
+   1.12.5
