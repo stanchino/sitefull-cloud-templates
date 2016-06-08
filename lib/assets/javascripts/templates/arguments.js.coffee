@@ -12,17 +12,30 @@ class SiteFull.TemplateArguments
     actions_template: '#new-argument-actions'
     field_selector: '.argument-field'
     control_wrapper: '.input-group'
+    insert_button: '.insert-argument'
+    script_textarea: '#template_script'
 
   constructor: (options) ->
     $.extend @options, options
 
   init: () ->
     @$container = $(@options.fields_container)
+    @_bind_insert()
     @_bind_add()
     @_bind_edit()
     @_bind_delete()
     @_bind_save()
     @_bind_cancel()
+
+  _bind_insert: () ->
+    $(document).on 'click', @options.insert_button, (e) =>
+      e.preventDefault()
+      $textarea = $(@options.script_textarea)
+      startPos = $textarea[0].selectionStart
+      endPos = $textarea[0].selectionEnd
+      textAreaTxt = $textarea.val()
+      textToAdd = $(e.target).data?('argument-value')
+      $textarea.val textAreaTxt.substring(0, startPos) + textToAdd + textAreaTxt.substring(endPos)
 
   _bind_add: () ->
     $(document).on 'click', @options.add_button, (e) =>
@@ -86,4 +99,4 @@ class SiteFull.TemplateArguments
   _show_field: (argument_id) ->
     @$container.find("#{@options.field_selector}:not([data-existing-argument]):not([data-argument-id=#{argument_id}])").remove()
     @$container.find(@options.field_selector).hide()
-    @$container.find("[data-argument-id='#{argument_id}']").show()
+    @$container.find("[data-argument-id='#{argument_id}']").modal('show')

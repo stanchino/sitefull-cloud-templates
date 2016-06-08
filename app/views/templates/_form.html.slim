@@ -21,8 +21,7 @@
       = link_to t('template_arguments.add'), @template.new_record? ? '#' : new_template_argument_path(@template), class: 'add btn', remote: true
       .argument-fields
         - @template.arguments.each_with_index do |arg, i|
-          .argument-field data-argument-id="argument-#{i}" data-existing-argument='true'
-            == render 'templates/arguments/form_fields', form_builder: f, argument: arg, child_index: i
+          == render 'arguments_modal', form_builder: f, argument: arg, index: i
     = f.input :script, placeholder: :translate, wrapper_html: { class: 'script' }
 
   .form-actions
@@ -35,5 +34,4 @@
     == render 'argument_actions', argument: @template.arguments.build, argument_id: 'new_argument', hide_errors: true
 
   script#new-argument-fields type="text/template"
-    .argument-field data-argument-id='argument-new_argument'
-      == render 'templates/arguments/form_fields', form_builder: f, argument: @template.arguments.build, child_index: 'new_argument'
+    == render 'arguments_modal', form_builder: f, argument: @template.arguments.build, index: 'new_argument'

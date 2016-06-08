@@ -3,6 +3,8 @@
   = a.input :name
   = a.input :required
   = a.input :default
-= form_builder.button :submit, 'Save'
-'&nbsp;
-button.btn.cancel Cancel
+
+- unless local_assigns[:hide_buttons]
+  = form_builder.button :submit, 'Save'
+  '&nbsp;
+  button.btn.cancel Cancel

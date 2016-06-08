@@ -12,7 +12,7 @@ class ScriptDecorator
 
   def upload_script
     s3_cli.create_bucket(bucket: :sitefull)
-    s3_cli.put_object(bucket: :sitefull, key: s3_key, body: resource.script.delete("\r"))
+    s3_cli.put_object(bucket: :sitefull, key: s3_key, body: process_script)
   end
 
   def remove_script
@@ -27,5 +27,11 @@ class ScriptDecorator
 
   def s3_key
     @s3_key ||= "#{resource.class.to_s.tableize.singularize}_#{resource.id}"
+  end
+
+  def process_script
+    script = resource.script
+    resource.arguments.each { |key, value| script.gsub! "%{#{key}}", value.html_safe.gsub("'", "\\\'") } if resource.arguments.present?
+    script.delete("\r")
   end
 end

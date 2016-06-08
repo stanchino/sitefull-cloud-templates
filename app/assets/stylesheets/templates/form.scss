@@ -3,6 +3,7 @@
 @import 'bootstrap/mixins';
 @import 'mixins';
 @import 'bootstrap/input-groups';
+@import 'bootstrap/modals';
 @import 'autocomplete';
 
 .operating-system {
@@ -42,11 +43,6 @@
 
   .errors {
     font-size: $font-size-small;
-  }
-
-  .form-group {
-    padding-left: 0;
-    padding-right: 0;
   }
 
   .heading {
