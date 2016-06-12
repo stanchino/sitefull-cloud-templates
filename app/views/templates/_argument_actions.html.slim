@@ -1,0 +1,13 @@
+- hide_errors = local_assigns[:hide_errors] || false
+.input-group.input-group-xs*{class: ('error' unless hide_errors || argument.valid?)}
+  button.form-control.insert-argument data-argument-name=argument_id data-argument-value="%{#{argument.textkey}}" = argument.name
+  .input-group-btn
+    button.btn.btn-default.dropdown-toggle data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+      span.icon.fa-cog
+    ul.dropdown-menu
+      li = link_to t('actions.edit'), argument.new_record? ? '#' : edit_template_argument_path(@template, argument), class: 'edit', title: t('actions.edit'),
+        data: { argument_id: argument_id }
+      li = link_to t('actions.destroy'), argument.new_record? ? '#' : template_argument_path(@template, argument, format: :json), class: 'delete', method: :delete, remote: true, title: t('actions.destroy'),
+        data: { argument_id: argument_id, saved: argument.persisted?, disable_with: t('actions.wait'), confirm: t('template_arguments.confirm') }
+- unless hide_errors || argument.valid?
+  span.error = argument.errors.full_messages.join('. ')

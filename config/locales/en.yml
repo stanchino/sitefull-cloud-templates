@@ -20,102 +20,116 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
-  navigation:
-    sign_in: "Sign In"
-    sign_up: "Sign Up"
-    sign_out: "Sign Out"
-    home: "Home Page"
-    help: "Help"
-    contacts: "Contact Us"
-    templates: "Gallery"
-    deployments: "Deployments"
-    providers: 'Providers'
-    profile: 'My Profile'
-  actions:
-    details: 'Details'
-    edit: 'Edit'
-    destroy: 'Delete'
-    save: 'Save'
-    wait: 'Wait...'
-  home_page_title: "sitefull"
-  main_page_name: "SiteFull"
-  user_page_name: "Dashboard"
   activerecord:
     attributes:
       template:
         name: "Template Name"
         os: "Operating System"
-        tag_list: "Tags"
         script: "Script"
-  providers:
-    amazon: "Amazon"
-    google: "Google"
-    azure: "Azure"
-    no_providers: 'There are no providers yet.'
-    new: 'Add Provider'
-    client_id: 'Client ID'
-    client_secret: 'Client Secret'
-    tenant_id: 'Tenant ID'
-    confirm: 'Are you sure you that want to delete this provider?'
-    update_success: 'Provider was successfully updated.'
-    create_success: 'Provider was successfully created.'
-    delete_success: 'Provider was successfully deleted.'
+        tag_list: "Tags"
+  actions:
+    apply: 'Use'
+    destroy: 'Delete'
+    details: 'Details'
+    edit: 'Edit'
+    save: 'Save'
+    wait: 'Wait...'
+  deployment_states:
+    creating_access_key:
+      after: 'Access Key Setup'
+      before: 'Creating Access Key'
+      failed: 'Creating Access Key Failed'
+    creating_firewall_rules:
+      after: 'Firewall Setup'
+      before: 'Creating Firewall Rules'
+      failed: 'Creating Firewall Rules Failed'
+    creating_instance:
+      after: 'Instance Created'
+      before: 'Creating Instance'
+      failed: 'Creating Instance Failed'
+    creating_network:
+      after: 'Network Setup'
+      before: 'Creating Network'
+      failed: 'Creating Network Failed'
+    executing_script:
+      after: 'Script Executed'
+      before: 'Executing the script'
+      failed: 'Script Execution Failed'
+    starting_instance:
+      after: 'Instance Started'
+      before: 'Starting Instance'
+      failed: 'Starting Instance Failed'
   deployments:
-    no_providers_configured: 'No providers are configured for the current organization.'
-    provider:
-      title: 'Cloud Provider'
-      settings:
-        title: 'Provider Settings'
-        description: 'You will need to supply provider specific settings for the selected Cloud Provider in order to enable the available instance options and provision your deployment instance.'
-    options:
-      title: 'Instance Options'
+    arguments:
+      title: 'Template Arguments'
+    buttons:
+      restart: 'Restart'
+    information:
+      labels:
+        error: 'Error Message'
+        image: 'Image'
+        machine_type: 'Machine Type'
+        os: 'OS'
+        provider: 'Provider'
+        public_ip: 'Public IP'
+        region: 'Region'
+        status: 'Status'
+        template: 'Template'
+      title: 'Deployment Information'
     jobs:
       errors:
         invalid_service: 'Invalid service.'
-    buttons:
-      restart: 'Restart'
     listing:
       title: 'Deployments'
-    information:
-      title: 'Deployment Information'
-      labels:
-        template: 'Template'
-        status: 'Status'
-        provider: 'Provider'
-        region: 'Region'
-        os: 'OS'
-        machine_type: 'Machine Type'
-        image: 'Image'
-        public_ip: 'Public IP'
-        error: 'Error Message'
+    no_providers_configured: 'No providers are configured for the current organization.'
+    options:
+      title: 'Instance Options'
+    provider:
+      settings:
+        description: 'You will need to supply provider specific settings for the selected Cloud Provider in order to enable the available instance options and provision your deployment instance.'
+        title: 'Provider Settings'
+      title: 'Cloud Provider'
+  home_page_title: "sitefull"
+  main_page_name: "SiteFull"
+  navigation:
+    contacts: "Contact Us"
+    deployments: "Deployments"
+    help: "Help"
+    home: "Home Page"
+    profile: 'My Profile'
+    providers: 'Providers'
+    sign_in: "Sign In"
+    sign_out: "Sign Out"
+    sign_up: "Sign Up"
+    templates: "Gallery"
+  providers:
+    amazon: "Amazon"
+    azure: "Azure"
+    client_id: 'Client ID'
+    client_secret: 'Client Secret'
+    confirm: 'Are you sure you that want to delete this provider?'
+    create_success: 'Provider was successfully created.'
+    delete_success: 'Provider was successfully deleted.'
+    google: "Google"
+    new: 'Add Provider'
+    no_providers: 'There are no providers yet.'
+    tenant_id: 'Tenant ID'
+    update_success: 'Provider was successfully updated.'
+  template_arguments:
+    add: 'Add argument'
+    confirm: 'Are you sure you that want to delete this template argument?'
+    delete_success: 'Template argument was successfully deleted.'
+    title: 'Template Arguments'
   templates:
-    new: 'New Template'
-    confirm: 'Are you sure you that want to delete this template?'
-    update_success: 'Template was successfully updated.'
     create_success: 'Template was successfully created.'
+    confirm: 'Are you sure you that want to delete this template?'
     delete_success: 'Template was successfully deleted.'
-  deployment_states:
-    creating_network:
-      before: 'Creating Network'
-      after: 'Network Setup'
-      failed: 'Creating Network Failed'
-    creating_firewall_rules:
-      before: 'Creating Firewall Rules'
-      after: 'Firewall Setup'
-      failed: 'Creating Firewall Rules Failed'
-    creating_access_key:
-      before: 'Creating Access Key'
-      after: 'Access Key Setup'
-      failed: 'Creating Access Key Failed'
-    creating_instance:
-      before: 'Creating Instance'
-      after: 'Instance Created'
-      failed: 'Creating Instance Failed'
-    starting_instance:
-      before: 'Starting Instance'
-      after: 'Instance Started'
-      failed: 'Starting Instance Failed'
-    executing_script:
-      before: 'Executing the script'
-      after: 'Script Executed'
-      failed: 'Script Execution Failed'
+    new: 'New Template'
+    update_success: 'Template was successfully updated.'
+  user_page_name: "Dashboard"
+  validators:
+    collection_names:
+      alphanumeric: 'Alphanumeric'
+      domain: 'Domain Name'
+      email: 'Email Address'
+      name: 'Person Name'

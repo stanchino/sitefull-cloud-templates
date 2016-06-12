@@ -21,7 +21,6 @@ module GenericActions
   def handle_save_error(errors, action)
     respond_to do |format|
       format.html do
-        flash.now[:alert] = errors.full_messages.join(', ')
         render action
       end
       format.json { render json: errors, status: :unprocessable_entity }

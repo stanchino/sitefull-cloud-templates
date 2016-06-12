@@ -63,6 +63,7 @@ class SiteFull.Deployments.Status
 
   bind_output: ->
     @channel.bind 'output', (data) =>
+      console.log data
       if data.id == @deployment_id
         @next_wrap ||= true
         $container = $('.script-output')

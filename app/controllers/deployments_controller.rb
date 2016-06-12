@@ -43,11 +43,6 @@ class DeploymentsController < ApplicationController
     end
   end
 
-  # GET /templates/1/deployments/2
-  # GET /templates/1/deployments/2.json
-  def edit
-  end
-
   # DELETE /templates/1/deployments/1
   # DELETE /templates/1/deployments/1.json
   def destroy
@@ -80,7 +75,9 @@ class DeploymentsController < ApplicationController
   private
 
   def deployment_params
-    params.fetch(:deployment, {}).permit(:provider_id, :region, :image, :machine_type)
+    params.fetch(:deployment, {}).permit(:provider_id, :region, :image, :machine_type).tap do |whitelisted|
+      whitelisted[:arguments] = params[:deployment][:arguments] if params[:deployment].present? && params[:deployment][:arguments].present?
+    end
   end
 
   def options_params

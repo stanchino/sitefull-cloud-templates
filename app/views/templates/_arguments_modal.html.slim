@@ -1,0 +1,13 @@
+.argument-field.modal.fade role="dialog" tabindex="-1" aria-labelledby="modal-label-#{index}" data-argument-id="argument-#{index}" data-existing-argument=argument.persisted?
+  .modal-dialog role='document'
+    .modal-content
+      .modal-header
+        button.close data-dismiss='modal' aria-lable='Cancel'
+          span aria-hidden='true' &times;
+        h4.modal-title*{id: "modal-label-#{index}"} Edit Argument
+      .modal-body
+        .form-inputs
+          == render 'templates/arguments/form_fields', form_builder: form_builder, argument: argument, child_index: index, hide_buttons: true
+      .modal-footer
+        = form_builder.button :submit, 'Done', data: { dismiss: 'modal' }
+        button.btn.cancel data-dismiss='modal' Cancel
