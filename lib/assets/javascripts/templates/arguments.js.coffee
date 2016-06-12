@@ -34,8 +34,12 @@ class SiteFull.TemplateArguments
       startPos = $textarea[0].selectionStart
       endPos = $textarea[0].selectionEnd
       textAreaTxt = $textarea.val()
+
+      preInsert = textAreaTxt.substring(0, startPos)
+      postInsert = textAreaTxt.substring(endPos)
       textToAdd = $(e.target).data?('argument-value')
-      $textarea.val textAreaTxt.substring(0, startPos) + textToAdd + textAreaTxt.substring(endPos)
+
+      $textarea.val preInsert + textToAdd + postInsert
 
   _bind_add: () ->
     $(document).on 'click', @options.add_button, (e) =>
@@ -51,20 +55,22 @@ class SiteFull.TemplateArguments
       @_show_field argument_id
 
   _bind_save: () ->
-    $(document).on 'click', "#{@options.field_selector} input[type=submit]", (e) =>
+    selector = "#{@options.field_selector} input[type=submit]"
+    $(document).on 'click', selector, (e) =>
       e.preventDefault()
       $container = $(e.target).closest(@options.field_selector)
       argument_id = $container.data?('argument-id')
       if $container.attr('data-existing-argument') == undefined
         $container.attr('data-existing-argument', true)
         $(@options.actions_container).append @_new_argument_actions(argument_id)
-      $("[data-argument-name=#{argument_id}]").text $container.find('input[name*="[name]"]').val()
+      name = $container.find('input[name*="[name]"]').val()
+      $("[data-argument-name=#{argument_id}]").text name
       $container.hide()
 
   _bind_cancel: () ->
     $(document).on 'click', "#{@options.field_selector} .cancel", (e) =>
       e.preventDefault()
-      @$container.find("#{@options.field_selector}:not([data-existing-argument])").remove()
+      @$container.find(@_non_existing_selector()).remove()
       @$container.find(@options.field_selector).hide()
 
   _bind_delete: () ->
@@ -78,7 +84,9 @@ class SiteFull.TemplateArguments
       @_remove_argument $(e.target)
 
     $(document).on 'ajax:error', '.delete', (e, xhr, status, error) =>
-      $(document).find('body').append $("<div class=\"notification fade in\"><div class=\"error alert alert-dismissable\" role=\"alert\"><button class=\"close\" type=\"button\" aria-lable=\"Close\" data-dismiss=\"alert\" data-target=\".notification\"><span aria-hidden=\"true\"> &times;</span></button>#{error}</div></div>")
+      $error = $($('#argument-error').html())
+      $error.find('.content').html(error)
+      $(document).find('body').append $error
 
   _remove_argument: ($target) ->
     argument_id = $target.data?('argument-id')
@@ -92,11 +100,20 @@ class SiteFull.TemplateArguments
     $(@options.actions_template).html().replace /new_argument/g, argument_id
 
   _next_argument_id: () ->
-    arg_ids = $(@options.field_selector).map (i, e) -> parseInt(e.getAttribute('data-argument-id').replace('argument-', ''))
+    arg_ids = $(@options
+      .field_selector)
+      .map (i, e) ->
+        parseInt(e.getAttribute('data-argument-id').replace('argument-', ''))
     return 0 unless arg_ids.length > 0
     Math.max.apply(@, arg_ids) + 1
 
   _show_field: (argument_id) ->
-    @$container.find("#{@options.field_selector}:not([data-existing-argument]):not([data-argument-id=#{argument_id}])").remove()
+    @$container.find(@_other_non_existing_selector).remove()
     @$container.find(@options.field_selector).hide()
     @$container.find("[data-argument-id='#{argument_id}']").modal('show')
+
+  _non_existing_selector: ->
+    "#{@options.field_selector}:not([data-existing-argument])"
+
+  _other_non_existing_selector: (argument_id) =>
+    "#{@_non_existing_selector()}:not([data-argument-id=#{argument_id}])"

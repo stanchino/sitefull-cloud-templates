@@ -35,3 +35,10 @@
 
   script#new-argument-fields type="text/template"
     == render 'arguments_modal', form_builder: f, argument: @template.arguments.build, index: 'new_argument'
+
+  script#argument-error type="text/template"
+    .notification.fade.in
+      .error.alert.alert-dismissable role='alert'
+        button.close type='button' aria-label='Close' data-dismiss='alert' data-target='.notification'
+          span aria-hidden='true' &times;
+        span.content

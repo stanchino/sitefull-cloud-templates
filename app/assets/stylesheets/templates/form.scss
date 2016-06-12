@@ -18,7 +18,9 @@
   @include make-sm-column(3);
   @include make-xs-column(12);
 
-  .add, .edit, .delete {
+  .add,
+  .edit,
+  .delete {
     @include icon;
   }
 
@@ -57,6 +59,11 @@
 
     .form-control {
       text-align: left;
+    }
+
+    .insert-argument {
+      height: auto;
+      word-wrap: break-word;
     }
   }
 
