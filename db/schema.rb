@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160515045836) do
+ActiveRecord::Schema.define(version: 20160609185458) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -70,10 +70,13 @@ ActiveRecord::Schema.define(version: 20160515045836) do
     t.text     "error"
     t.string   "failed_state"
     t.integer  "accounts_user_id"
+    t.hstore   "credentials"
     t.integer  "provider_id"
+    t.hstore   "arguments"
   end
 
   add_index "deployments", ["accounts_user_id"], name: "index_deployments_on_accounts_user_id", using: :btree
+  add_index "deployments", ["arguments"], name: "index_deployments_on_arguments", using: :gin
   add_index "deployments", ["provider_id"], name: "index_deployments_on_provider_id", using: :btree
   add_index "deployments", ["template_id"], name: "index_deployments_on_template_id", using: :btree
 
@@ -125,6 +128,19 @@ ActiveRecord::Schema.define(version: 20160515045836) do
   end
 
   add_index "tags", ["name"], name: "index_tags_on_name", unique: true, using: :btree
+
+  create_table "template_arguments", force: :cascade do |t|
+    t.string   "textkey"
+    t.string   "name"
+    t.boolean  "required",    default: false
+    t.string   "default"
+    t.integer  "template_id"
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
+    t.string   "validator"
+  end
+
+  add_index "template_arguments", ["template_id"], name: "index_template_arguments_on_template_id", using: :btree
 
   create_table "templates", force: :cascade do |t|
     t.string   "name"
@@ -180,5 +196,6 @@ ActiveRecord::Schema.define(version: 20160515045836) do
   add_foreign_key "deployments", "providers"
   add_foreign_key "provider_settings", "providers"
   add_foreign_key "providers", "organizations"
+  add_foreign_key "template_arguments", "templates"
   add_foreign_key "templates", "users"
 end

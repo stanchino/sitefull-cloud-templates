@@ -53,6 +53,8 @@ class TemplatesController < ApplicationController
   private
 
   def template_params
-    params.require(:template).permit(:name, :os, :script, tag_list: [])
+    params.require(:template).permit(:name, :os, :script, tag_list: []).tap do |whitelisted|
+      whitelisted[:arguments_attributes] = params[:template][:arguments_attributes] if params[:template][:arguments_attributes].present?
+    end
   end
 end

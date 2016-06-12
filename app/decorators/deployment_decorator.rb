@@ -12,6 +12,8 @@ class DeploymentDecorator
 
   def valid?
     @valid ||= provider.try(:valid?)
+  rescue
+    false
   end
 
   def regions
@@ -39,11 +41,11 @@ class DeploymentDecorator
   end
 
   def public_ip
-    @public_ip ||= instance_data.try(:public_ip)
+    instance_data.try(:public_ip)
   end
 
   def instance_data
-    @instance_data ||= provider.instance_data(deployment.instance_id)
+    provider.instance_data(deployment.instance_id)
   rescue
     nil
   end

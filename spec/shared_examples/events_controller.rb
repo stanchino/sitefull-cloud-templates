@@ -25,8 +25,8 @@ RSpec.shared_examples 'controller that runs the deployment' do |provider|
 
       context 'when the script is executed successfully' do
         before do
-          expect(ch).to receive(:on_data).and_yield(any_args, :output)
-          expect(ch).to receive(:on_extended_data).and_yield(any_args, any_args, :output)
+          expect(ch).to receive(:on_data).and_yield(any_args, 'output')
+          expect(ch).to receive(:on_extended_data).and_yield(any_args, any_args, 'output')
           expect(channel).to receive(:exec).and_yield(ch, true)
         end
         it_behaves_like 'deployment with state', :completed
