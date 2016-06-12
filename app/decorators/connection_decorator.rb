@@ -43,8 +43,8 @@ class ConnectionDecorator
     channel.request_pty
     channel.exec("curl -sSL '#{script_decorator.script_url}' | sudo bash -") do |ch, success|
       if success
-        ch.on_data { |_, data| deployment.notify_output data }
-        ch.on_extended_data { |_, _, data| deployment.notify_output "Error: #{data}" }
+        ch.on_data { |_, data| deployment.notify_output data.force_encoding('utf-8') }
+        ch.on_extended_data { |_, _, data| deployment.notify_output "Error: #{data.force_encoding('utf-8')}" }
       else
         deployment.failed
       end

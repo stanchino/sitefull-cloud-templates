@@ -49,23 +49,23 @@ module Sitefull
       end
 
       def regions
-        @regions ||= connection.arm.providers.get('Microsoft.Compute').value!.body.resource_types.find { |rt| rt.resource_type == 'virtualMachines' }.locations.map { |l| OpenStruct.new(id: l.downcase.gsub(/\s/, ''), name: l) }
+        @regions ||= connection.arm.providers.get('Microsoft.Compute').resource_types.find { |rt| rt.resource_type == 'virtualMachines' }.locations.map { |l| OpenStruct.new(id: l.downcase.gsub(/\s/, ''), name: l) }
       end
 
       def machine_types(region)
-        @machine_types ||= connection.compute.virtual_machine_sizes.list(region).value!.body.value.map { |mt| OpenStruct.new(id: mt.name, name: mt.name) }
+        @machine_types ||= connection.compute.virtual_machine_sizes.list(region).value.map { |mt| OpenStruct.new(id: mt.name, name: mt.name) }
       end
 
       def images(os)
         @images unless @images.nil?
 
         search = IMAGES[os.to_sym]
-        image_skus = connection.compute.virtual_machine_images.list_skus(options[:region], search[:publisher], search[:offer]).value!.body
+        image_skus = connection.compute.virtual_machine_images.list_skus(options[:region], search[:publisher], search[:offer])
         @images = image_skus.map { |sku| OpenStruct.new(id: "#{search[:publisher]}:#{search[:offer]}:#{sku.name}", name: "#{search[:offer]} #{sku.name}") }
       end
 
       def create_network
-        resource_group = resource_group_setup.value!.body
+        resource_group = resource_group_setup
         security_group = security_group_setup.value!.body
         network = network_setup(resource_group, security_group).value!.body
         network.properties.subnets.last.name
@@ -82,8 +82,8 @@ module Sitefull
       end
 
       def create_instance(name, machine_type, image, network_id, key)
-        subnet = connection.network.subnets.get(resource_group_name, NETWORK_NAME, network_id).value!.body
-        security_group = connection.network.network_security_groups.get(resource_group_name, SECURITY_GROUP).value!.body
+        subnet = connection.network.subnets.get(resource_group_name, NETWORK_NAME, network_id)
+        security_group = connection.network.network_security_groups.get(resource_group_name, SECURITY_GROUP)
         public_ip = public_ip_setup(name).value!.body
         network_interface = network_interface_setup(subnet, security_group, public_ip, name).value!.body
 

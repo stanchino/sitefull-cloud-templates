@@ -1,0 +1,2 @@
+= simple_form_for @template do |f|
+  == render 'form_fields', form_builder: f, argument: @argument, child_index: @argument.to_param || 'new_argument'

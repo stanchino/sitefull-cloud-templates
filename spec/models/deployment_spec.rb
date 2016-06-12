@@ -17,6 +17,57 @@ RSpec.describe Deployment, type: :model do
     it { is_expected.to validate_presence_of(:region) }
     it { is_expected.to validate_presence_of(:image) }
     it { is_expected.to validate_presence_of(:machine_type) }
+
+    context 'for arguments' do
+      let!(:template_argument) { FactoryGirl.create(:template_argument, options.merge(template: subject.template)) }
+      before { subject.arguments = { template_argument.textkey.to_s => value } }
+
+      context 'with invalid values' do
+        before { subject.valid? }
+
+        context 'when required value is missing' do
+          let(:options) { { required: true } }
+          let(:value) { '' }
+          it { is_expected.to be_invalid }
+          it { expect(subject.errors['arguments']).not_to be_blank }
+          it { expect(subject.errors['arguments'].select { |e| e.keys.include? template_argument.textkey }.map(&:values).flatten).to include "can't be blank" }
+        end
+
+        context 'when required value is present but invalid' do
+          let(:options) { { required: true, validator: :domain } }
+          let(:value) { 'invalid domain' }
+          it { is_expected.to be_invalid }
+          it { expect(subject.errors['arguments']).not_to be_blank }
+          it { expect(subject.errors['arguments'].select { |e| e.keys.include? template_argument.textkey }.map(&:values).flatten).to match_array ['is invalid'] }
+        end
+
+        context 'when non-required value is present but invalid' do
+          let(:options) { { required: false, validator: :domain } }
+          let(:value) { 'invalid domain' }
+          it { is_expected.to be_invalid }
+          it { expect(subject.errors['arguments']).not_to be_blank }
+          it { expect(subject.errors['arguments'].select { |e| e.keys.include? template_argument.textkey }.map(&:values).flatten).to match_array ['is invalid'] }
+        end
+      end
+
+      context 'with valid arguments' do
+        before { subject.valid? }
+
+        context 'when required value is present and valid' do
+          let(:options) { { required: true, validator: :domain } }
+          let(:value) { 'example.com' }
+          it { is_expected.to be_valid }
+          it { expect(subject.errors['arguments']).to be_blank }
+        end
+
+        context 'when non-required value is missing' do
+          let(:options) { { required: false, validator: :domain } }
+          let(:value) { '' }
+          it { is_expected.to be_valid }
+          it { expect(subject.errors['arguments']).to be_blank }
+        end
+      end
+    end
   end
 
   describe 'delegates' do

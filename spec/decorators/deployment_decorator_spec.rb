@@ -14,5 +14,16 @@ RSpec.describe DeploymentDecorator, type: :decorator do
     context 'returns nil for instance_data' do
       it { expect(subject.send(:instance_data)).to be_nil }
     end
+
+    describe '#valid?' do
+      let(:provider) { stub_model(Provider) }
+      let(:deployment) { stub_model(Deployment, template: template, provider: provider) }
+      context 'for invalid provider' do
+        before { expect_any_instance_of(ProviderDecorator).to receive_message_chain(:provider, :valid?).and_raise(StandardError) }
+        it 'returns false' do
+          expect(subject.valid?).to be_falsey
+        end
+      end
+    end
   end
 end
