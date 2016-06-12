@@ -18,6 +18,8 @@ class Deployment < ActiveRecord::Base
   validates :image, presence: true, deployment: true
   validates :machine_type, presence: true, deployment: true
 
+  validates_with DeploymentArgumentsValidator
+
   delegate :os, :script, to: :template
   delegate :textkey, to: :provider, prefix: :provider, allow_nil: true
 end

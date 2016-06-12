@@ -90,8 +90,6 @@ gem 'net-ssh'
 gem 'state_machines-activerecord'
 
 group :development do
-  # Access an IRB console on exception pages or by using <%= console %> in views
-  gem 'web-console'
   # Use Pry as an alternative to the standard IRB Ruby shell
   gem 'pry-rails'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring

@@ -1,50 +1,50 @@
+# Examples
+# labels:
+#   defaults:
+#     password: 'Password'
+#   user:
+#     new:
+#       email: 'E-mail to sign in.'
+#     edit:
+#       email: 'E-mail.'
+# hints:
+#   defaults:
+#     username: 'User name to sign in.'
+#     password: 'No special characters, please.'
+# include_blanks:
+#   defaults:
+#     age: 'Rather not say'
+# prompts:
+#   defaults:
+#     age: 'Select your age'
 en:
   simple_form:
     "yes": 'Yes'
     "no": 'No'
     required:
-      text: 'required'
       mark: '*'
+      text: 'required'
       # You can uncomment the line below if you need to overwrite the whole required html.
       # When using html, text and mark won't be used.
       # html: '<abbr title="required">*</abbr>'
     error_notification:
       default_message: 'Please review the problems below:'
-    # Examples
-    # labels:
-    #   defaults:
-    #     password: 'Password'
-    #   user:
-    #     new:
-    #       email: 'E-mail to sign in.'
-    #     edit:
-    #       email: 'E-mail.'
-    # hints:
-    #   defaults:
-    #     username: 'User name to sign in.'
-    #     password: 'No special characters, please.'
-    # include_blanks:
-    #   defaults:
-    #     age: 'Rather not say'
-    # prompts:
-    #   defaults:
-    #     age: 'Select your age'
     placeholders:
       template:
         name: 'Hello World Template'
-        tag_list: 'hello-world'
         script: |
           #!/bin/bash
 
           echo 'Hello World!'
+        tag_list: 'hello-world'
       deployment:
         access_key_id: "Required"
         secret_access_key: "Required"
     labels:
       deployment:
-        region: "Region"
-        flavor: "Instance Type"
         access_key_id: "AWS Access Key ID"
+        flavor: "Instance Type"
+        region: "Region"
         secret_access_key: "AWS Secret Access Key"
       provider:
         name: 'Provider Name'

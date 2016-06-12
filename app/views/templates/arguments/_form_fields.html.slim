@@ -2,6 +2,7 @@
   = a.input :textkey
   = a.input :name
   = a.input :required
+  = a.input :validator, collection: validators_collection
   = a.input :default
 
 - unless local_assigns[:hide_buttons]

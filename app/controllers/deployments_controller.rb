@@ -43,11 +43,6 @@ class DeploymentsController < ApplicationController
     end
   end
 
-  # GET /templates/1/deployments/2
-  # GET /templates/1/deployments/2.json
-  def edit
-  end
-
   # DELETE /templates/1/deployments/1
   # DELETE /templates/1/deployments/1.json
   def destroy

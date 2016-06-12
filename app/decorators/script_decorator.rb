@@ -31,7 +31,7 @@ class ScriptDecorator
 
   def process_script
     script = resource.script
-    resource.arguments.each { |key, value| script.gsub! "%{#{key}}", value.html_safe.gsub("'", "\\\'") } if resource.arguments.present?
+    resource.arguments.each { |key, value| script.gsub! "%{#{key}}", value } if resource.arguments.present?
     script.delete("\r")
   end
 end

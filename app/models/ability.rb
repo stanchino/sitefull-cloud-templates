@@ -23,6 +23,9 @@ class Ability
     can [:read, :create], Template
     can [:update, :destroy], Template, user_id: user.id
 
+    can [:read, :create], TemplateArgument
+    can [:update, :destroy], TemplateArgument, template: { user_id: user.id }
+
     can :create, Deployment
     can [:read, :update, :destroy], Deployment, template: { user_id: user.id }
   end
