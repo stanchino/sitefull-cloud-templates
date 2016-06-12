@@ -7,10 +7,10 @@
 
 class DeploymentArgumentsValidator < ActiveModel::Validator
   VALIDATORS = {
-    alphanumeric: /^\w+$/i,
-    domain: /^(?:(?=[a-z0-9-]{1,63}\.)[a-z0-9]+(?:-[a-z0-9]+)*\.){1,8}[a-z]{2,63}$/i,
-    email: EmailValidator::EMAIL_REGEX,
-    name: /^[a-z]+$/i
+    alphanumeric: /^[[:alnum:]]+$/i,
+    domain: /^(?:(?=[[:alpha:][:digit:]-]{1,63}\.)[[:alpha:][:digit:]]+(?:-[[:alpha:][:digit:]]+)*\.){1,8}[[:alpha:]]{2,63}$/i,
+    email: /^(?=[[:alpha:][:digit:]][[:alpha:][:digit:]@._%+-]{5,253}$)[[:alpha:][:digit:]._%+-]{1,64}@(?:(?=[[:alpha:][:digit:]-]{1,63}\.)[[:alpha:][:digit:]]+(?:-[[:alpha:][:digit:]]+)*\.){1,8}[[:alpha:]]{2,63}$/i,
+    name: /^[[:alpha:]]+$/i
   }.freeze
 
   def validate(record)
@@ -38,7 +38,7 @@ class DeploymentArgumentsValidator < ActiveModel::Validator
 
   def valid?(argument, value)
     return true if value.blank? && !argument.required?
-    value =~ VALIDATORS[argument.validator.to_sym]
+    !(value =~ VALIDATORS[argument.validator.to_sym]).nil?
   end
 
   def message_for(error, default)

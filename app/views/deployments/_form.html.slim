@@ -26,7 +26,7 @@
     h2 = t('deployments.arguments.title')
     - @template.arguments.each do |argument|
       = f.simple_fields_for :arguments, DeploymentArgument.new(@deployment, argument) do |a|
-        = a.input argument.textkey, label: argument.name, required: argument.required?
+        = a.input argument.textkey, as: :string, label: argument.name, required: argument.required?
   .form-actions
     = link_to 'Cancel', template_deployments_url(@template), class: 'btn btn-default'
     | &nbsp;

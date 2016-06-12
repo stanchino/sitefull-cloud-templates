@@ -12,13 +12,12 @@ class Deployment < ActiveRecord::Base
   has_one :user, through: :accounts_user
   has_one :account, through: :accounts_user
 
+  validates_with DeploymentArgumentsValidator
   validates :provider, presence: true
   validates :accounts_user, presence: true
   validates :region, presence: true, deployment: true
   validates :image, presence: true, deployment: true
   validates :machine_type, presence: true, deployment: true
-
-  validates_with DeploymentArgumentsValidator
 
   delegate :os, :script, to: :template
   delegate :textkey, to: :provider, prefix: :provider, allow_nil: true
