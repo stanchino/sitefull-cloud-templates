@@ -63,9 +63,27 @@ class SiteFull.TemplateArguments
       if $container.attr('data-existing-argument') == undefined
         $container.attr('data-existing-argument', true)
         $(@options.actions_container).append @_new_argument_actions(argument_id)
-      name = $container.find('input[name*="[name]"]').val()
-      $("[data-argument-name=#{argument_id}]").text name
+      $field = $("[data-argument-fields=#{argument_id}]")
+      @_update_name $field, $container.find('input[name*="[name]"]').val()
+      @_update_textkey $field, $container.find('input[name*="[textkey]"]').val()
       $container.hide()
+
+  _update_name: ($field, value) ->
+    $field.text value
+
+  _update_textkey: ($field, value) ->
+    old_textkey = $field.data('argument-value')
+    new_textkey = "%{#{value}}"
+    @_update_textkey_data $field, new_textkey
+    @_update_script_textkey old_textkey, new_textkey
+
+  _update_textkey_data: ($field, textkey) ->
+    $field.data 'argument-value', textkey
+
+  _update_script_textkey: (old_textkey, new_textkey) ->
+    $textarea = $(@options.script_textarea)
+    old_script = $textarea.val()
+    $textarea.val old_script.replace(old_textkey, new_textkey)
 
   _bind_cancel: () ->
     $(document).on 'click', "#{@options.field_selector} .cancel", (e) =>
