@@ -1,6 +1,6 @@
 - hide_errors = local_assigns[:hide_errors] || false
 .input-group.input-group-xs*{class: ('error' unless hide_errors || argument.valid?)}
-  button.form-control.insert-argument data-argument-name=argument_id data-argument-value="%{#{argument.textkey}}" = argument.name
+  button.form-control.insert-argument data-argument-fields=argument_id data-argument-value="%{#{argument.textkey}}" = argument.name
   .input-group-btn
     button.btn.btn-default.dropdown-toggle data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
       span.icon.fa-cog
