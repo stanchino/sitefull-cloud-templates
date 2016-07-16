@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class ConnectionDecorator
   attr_accessor :deployment, :decorator, :script_decorator
 
@@ -43,11 +44,15 @@ class ConnectionDecorator
     channel.request_pty
     channel.exec("curl -sSL '#{script_decorator.script_url}' | sudo bash -") do |ch, success|
       if success
-        ch.on_data { |_, data| deployment.notify_output data.force_encoding('utf-8') }
-        ch.on_extended_data { |_, _, data| deployment.notify_output "Error: #{data.force_encoding('utf-8')}" }
+        ch.on_data { |_, data| deployment.notify_output utf8_encode(data) }
+        ch.on_extended_data { |_, _, data| deployment.notify_output "Error: #{utf8_encode(data)}" }
       else
         deployment.failed
       end
     end
+  end
+
+  def utf8_encode(data)
+    String.new(data).force_encoding('utf-8')
   end
 end

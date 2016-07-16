@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 RSpec.shared_examples 'successful GET action' do |action, view, layout|
   subject { response }
 

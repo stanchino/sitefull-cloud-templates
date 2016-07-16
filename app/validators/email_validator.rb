@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # Validate an email field
 #
 # A blank value is considered valid (use presence validator to check for that)

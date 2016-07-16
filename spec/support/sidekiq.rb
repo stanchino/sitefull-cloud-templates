@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 Sidekiq::Testing.inline!
 
 RSpec.configure do |config|

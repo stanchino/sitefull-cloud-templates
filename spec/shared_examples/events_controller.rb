@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'shared_examples/controllers'
 
 RSpec.shared_examples 'deployment with state' do |state|
@@ -55,7 +56,7 @@ RSpec.shared_examples 'controller that runs the deployment' do |provider|
       [Errno::ECONNREFUSED, Net::SSH::ConnectionTimeout].each do |exc|
         context "in case of #{exc}" do
           before do
-            expect_any_instance_of(ConnectionDecorator).to receive(:sleep).with(10).and_raise TimeoutError
+            expect_any_instance_of(ConnectionDecorator).to receive(:sleep).with(10).and_raise Timeout::Error
             expect(Net::SSH).to receive(:start).and_raise(exc)
           end
           it_behaves_like 'deployment with state', :failed

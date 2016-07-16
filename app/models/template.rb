@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class Template < ActiveRecord::Base
   OPERATING_SYSTEMS = [
     %w(debian Debian),

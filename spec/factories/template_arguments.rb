@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 FactoryGirl.define do
   factory :template_argument do
     sequence(:textkey) { |n| "argument_#{n}" }

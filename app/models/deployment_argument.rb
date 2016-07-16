@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class DeploymentArgument < OpenStruct
   def initialize(deployment, argument)
     @deployment = deployment

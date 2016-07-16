@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Templates
   class ArgumentsController < ApplicationController
     include GenericActions

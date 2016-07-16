@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module DeploymentsHelper
   def provider_blank?
     @deployment.provider.blank?

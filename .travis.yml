@@ -1,6 +1,6 @@
 language: ruby
 cache: bundler
-rvm: 2.3.0
+rvm: 2.3.1
 before_script:
   - psql -c 'create database sitefull_deploy_test;' -U postgres
   - bundle exec rake db:test:prepare

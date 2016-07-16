@@ -1,7 +1,8 @@
+# frozen_string_literal: true
 class DeploymentService
   include Wisper::Publisher
 
-  SSH_USER = 'sitefull'.freeze
+  SSH_USER = 'sitefull'
 
   attr_reader :deployment, :decorator, :connection_decorator
 
