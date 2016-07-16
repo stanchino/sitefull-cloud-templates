@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class DeploymentValidator < ActiveModel::EachValidator
   def validate_each(record, attribute, value)
     record.errors[attribute] << (options[:message] || 'is not included in the list') if attribute_changed?(record, attribute) && !in_list?(record, attribute, value)

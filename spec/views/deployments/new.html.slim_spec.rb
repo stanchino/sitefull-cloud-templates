@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 RSpec.describe 'deployments/new', type: :view do
@@ -17,21 +18,21 @@ RSpec.describe 'deployments/new', type: :view do
       deployment.provider = providers.find { |pr| pr.textkey == provider_type }
       render
 
-      assert_select 'form[action=?][method=?]', template_deployments_path(deployment.template), 'post' do
+      assert_select String.new('form[action=?][method=?]'), template_deployments_path(deployment.template), 'post' do
         providers.each do |provider|
           if provider.textkey == provider_type
-            assert_select "input#deployment_provider_id_#{provider.id}[name=?][checked=checked]", 'deployment[provider_id]'
+            assert_select String.new("input#deployment_provider_id_#{provider.id}[name=?][checked=checked]"), 'deployment[provider_id]'
           else
-            assert_select "input#deployment_provider_id_#{provider.id}[name=?]", 'deployment[provider_id]'
+            assert_select String.new("input#deployment_provider_id_#{provider.id}[name=?]"), 'deployment[provider_id]'
           end
         end
 
         %w(region machine_type).each do |type|
-          assert_select "select#deployment_#{type}[name=?]", "deployment[#{type}]"
+          assert_select String.new("select#deployment_#{type}[name=?]"), "deployment[#{type}]"
         end
 
         template_arguments.each do |argument|
-          assert_select "input#deployment_arguments_#{argument.textkey}[name=?]", "deployment[arguments][#{argument.textkey}]"
+          assert_select String.new("input#deployment_arguments_#{argument.textkey}[name=?]"), "deployment[arguments][#{argument.textkey}]"
         end
       end
     end

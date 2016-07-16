@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class EventController < WebsocketRails::BaseController
   def trigger_deployment
     deployment = Deployment.find(data[:deployment_id])

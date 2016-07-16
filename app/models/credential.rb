@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class Credential < ActiveRecord::Base
   belongs_to :provider
   belongs_to :account

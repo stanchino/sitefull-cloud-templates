@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class TemplateArgument < ActiveRecord::Base
   belongs_to :template
 

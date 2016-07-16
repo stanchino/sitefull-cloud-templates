@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 FactoryGirl.define do
   factory :credential do
     token '{"authorization_uri": "https://localhost/authorization_url", "redirect_uri": "http://localhost/redirect_uri"}'

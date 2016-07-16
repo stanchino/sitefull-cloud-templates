@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class DeploymentsListener
   class << self
     def create_network(id)

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 namespace :sitefull do
   namespace :providers do
     desc 'Add provider'

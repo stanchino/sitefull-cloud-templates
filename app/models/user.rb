@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class User < ActiveRecord::Base
   acts_as_tagger
   devise :database_authenticatable, :registerable,

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 RSpec.configure do |config|
   config.before(:suite) do
     [%w(Amazon amazon), %w(Azure azure), %w(Google google)].each do |name, textkey|
